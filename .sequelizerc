@@ -1,0 +1,13 @@
+// tslint:disable-next-line: no-require-imports
+const { resolve } = require('path');
+// tslint:disable-next-line: no-require-imports
+require('dotenv').config();
+
+
+module.exports = {
+  // 'url': `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`,
+  'config': resolve('dist', 'config', 'database.js'),
+  'models-path': resolve('dist', 'models'),
+  'seeders-path': resolve('dist', 'seeders'),
+  'migrations-path': resolve('dist', 'migrations'),
+};
