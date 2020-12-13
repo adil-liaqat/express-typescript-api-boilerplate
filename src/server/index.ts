@@ -8,13 +8,14 @@ import * as helmet from 'helmet';
 import * as compression from 'compression';
 import * as swaggerUi from 'swagger-ui-express';
 
-import * as swaggerDocument from '../swagger.json';
-
 import errorMiddleware from '../middlewares/error.middleware';
+import swaggerMiddleware from '../middlewares/swagger.middleware';
 
 import routes from '../routes';
 
-import {myStream} from '../logger';
+import { myStream } from '../logger';
+
+import '../config/passport';
 
 const app: express.Express = express();
 
@@ -27,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../src/public')));
 
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/docs', swaggerUi.serve, swaggerMiddleware);
 
 routes(app);
 

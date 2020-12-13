@@ -43,7 +43,7 @@ Build to `./dist`
 npm run build
 ```
 
-Browse to http://localhost:3000
+Browse to http://localhost:3000/api/v1/users
 
 
 # Folder structure
@@ -52,10 +52,22 @@ Browse to http://localhost:3000
 src/
 ├── config
 │   └── database.ts
+│   └── passport.ts
+│   └── swagger.ts
 ├── controllers
 │   └── user.controller.ts
+│   └── auth.controller.ts
 ├── helpers
 │   └── index.ts
+├── interfaces
+│   └── express
+│       └── index.ts
+│   └── jwt
+│       └── payload.interface.ts
+│   └── models
+│       └── user.interface.ts
+│   └── controllers
+│       └── auth.interface.ts
 ├── models
 │   └── index.ts
 │   └── user.model.ts
@@ -64,11 +76,19 @@ src/
 │   └── stylesheets
 │       └── style.css
 ├── routes
+│   └── index.ts
+│   └── auth.route.ts
 │   └── user.route.ts
+├── validators
+│   └── auth.validator.ts
 ├── server
 │   └── index.ts
 ├── middlewares
 │   └── error.middleware.ts
+│   └── authenticated.middleware.ts
+│   └── validator.middleware.ts
+│   └── notFound.middleware.ts
+│   └── swagger.middleware.ts
 ├── logger
 │   └── index.ts
 ├── exceptions
@@ -76,7 +96,6 @@ src/
 ├── migrations
 │   └── 20201129002122-user-table.ts
 ├── tsconfig.json
-├── swagger.json
 ├── index.ts
 ```
 
@@ -86,7 +105,7 @@ Build the image `sudo docker build -t expressapi/express-api-typescript-starter 
 
 Run the image `docker-compose up`
 
-Open `http://localhost:8080`
+Open `http://localhost:8080/api/v1/users`
 
 
 # License

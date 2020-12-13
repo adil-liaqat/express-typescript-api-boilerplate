@@ -1,10 +1,12 @@
 'use strict';
 
-import { QueryInterface, DataTypes, Sequelize } from 'sequelize';
+import { QueryInterface, DataTypes, Sequelize, ModelAttributes } from 'sequelize';
+
+import { User, UserAttributes, UserCreationAttributes } from '../interfaces/models/user.interface';
 
 export = {
   up: (queryInterface: QueryInterface, sequelize: Sequelize): Promise<any> => {
-    return queryInterface.createTable('user', {
+    return queryInterface.createTable('user', <ModelAttributes<User, UserCreationAttributes>>{
       id: {
         type: DataTypes.BIGINT,
         allowNull: false,
@@ -22,6 +24,7 @@ export = {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
       },
       password: {
         type: DataTypes.STRING,
