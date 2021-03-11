@@ -1,7 +1,8 @@
 import {Sequelize, DataTypes} from 'sequelize';
 import {compare, genSalt, hash} from 'bcrypt';
-import * as httpErrors from 'http-errors';
-import * as jwt from 'jsonwebtoken';
+import httpErrors from 'http-errors';
+import jwt from 'jsonwebtoken';
+import moment from 'moment';
 
 import {
   UserAttributes,
@@ -11,6 +12,12 @@ import {
   User,
 } from '../interfaces/models/user.interface';
 import { Payload } from '../interfaces/jwt/payload.interface';
+import { Templates } from '../interfaces/templates';
+
+import sendMail from '../config/mailer';
+import {i18next} from '../config/i18n';
+
+import { AesEncrypt, randomString } from '../helpers';
 
 export const UserFactory = (sequelize: Sequelize): UserInterface => {
 
@@ -49,20 +56,48 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
       type: DataTypes.BOOLEAN,
       allowNull: true,
     },
+    confirmation_token: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    confirmation_expires_at: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    reset_password_token: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    reset_password_expires_at: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   }, {
     tableName: 'user',
   })
 
   UserModel.addHook('beforeCreate', async (user: User) => {
-    if (user.password && user.previous('password') !== user.password) {
-      try {
-        const salt: string = await genSalt(10);
-        const hashedPassword: string = await hash(user.password, salt);
-        user.password = hashedPassword;
-      } catch (error) {
-        throw new httpErrors.InternalServerError('Unable to hash password');
-      }
+    if (user.email) {
+      user.email = user.email.toLowerCase();
     }
+
+    user.password = await user.hashPassword();
+
+    user.confirmation_token = randomString();
+    user.confirmation_expires_at = moment().add(1, 'day').toDate();
+  })
+
+  UserModel.addHook('afterCreate', async (user: User) => {
+    sendMail({
+      template: Templates.emailConfirmation,
+      data: user.get(),
+      subject: i18next.t('EMAIL_CONFIRMATION'),
+      to: `${user.full_name} <${user.email}>`,
+    })
+  })
+
+  UserModel.addHook('beforeUpdate', async (user: User) => {
+    user.password = await user.hashPassword();
   })
 
 
@@ -74,13 +109,13 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
     });
 
     if (!user) {
-      throw new httpErrors.Unauthorized('Email is incorrect.');
+      throw new httpErrors.Unauthorized(i18next.t('INCORRECT_EMAIL'));
     }
 
     const verifyPassword: boolean = await compare(password, user.password);
 
     if (!verifyPassword) {
-      throw new httpErrors.Unauthorized('Invalid password.');
+      throw new httpErrors.Unauthorized(i18next.t('INCORRECT_PASSWORD'));
     }
 
     return {
@@ -92,6 +127,10 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
   UserModel.prototype.toJSON = function(this: User): UserPublicAttributes {
     const values: UserAttributes = Object.assign({}, this.get());
     delete values.password;
+    delete values.confirmation_token;
+    delete values.confirmation_expires_at;
+    delete values.reset_password_token;
+    delete values.reset_password_expires_at;
     return <UserPublicAttributes>values;
   };
 
@@ -99,8 +138,22 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
     const token: string = jwt.sign(
       <Payload>{ id: this.id }, process.env.JWT_SECRET, { expiresIn: '1h', algorithm: 'HS256', },
     ).toString();
+    const encrypt: string = AesEncrypt(token);
+    return encrypt;
+  }
 
-    return token;
+  UserModel.prototype.hashPassword = async function(this: User): Promise<string> {
+    if (this.password && this.previous('password') !== this.password) {
+      try {
+        const salt: string = await genSalt(10);
+        const hashedPassword: string = await hash(this.password, salt);
+        return hashedPassword;
+      } catch (error) {
+        throw new httpErrors.InternalServerError(i18next.t('PASSWORD_HASH_ERROR'));
+      }
+    }
+
+    return this.password;
   }
 
   return UserModel;

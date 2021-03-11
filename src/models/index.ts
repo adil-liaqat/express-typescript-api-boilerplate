@@ -1,12 +1,12 @@
 'use strict';
 
-import * as fs from 'fs';
-import * as path from 'path';
-import { Sequelize, Model, Dialect } from 'sequelize';
+import fs from 'fs';
+import path from 'path';
+import { Sequelize, Model, Dialect, Op } from 'sequelize';
 
 // import paginate = require('./globals/pagination');
 
-import * as options from '../config/database';
+import options from '../config/database';
 import {UserFactory} from './user.model';
 
 // const basename: string = path.basename(__filename);
@@ -30,11 +30,10 @@ const sequelize: Sequelize = new Sequelize(options);
 //   }
 // });
 
+global.Op = Op;
+
 export const db = {
   sequelize,
   Sequelize,
   User: UserFactory(sequelize),
 };
-
-// global.Op = Sequelize.Op;
-

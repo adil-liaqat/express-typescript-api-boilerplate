@@ -10,7 +10,9 @@
 
       "args": ["src/index.ts", "--example", "hello"],
       "envFile": "${workspaceFolder}/.env",
-      
+      "env": {
+        "TS_NODE_PROJECT": "src/tsconfig.json"
+      },
       "cwd": "${workspaceRoot}",
       "internalConsoleOptions": "openOnSessionStart",
       "skipFiles": ["<node_internals>/**", "node_modules/**"],

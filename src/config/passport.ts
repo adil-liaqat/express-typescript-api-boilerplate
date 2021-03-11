@@ -1,8 +1,10 @@
-import * as passport from 'passport';
+import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { ExtractJwt, Strategy as JWTStrategy } from 'passport-jwt';
+import { Strategy as JWTStrategy } from 'passport-jwt';
 import { db } from '../models';
 import { Payload } from '../interfaces/jwt/payload.interface';
+import { IRequest } from '../interfaces/express';
+import { AesDecrypt } from '../helpers';
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -19,10 +21,24 @@ passport.use(new LocalStrategy({
 );
 
 passport.use(new JWTStrategy({
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  algorithms: ['HS256'],
+  jwtFromRequest: (req: IRequest) => {
+    let token: string | null = req.headers.authorization || null;
+
+    if (token) {
+      token = token.split(' ')[1];
+      try {
+        token = AesDecrypt(token);
+      } catch {
+        token = null;
+      }
+    }
+
+    return token;
+  },
   secretOrKey: process.env.JWT_SECRET,
 },
-  async function (payload: Payload, cb: Function) {
+  async (payload: Payload, cb: Function) => {
     try {
       const user = await db.User.findByPk(payload.id);
       cb(null, user);

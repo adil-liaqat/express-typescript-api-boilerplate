@@ -1,53 +1,40 @@
-import * as joi from 'joi';
+import joi from 'joi';
+import { stringValidation, emailValidation, confirmFieldValidation } from './common.validator';
 
-export const registerSchema: joi.Schema = joi.object({
-  first_name: joi.string()
-    .required()
-    .error(new Error('first_name is required.')),
+/**
+ * Register Joi Schema
+ */
+export const registerSchema = (): joi.Schema => joi.object({
+  first_name: stringValidation('first_name'),
 
-  last_name: joi.string()
-    .required()
-    .error(new Error('last_name is required.')),
+  last_name: stringValidation('last_name'),
 
-  email: joi.string()
-    .email()
-    .required()
-    .messages({
-      'string.email': 'email should be valid.',
-      'string.empty': `email cannot be an empty.`,
-      'any.required': 'email is required.',
-    }),
+  email: emailValidation('email'),
 
-  password: joi.string()
-    .required()
-    .messages({
-      'string.empty': `password cannot be an empty.`,
-      'any.required': 'password is required.',
-    }),
+  password: stringValidation('password'),
 
-  confirm_password: joi.valid(joi.ref('password')).required().messages({
-    'any.only': 'confirm_password must match with password.',
-    'any.required': 'confirm_password is required.',
-  }),
+  confirm_password: confirmFieldValidation('confirm_password', 'password'),
 }).with('password', 'confirm_password');
 
+/**
+ * Login Joi Schema
+ */
+export const loginSchema = (): joi.Schema => joi.object({
+  email: emailValidation('email'),
 
-export const loginSchema: joi.Schema = joi.object({
-  email: joi.string()
-    .email()
-    .required()
-    .messages({
-      'string.email': 'email should be valid.',
-      'string.empty': 'email cannot be an empty.',
-      'any.required': 'email is required.',
-    }),
-
-  password: joi.string()
-    .required()
-    .messages({
-      'string.empty': `password cannot be an empty.`,
-      'any.required': 'password is required.',
-    }),
+  password: stringValidation('password'),
 });
 
+/**
+ * Reset Password Joi Schema
+ */
+export const resetPasswordSchema = (): joi.Schema => joi.object({
+  body: {
+    password: stringValidation('password'),
 
+    confirm_password: confirmFieldValidation('confirm_password', 'password'),
+  },
+  params: {
+    token: stringValidation('token'),
+  },
+}).with('password', 'confirm_password');

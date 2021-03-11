@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { asyncHandler } from '../helpers';
 import { authController } from '../controllers/auth.controller';
 import validatorMiddleware from '../middlewares/validator.middleware';
-import { loginSchema, registerSchema } from '../validators/auth.validator';
+import { loginSchema, registerSchema, resetPasswordSchema } from '../validators/auth.validator';
 
 const router: Router = Router();
 
@@ -101,4 +101,112 @@ router.post(
   asyncHandler(authController.register),
 );
 
+/**
+ * @swagger
+ * /auth/verify/{token}:
+ *   get:
+ *     description: Verify user email address
+ *     parameters:
+ *     - in: path
+ *       name: token
+ *       schema:
+ *         type: string
+ *       required: true
+ *     security: []
+ *     tags:
+ *        - Authentication
+ *     responses:
+ *       200:
+ *         description: Email address verified
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/User'
+ *       Error:
+ *          $ref: '#/components/responses/GenericError'
+ */
+router.get(
+  '/verify/:token',
+  asyncHandler(authController.verify),
+);
+
+
+/**
+ * @swagger
+ * /auth/forgot/password:
+ *   post:
+ *     description: Send email to registered user to reset password
+ *     security: []
+ *     tags:
+ *        - Authentication
+ *     requestBody:
+ *        content:
+ *          application/json:
+ *              schema:
+ *                properties:
+ *                  email:
+ *                    type: string
+ *                    description: Email of user
+ *     responses:
+ *       200:
+ *         description: Email sent successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Email of user
+ *       Error:
+ *          $ref: '#/components/responses/GenericError'
+ */
+router.post(
+  '/forgot/password',
+  asyncHandler(authController.forgotPassword),
+);
+
+
+/**
+ * @swagger
+ * /auth/reset/password/{token}:
+ *   post:
+ *     description: Send email to registered user to reset password
+ *     parameters:
+ *     - in: path
+ *       name: token
+ *       schema:
+ *         type: string
+ *       required: true
+ *     security: []
+ *     tags:
+ *        - Authentication
+ *     requestBody:
+ *        content:
+ *          application/json:
+ *              schema:
+ *                properties:
+ *                  password:
+ *                    type: string
+ *                    description: New password
+ *                  confirm_password:
+ *                    type: string
+ *                    description: Confirm new password
+ *     responses:
+ *       200:
+ *         description: Email sent successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Email of user
+ *       Error:
+ *          $ref: '#/components/responses/GenericError'
+ */
+router.post(
+  '/reset/password/:token',
+  validatorMiddleware(resetPasswordSchema),
+  asyncHandler(authController.resetPassword),
+);
 export default router;

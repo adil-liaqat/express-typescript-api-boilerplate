@@ -1,5 +1,5 @@
-import * as swaggerUi from 'swagger-ui-express';
-import * as swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
 
 
 import { INextFunction, IRequest, IResponse } from '../interfaces/express';

@@ -5,3 +5,13 @@ export interface UserRegister {
   confirm_password: string,
   email: string,
 }
+
+
+export interface UserVerify {
+  token: string,
+}
+
+
+export interface UserBodyEmail {
+  email: string,
+}
