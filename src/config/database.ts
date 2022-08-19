@@ -13,7 +13,7 @@ const options: Options = {
     updatedAt: 'updated_at',
     deletedAt: 'deleted_at',
   },
-  logging: process.env.NODE_ENV === 'production' ? false : msg => console.log(msg),
+  logging: process.env.NODE_ENV === 'production' ? false : msg => console.debug(msg),
 };
 
 export = options;

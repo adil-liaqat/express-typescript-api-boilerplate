@@ -1,4 +1,4 @@
-import {Sequelize, DataTypes} from 'sequelize';
+import {Sequelize, DataTypes, CreateOptions, FindOptions} from 'sequelize';
 import {compare, genSalt, hash} from 'bcrypt';
 import httpErrors from 'http-errors';
 import jwt from 'jsonwebtoken';
@@ -16,6 +16,7 @@ import { Templates } from '../interfaces/templates';
 
 import sendMail from '../config/mailer';
 import {i18next} from '../config/i18n';
+import { REFRESH_TOKEN_EXPIRY_IN_DAYS, JWT_ALGORITHM, ACCESS_TOKEN_EXPIRY } from '../config/app';
 
 import { AesEncrypt, randomString } from '../helpers';
 
@@ -76,7 +77,7 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
     tableName: 'user',
   })
 
-  UserModel.addHook('beforeCreate', async (user: User) => {
+  UserModel.addHook('beforeCreate', async (user: User, options: CreateOptions<UserAttributes>) => {
     if (user.email) {
       user.email = user.email.toLowerCase();
     }
@@ -87,12 +88,13 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
     user.confirmation_expires_at = moment().add(1, 'day').toDate();
   })
 
-  UserModel.addHook('afterCreate', async (user: User) => {
+  UserModel.addHook('afterCreate', async (user: User, options: CreateOptions<UserAttributes>) => {
     sendMail({
       template: Templates.emailConfirmation,
       data: user.get(),
-      subject: i18next.t('EMAIL_CONFIRMATION'),
+      subject: options.context.i18n.t('EMAIL_CONFIRMATION'),
       to: `${user.full_name} <${user.email}>`,
+      lang: options.context.i18n.language
     })
   })
 
@@ -101,25 +103,31 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
   })
 
 
-  UserModel.authenticate = async function(email: string, password: string): Promise<UserAuthenticateAttributes> {
+  UserModel.authenticate = async function(
+    email: string,
+    password: string,
+    options?: FindOptions<UserAttributes>
+  ): Promise<UserAuthenticateAttributes> {
     const user: User = await UserModel.findOne({
       where: {
         email,
       },
+      ...options && options
     });
 
     if (!user) {
-      throw new httpErrors.Unauthorized(i18next.t('INCORRECT_EMAIL'));
+      throw new httpErrors.Unauthorized(options.context.i18n.t('INCORRECT_EMAIL'));
     }
 
     const verifyPassword: boolean = await compare(password, user.password);
 
     if (!verifyPassword) {
-      throw new httpErrors.Unauthorized(i18next.t('INCORRECT_PASSWORD'));
+      throw new httpErrors.Unauthorized(options.context.i18n.t('INCORRECT_PASSWORD'));
     }
 
     return {
       token: user.generateAuthToken(),
+      refresh_token: await user.generateRefreshToken(),
       ...user.toJSON(),
     };
   }
@@ -136,10 +144,20 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
 
   UserModel.prototype.generateAuthToken = function(this: User): string {
     const token: string = jwt.sign(
-      <Payload>{ id: this.id }, process.env.JWT_SECRET, { expiresIn: '1h', algorithm: 'HS256', },
+      <Payload>{ id: this.id }, process.env.JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRY, algorithm: JWT_ALGORITHM, },
     ).toString();
     const encrypt: string = AesEncrypt(token);
     return encrypt;
+  }
+
+  UserModel.prototype.generateRefreshToken = async function(this: User): Promise<string> {
+    const secret: string = randomString();
+    await sequelize.models.refresh_token.create({
+      user_id: this.id,
+      token: secret,
+      token_expires_at: moment().add(REFRESH_TOKEN_EXPIRY_IN_DAYS, 'days').toDate(),
+    });
+    return secret;
   }
 
   UserModel.prototype.hashPassword = async function(this: User): Promise<string> {

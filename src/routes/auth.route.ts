@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { asyncHandler } from '../helpers';
 import { authController } from '../controllers/auth.controller';
 import validatorMiddleware from '../middlewares/validator.middleware';
-import { loginSchema, registerSchema, resetPasswordSchema } from '../validators/auth.validator';
+import { loginSchema, refreshTokenSchema, registerSchema, resetPasswordSchema } from '../validators/auth.validator';
 
 const router: Router = Router();
 
@@ -36,6 +36,9 @@ const router: Router = Router();
  *     responses:
  *       200:
  *         description: login
+ *         headers:
+ *           Set-Cookie:
+ *             description: Contains the cookie named `refresh_token`.
  *         content:
  *           application/json:
  *             schema:
@@ -208,5 +211,41 @@ router.post(
   '/reset/password/:token',
   validatorMiddleware(resetPasswordSchema),
   asyncHandler(authController.resetPassword),
+);
+
+
+/**
+ * @swagger
+ * /auth/token/refresh:
+ *   post:
+ *     description: Get new access token
+ *     security: []
+ *     tags:
+ *        - Authentication
+ *     requestBody:
+ *        content:
+ *          application/json:
+ *              schema:
+ *                properties:
+ *                  access_token:
+ *                    type: string
+ *                    description: Old access token
+ *     responses:
+ *       200:
+ *         description: New access token
+ *         content:
+ *           application/json:
+ *             schema:
+ *                properties:
+ *                  token:
+ *                    type: string
+ *                    description: Access token
+ *       Error:
+ *          $ref: '#/components/responses/GenericError'
+ */
+router.post(
+  '/token/refresh',
+  validatorMiddleware(refreshTokenSchema),
+  asyncHandler(authController.refreshToken),
 );
 export default router;

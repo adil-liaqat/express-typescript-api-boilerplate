@@ -1,11 +1,11 @@
 import joi from 'joi';
-import {i18next} from '../config/i18n';
+import {i18n} from 'i18next';
 
 /**
  * Required string field validation
  * @param field Name of the field
  */
-export const stringValidation = (field: string): joi.StringSchema =>
+export const stringValidation = (field: string) => (i18next: i18n): joi.StringSchema  =>
   joi.string()
     .required()
     .messages({
@@ -17,7 +17,7 @@ export const stringValidation = (field: string): joi.StringSchema =>
  * Required email field validation
  * @param field Name of the field
  */
-export const emailValidation = (field: string): joi.StringSchema =>
+export const emailValidation = (field: string) => (i18next: i18n): joi.StringSchema =>
   joi.string()
     .email()
     .required()
@@ -32,7 +32,7 @@ export const emailValidation = (field: string): joi.StringSchema =>
  * @param field Name of the field
  * @param compareWith Field with which to compare
  */
-export const confirmFieldValidation = (field: string, compareWith: string): joi.Schema =>
+export const confirmFieldValidation = (field: string, compareWith: string) => (i18next: i18n): joi.Schema =>
   joi
     .valid(joi.ref(compareWith))
     .required()

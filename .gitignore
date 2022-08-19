@@ -9,6 +9,7 @@ typings
 bin
 logs
 .env
+.vs
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml

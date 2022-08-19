@@ -4,6 +4,9 @@ import {Op} from 'sequelize';
 
 
 declare global {
+  interface Console {
+    silly: (message?: any, ...optionalParams: any[]) => void;
+  }
   namespace NodeJS {
     interface Global {
       baseUrl: string,

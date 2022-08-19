@@ -8,6 +8,7 @@ import { Sequelize, Model, Dialect, Op } from 'sequelize';
 
 import options from '../config/database';
 import {UserFactory} from './user.model';
+import {RefreshTokenFactory} from './refreshToken.model';
 
 // const basename: string = path.basename(__filename);
 
@@ -36,4 +37,5 @@ export const db = {
   sequelize,
   Sequelize,
   User: UserFactory(sequelize),
+  RefreshToken: RefreshTokenFactory(sequelize),
 };

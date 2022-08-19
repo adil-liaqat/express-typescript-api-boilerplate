@@ -1,18 +1,23 @@
 import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
+import { IVerifyOptions, Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JWTStrategy } from 'passport-jwt';
 import { db } from '../models';
+import { User, UserAuthenticateAttributes } from '../interfaces/models/user.interface';
 import { Payload } from '../interfaces/jwt/payload.interface';
 import { IRequest } from '../interfaces/express';
 import { AesDecrypt } from '../helpers';
+import { JWT_ALGORITHM } from './app';
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password',
+  passReqToCallback: true
 },
-  async (email: string, password: string, done: Function) => {
+  async (
+    req: IRequest, email: string, password: string, done: (err: any, data?: any, opts?: IVerifyOptions) => void
+  ) => {
     try {
-      const user = await db.User.authenticate(email, password);
+      const user: UserAuthenticateAttributes = await db.User.authenticate(email, password, { context: { i18n: req.i18n } });
       done(null, user);
     } catch (error: any) {
       done(error, false, { message: error.message })
@@ -21,7 +26,7 @@ passport.use(new LocalStrategy({
 );
 
 passport.use(new JWTStrategy({
-  algorithms: ['HS256'],
+  algorithms: [JWT_ALGORITHM],
   jwtFromRequest: (req: IRequest) => {
     let token: string | null = req.headers.authorization || null;
 
@@ -37,10 +42,11 @@ passport.use(new JWTStrategy({
     return token;
   },
   secretOrKey: process.env.JWT_SECRET,
+  passReqToCallback: true
 },
-  async (payload: Payload, cb: Function) => {
+  async (req: IRequest, payload: Payload, cb: (err: any, data?: User) => void ) => {
     try {
-      const user = await db.User.findByPk(payload.id);
+      const user: User = await db.User.findByPk(payload.id, { context: { i18n: req.i18n } });
       cb(null, user);
     } catch (error: any) {
       cb(error);

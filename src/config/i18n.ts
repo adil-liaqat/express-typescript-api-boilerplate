@@ -11,8 +11,9 @@ i18next
       loadPath: path.join(__dirname, '..', '..', 'src', 'locales', '{{lng}}', '{{ns}}.json'),
       addPath: path.join(__dirname, '..', '..', 'src', 'locales', '{{lng}}', '{{ns}}.missing.json'),
     },
-    debug: true,
-    preload: ['en'],
+    debug: process.env.NODE_ENV !== 'production',
+    supportedLngs: ['en', 'ar'],
+    preload: ['en', 'ar'],
     fallbackLng: 'en',
     detection: {
       order: ['querystring', 'cookie'],

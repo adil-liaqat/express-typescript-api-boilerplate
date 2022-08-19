@@ -4,12 +4,13 @@ import Joi from 'joi';
 import { IRequest, IResponse, INextFunction } from '../interfaces/express';
 
 
-type Body = 'body' | 'query' | 'params'
+type Body = 'body' | 'query' | 'params' | 'cookies'
 
 interface Schema extends Joi.AnySchema {
   query?: Joi.Schema,
   params?: Joi.Schema,
   body?: Joi.Schema,
+  cookies?: Joi.Schema,
 }
 
 /**
@@ -17,7 +18,7 @@ interface Schema extends Joi.AnySchema {
  * @param {object} body Response to validate with. Default is body
  */
 export default (fn: Function, body: Body = 'body') => (req: IRequest, res: IResponse, next: INextFunction): void => {
-  const schema: Schema = fn();
+  const schema: Schema = fn(req.i18n);
   let dataToValidate: any = {};
   /* tslint:disable:no-empty */
   try {
@@ -32,8 +33,12 @@ export default (fn: Function, body: Body = 'body') => (req: IRequest, res: IResp
     schema.query = schema.extract('query');
   } catch (error) {}
 
-  if (schema.body || schema.params || schema.query) {
-    ['query', 'params', 'body'].forEach((k: Body) => {
+  try {
+    schema.cookies = schema.extract('cookies');
+  } catch (error) {}
+
+  if (schema.body || schema.params || schema.query || schema.cookies) {
+    ['query', 'params', 'body', 'cookies'].forEach((k: Body) => {
       if (schema[k]) {
         dataToValidate[k] = req[k];
       }

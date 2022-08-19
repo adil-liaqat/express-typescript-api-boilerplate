@@ -5,7 +5,9 @@ const transports: Array<any> = [
   new winston.transports.Console({
     format: winston.format.combine(
       winston.format.colorize(),
-      winston.format.printf(info => `${info.timestamp} ${info.level} [${info.label}]: ${info.message}`),
+      winston.format.printf(info =>
+        `${info.timestamp} ${info.level} [${info.label}]: ${typeof info.message === 'object' ? JSON.stringify(info.message, null, 2) : info.message}`
+      ),
     ),
   }),
 ];
@@ -53,7 +55,8 @@ export const myStream = {
 // Override the base console log with winston
 console.log = (...args: any) => logger.http.call(logger, ...args);
 console.log = (...args: any) => logger.verbose.call(logger, ...args);
-console.log = (...args: any) => logger.silly.call(logger, ...args);
+console.debug = (...args: any) => logger.debug.call(logger, ...args);
+console.silly = (...args: any) => logger.silly.call(logger, ...args);
 console.log = (...args: any) => logger.info.call(logger, ...args);
 console.warn = (...args: any) => logger.warn.call(logger, ...args);
 console.error = (...args: any) => logger.error.call(logger, ...args);

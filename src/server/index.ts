@@ -21,8 +21,6 @@ import '../config/passport';
 
 const app: express.Express = express();
 
-app.use(middleware.handle(i18next));
-
 app.use(cors());
 app.use(helmet());
 app.use(compression());
@@ -31,6 +29,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../src/public')));
+
+
+app.use(middleware.handle(i18next));
 
 app.use('/docs', swaggerUi.serve, swaggerMiddleware);
 app.use(commonMiddleware);
