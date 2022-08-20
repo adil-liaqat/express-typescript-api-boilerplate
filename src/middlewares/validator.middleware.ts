@@ -1,6 +1,6 @@
 import { celebrate, SchemaOptions } from 'celebrate';
 
-import { IRequest, IResponse, INextFunction } from '../interfaces/express';
+import { IRequest, IResponse, INextFunction } from '../types/express';
 
 /**
  * @param {Joi.Schema} schema Joi schema to validate

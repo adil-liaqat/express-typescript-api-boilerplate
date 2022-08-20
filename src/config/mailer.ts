@@ -4,8 +4,8 @@ import path from 'path';
 import fs from 'fs';
 import { promisify } from 'util';
 
-import { SendMailOption } from '../interfaces/config/mailer';
-import { Templates } from '../interfaces/templates';
+import { SendMailOption } from '../types/config/mailer';
+import { Templates } from '../types/templates';
 import { i18next } from './i18n';
 
 const MAILER_TEMPLATE_PATH: string = path.join(__dirname, '../../src/templates');

@@ -6,8 +6,8 @@ const transports: any[] = [
     format: winston.format.combine(
       winston.format.colorize(),
       winston.format.printf((info: any) =>
-        `${info.timestamp} ${info.level} [${info.label}]:
-        ${typeof info.message === 'object' ? JSON.stringify(info.message, null, 2) : info.message}`
+        // eslint-disable-next-line max-len
+        `${info.timestamp} ${info.level} [${info.label}]: ${typeof info.message === 'object' ? JSON.stringify(info.message, null, 2) : info.message}`
       )
     )
   })

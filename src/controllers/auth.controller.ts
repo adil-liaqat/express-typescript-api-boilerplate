@@ -6,15 +6,15 @@ import { decode } from 'jsonwebtoken';
 import { AesDecrypt, ENCRYPTION_KEY, randomString } from '../helpers';
 import sendMail from '../config/mailer';
 import { db } from '../models';
-import { User, UserAuthenticateAttributes } from '../interfaces/models/user.interface';
-import { RefreshToken } from '../interfaces/models/refreshToken.interface';
+import { User, UserAuthenticateAttributes } from '../types/models/user.interface';
+import { RefreshToken } from '../types/models/refreshToken.interface';
 
-import { IRequest, IResponse, INextFunction } from '../interfaces/express';
-import { UserRegister, UserVerify, UserBodyEmail } from '../interfaces/controllers/auth.interface';
-import { Templates } from '../interfaces/templates';
+import { IRequest, IResponse, INextFunction } from '../types/express';
+import { UserRegister, UserVerify, UserBodyEmail } from '../types/controllers/auth.interface';
+import { Templates } from '../types/templates';
 
 import { REFRESH_TOKEN_EXPIRY_IN_DAYS } from '../config/app';
-import { Payload } from 'interfaces/jwt/payload.interface';
+import { Payload } from 'types/jwt/payload.interface';
 
 export default class AuthController {
   public async login(req: IRequest, res: IResponse, next: INextFunction): Promise<any> {

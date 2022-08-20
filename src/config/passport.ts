@@ -2,9 +2,9 @@ import passport from 'passport';
 import { IVerifyOptions, Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JWTStrategy } from 'passport-jwt';
 import { db } from '../models';
-import { User, UserAuthenticateAttributes } from '../interfaces/models/user.interface';
-import { Payload } from '../interfaces/jwt/payload.interface';
-import { IRequest } from '../interfaces/express';
+import { User, UserAuthenticateAttributes } from '../types/models/user.interface';
+import { Payload } from '../types/jwt/payload.interface';
+import { IRequest } from '../types/express';
 import { AesDecrypt } from '../helpers';
 import { JWT_ALGORITHM } from './app';
 

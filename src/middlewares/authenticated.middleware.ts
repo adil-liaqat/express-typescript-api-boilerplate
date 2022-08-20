@@ -1,8 +1,8 @@
 import httpErrors from 'http-errors';
 import passport from 'passport';
 
-import { INextFunction, IRequest, IResponse } from '../interfaces/express';
-import { User } from '../interfaces/models/user.interface';
+import { INextFunction, IRequest, IResponse } from '../types/express';
+import { User } from '../types/models/user.interface';
 
 export default (req: IRequest, res: IResponse, next: INextFunction): void => {
   passport.authenticate('jwt', (error: Error, user: User) => {

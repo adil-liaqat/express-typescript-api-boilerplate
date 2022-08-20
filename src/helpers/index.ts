@@ -2,7 +2,7 @@ import { sync } from 'glob';
 import { union } from 'lodash';
 import { randomBytes, createCipheriv, Cipher, createDecipheriv, Decipher } from 'crypto';
 
-import { INextFunction, IRequest, IResponse } from '../interfaces/express';
+import { INextFunction, IRequest, IResponse } from '../types/express';
 
 export const ENCRYPTION_KEY: string = 'SOMERANDOMSTRINGSOMERANDOMSTRING'; // Must be 256 bits (32 characters)
 

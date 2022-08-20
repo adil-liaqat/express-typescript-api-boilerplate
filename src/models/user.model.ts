@@ -10,9 +10,9 @@ import {
   UserAuthenticateAttributes,
   UserInterface,
   User
-} from '../interfaces/models/user.interface';
-import { Payload } from '../interfaces/jwt/payload.interface';
-import { Templates } from '../interfaces/templates';
+} from '../types/models/user.interface';
+import { Payload } from '../types/jwt/payload.interface';
+import { Templates } from '../types/templates';
 
 import sendMail from '../config/mailer';
 import { i18next } from '../config/i18n';
