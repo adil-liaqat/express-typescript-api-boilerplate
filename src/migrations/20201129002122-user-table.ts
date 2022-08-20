@@ -2,7 +2,7 @@
 
 import { QueryInterface, DataTypes, Sequelize, ModelAttributes } from 'sequelize';
 
-import { User, UserAttributes, UserCreationAttributes } from '../interfaces/models/user.interface';
+import { User, UserCreationAttributes } from '../interfaces/models/user.interface';
 
 export = {
   up: (queryInterface: QueryInterface, sequelize: Sequelize): Promise<any> => {
@@ -11,60 +11,60 @@ export = {
         type: DataTypes.BIGINT,
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
+        primaryKey: true
       },
       first_name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       last_name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: true
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       verified: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        defaultValue: false,
+        defaultValue: false
       },
       confirmation_token: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: true
       },
       confirmation_expires_at: {
         type: DataTypes.DATE,
-        allowNull: true,
+        allowNull: true
       },
       reset_password_token: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: true
       },
       reset_password_expires_at: {
         type: DataTypes.DATE,
-        allowNull: true,
+        allowNull: true
       },
       created_at: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: sequelize.Sequelize.fn('now'),
+        defaultValue: sequelize.Sequelize.fn('now')
       },
       updated_at: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: sequelize.Sequelize.fn('now'),
-      },
+        defaultValue: sequelize.Sequelize.fn('now')
+      }
     });
   },
 
   down: (queryInterface: QueryInterface, sequelize: Sequelize): Promise<any> => {
     return queryInterface.dropTable('user');
-  },
+  }
 };

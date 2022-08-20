@@ -1,6 +1,6 @@
 declare module 'i18next-http-middleware' {
   import express from 'express';
-  import i18next, { i18n, Module, TFunction } from 'i18next';
+  import { i18n, Module, TFunction } from 'i18next';
 
   type I18next = i18n;
   type IgnoreRoutesFunction = (req: express.Request, res: express.Response, options: HandleOptions, i18next: I18next) => boolean;

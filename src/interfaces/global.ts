@@ -1,7 +1,6 @@
 
+import { Op } from 'sequelize';
 export {};
-import {Op} from 'sequelize';
-
 
 declare global {
   interface Console {

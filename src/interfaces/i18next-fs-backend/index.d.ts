@@ -16,29 +16,29 @@ declare namespace i18nextFsBackEnd {
    */
   /* tslint:disable:class-name */
   interface i18nextFsBackEndOptions {
-      /**
-       * @summary Path where resources get loaded from.
-       * @type {string}
-       */
-      loadPath: string;
+    /**
+     * @summary Path where resources get loaded from.
+     * @type {string}
+     */
+    loadPath: string;
 
-      /**
-       * @summary Path to post missing resources
-       * @type {string}
-       */
-      addPath: string;
+    /**
+     * @summary Path to post missing resources
+     * @type {string}
+     */
+    addPath: string;
 
-      /**
-       * @summary jsonIndent to use when storing json files
-       * @type {number}
-       */
-      jsonIndent: number;
+    /**
+     * @summary jsonIndent to use when storing json files
+     * @type {number}
+     */
+    jsonIndent: number;
 
-      /**
-       * @summary custom parser
-       * @type {function}
-       */
-      parse?: (data: any) => any;
+    /**
+     * @summary custom parser
+     * @type {function}
+     */
+    parse?: (data: any) => any;
   }
 
   /**
@@ -46,7 +46,7 @@ declare namespace i18nextFsBackEnd {
    * @interface
    */
   interface I18nextOptions {
-      backend?: i18nextFsBackEndOptions;
+    backend?: i18nextFsBackEndOptions;
   }
 }
 
@@ -54,15 +54,15 @@ declare module 'i18next-fs-backend' {
   import * as i18next from 'i18next';
 
   class Backend implements i18next.BackendModule<i18nextFsBackEnd.i18nextFsBackEndOptions> {
-      type: 'backend';
-      constructor(services?: any, options?: i18nextFsBackEnd.i18nextFsBackEndOptions);
-      init(
-        services: i18next.Services,
-        backendOptions?: i18nextFsBackEnd.i18nextFsBackEndOptions,
-        i18nextOptions?: i18next.InitOptions,
-      ): void;
-      read(language: string, namespace: string, callback: i18next.ReadCallback): void;
-      create(languages: string[], namespace: string, key: string, fallbackValue: string): void;
+    type: 'backend';
+    constructor(services?: any, options?: i18nextFsBackEnd.i18nextFsBackEndOptions);
+    init(
+      services: i18next.Services,
+      backendOptions?: i18nextFsBackEnd.i18nextFsBackEndOptions,
+      i18nextOptions?: i18next.InitOptions,
+    ): void;
+    read(language: string, namespace: string, callback: i18next.ReadCallback): void;
+    create(languages: string[], namespace: string, key: string, fallbackValue: string): void;
   }
 
   const module: typeof Backend;

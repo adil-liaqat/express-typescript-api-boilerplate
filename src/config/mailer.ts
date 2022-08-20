@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 import ejs from 'ejs';
 import path from 'path';
 import fs from 'fs';
-import {promisify} from 'util';
+import { promisify } from 'util';
 
 import { SendMailOption } from '../interfaces/config/mailer';
 import { Templates } from '../interfaces/templates';
@@ -21,21 +21,21 @@ const transporter: nodemailer.Transporter = nodemailer.createTransport({
   secure: process.env.MAIL_SMTP_SECURE === 'true',
   auth: {
     user: process.env.MAIL_SMTP_USER,
-    pass: process.env.MAIL_SMTP_PASSWORD,
-  },
+    pass: process.env.MAIL_SMTP_PASSWORD
+  }
 });
 
 async function renderTemplate(template: Templates, data: object = {}, lang: string = 'en'): Promise<string> {
   const templateContent = await promisedFileRead(MAILER_TEMPLATE_PATH + '/' + template + '.ejs', 'utf8');
   return ejs.render(templateContent, {
     ...data,
-    __: i18next.getFixedT(lang),
+    __: i18next.getFixedT(lang)
   }, {
-    async: true,
+    async: true
   });
 }
 
-export default async function sendMail({template, lang, data, ...rest}: SendMailOption) {
+export default async function sendMail({ template, lang, data, ...rest }: SendMailOption) {
   try {
     const html: string = await renderTemplate(template, data, lang);
 
@@ -45,7 +45,7 @@ export default async function sendMail({template, lang, data, ...rest}: SendMail
 
     await transporter.sendMail({
       ...rest,
-      html,
+      html
     });
   } catch (error) {
     throw error;

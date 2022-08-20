@@ -1,14 +1,12 @@
 'use strict';
 
-import fs from 'fs';
-import path from 'path';
-import { Sequelize, Model, Dialect, Op } from 'sequelize';
+import { Sequelize, Op } from 'sequelize';
 
 // import paginate = require('./globals/pagination');
 
 import options from '../config/database';
-import {UserFactory} from './user.model';
-import {RefreshTokenFactory} from './refreshToken.model';
+import { UserFactory } from './user.model';
+import { RefreshTokenFactory } from './refreshToken.model';
 
 // const basename: string = path.basename(__filename);
 
@@ -37,5 +35,5 @@ export const db = {
   sequelize,
   Sequelize,
   User: UserFactory(sequelize),
-  RefreshToken: RefreshTokenFactory(sequelize),
+  RefreshToken: RefreshTokenFactory(sequelize)
 };

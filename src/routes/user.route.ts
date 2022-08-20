@@ -4,7 +4,6 @@ import { userController } from '../controllers/user.controller';
 
 const router: Router = Router();
 
-
 /**
  * @swagger
  * tags:
@@ -64,7 +63,6 @@ const router: Router = Router();
  */
 
 router.get('/', asyncHandler(userController.getUsers));
-
 
 /**
  * @swagger

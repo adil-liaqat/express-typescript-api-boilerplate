@@ -1,57 +1,56 @@
-import {Sequelize, DataTypes} from 'sequelize';
+import { Sequelize, DataTypes } from 'sequelize';
 
 import {
   RefreshTokenAttributes,
   RefreshTokenInterface,
-  RefreshToken,
+  RefreshToken
 } from '../interfaces/models/refreshToken.interface';
 
 export const RefreshTokenFactory = (sequelize: Sequelize): RefreshTokenInterface => {
-
   const RefreshTokenModel: RefreshTokenInterface = <RefreshTokenInterface>sequelize.define<RefreshToken>('refresh_token', {
     id: {
       type: DataTypes.BIGINT,
       allowNull: false,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     user_id: {
       type: DataTypes.BIGINT,
       allowNull: false,
       references: {
         model: 'user',
-        key: 'id',
+        key: 'id'
       },
-      onDelete: 'CASCADE',
+      onDelete: 'CASCADE'
     },
     token: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     token_expires_at: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: false
     },
     is_used: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: false
     },
     revoked_at: {
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: true
     },
     replaced_by_token: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
+      allowNull: true
+    }
   }, {
-    tableName: 'refresh_token',
+    tableName: 'refresh_token'
   })
 
   RefreshTokenModel.prototype.toJSON = function(this: RefreshToken): RefreshTokenAttributes {
     const values: RefreshTokenAttributes = Object.assign({}, this.get());
-    return <RefreshTokenAttributes>values;
+    return values;
   };
 
   return RefreshTokenModel;

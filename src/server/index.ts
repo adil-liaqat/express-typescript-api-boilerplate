@@ -30,7 +30,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../src/public')));
 
-
 app.use(middleware.handle(i18next));
 
 app.use('/docs', swaggerUi.serve, swaggerMiddleware);

@@ -13,7 +13,6 @@ const router: Router = Router();
  *   description: User register and login
  */
 
-
 /**
  * @swagger
  * /auth/login:
@@ -55,10 +54,8 @@ const router: Router = Router();
 router.post(
   '/login',
   validatorMiddleware(loginSchema),
-  asyncHandler(authController.login),
+  asyncHandler(authController.login)
 );
-
-
 
 /**
  * @swagger
@@ -101,7 +98,7 @@ router.post(
 router.post(
   '/register',
   validatorMiddleware(registerSchema),
-  asyncHandler(authController.register),
+  asyncHandler(authController.register)
 );
 
 /**
@@ -130,9 +127,8 @@ router.post(
  */
 router.get(
   '/verify/:token',
-  asyncHandler(authController.verify),
+  asyncHandler(authController.verify)
 );
-
 
 /**
  * @swagger
@@ -165,9 +161,8 @@ router.get(
  */
 router.post(
   '/forgot/password',
-  asyncHandler(authController.forgotPassword),
+  asyncHandler(authController.forgotPassword)
 );
-
 
 /**
  * @swagger
@@ -210,9 +205,8 @@ router.post(
 router.post(
   '/reset/password/:token',
   validatorMiddleware(resetPasswordSchema),
-  asyncHandler(authController.resetPassword),
+  asyncHandler(authController.resetPassword)
 );
-
 
 /**
  * @swagger
@@ -246,6 +240,6 @@ router.post(
 router.post(
   '/token/refresh',
   validatorMiddleware(refreshTokenSchema),
-  asyncHandler(authController.refreshToken),
+  asyncHandler(authController.refreshToken)
 );
 export default router;

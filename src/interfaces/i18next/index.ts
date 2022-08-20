@@ -12,15 +12,12 @@ export const i18nEnum: EnumKeyFields = <EnumKeyFields>Object.keys(data).reduce((
 
 declare module 'i18next' {
 
-  export interface TFunction {
-    <
-      TResult extends TFunctionResult = string,
-      TInterpolationMap extends object = StringMap
-    >(
-      key: i18nKeys | Array<i18nKeys>,
-      defaultValue?: i18nKeys,
-      options?: TOptions<TInterpolationMap> | string,
-    ): TResult;
-
-  }
+  export type TFunction = <
+    TResult extends TFunctionResult = string,
+    TInterpolationMap extends object = StringMap
+  >(
+    key: i18nKeys | i18nKeys[],
+    defaultValue?: i18nKeys,
+    options?: TOptions<TInterpolationMap> | string,
+  ) => TResult;
 }

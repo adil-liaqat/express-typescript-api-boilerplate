@@ -8,7 +8,7 @@ server.listen(process.env.PORT).on('error', console.error);
 
 server.on('listening', () => {
   console.log(
-    `Server started on port ${process.env.PORT} on ENV ${process.env.NODE_ENV || 'dev'}`,
+    `Server started on port ${process.env.PORT} on ENV ${process.env.NODE_ENV || 'dev'}`
   )
 })
 
@@ -16,4 +16,3 @@ process.on('uncaughtException', (err: Error) => {
   console.error(err.stack);
   console.log('Node NOT Exiting...');
 });
-

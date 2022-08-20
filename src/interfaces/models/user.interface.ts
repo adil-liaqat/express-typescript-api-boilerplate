@@ -1,6 +1,5 @@
 import { Model, ModelCtor, Optional, FindOptions } from 'sequelize/types';
 
-
 export interface UserPublicAttributes {
   id: number;
   first_name: string;
@@ -25,22 +24,19 @@ export interface UserAuthenticateAttributes extends UserPublicAttributes {
   refresh_token: string;
 }
 
-
 export interface UserCreationAttributes
   extends Optional<UserAttributes,
   'id' | 'verified' | 'full_name' |
   'confirmation_token' | 'confirmation_expires_at' |
   'reset_password_token' | 'reset_password_expires_at'> {}
 
-export interface User
-  extends Model<UserAttributes, UserCreationAttributes>,
-    UserAttributes {
-      generateAuthToken(): string;
-      generateRefreshToken(): Promise<string>;
-      toJSON(): UserPublicAttributes;
-      hashPassword(): Promise<string>;
-    }
+export interface User extends Model<UserAttributes, UserCreationAttributes>, UserAttributes {
+  generateAuthToken: () => string;
+  generateRefreshToken: () => Promise<string>;
+  toJSON: () => UserPublicAttributes;
+  hashPassword: () => Promise<string>;
+}
 
 export type UserInterface = ModelCtor<User> & {
-  authenticate(email: string, password: string, options?: FindOptions<UserAttributes>): Promise<UserAuthenticateAttributes>;
+  authenticate: (email: string, password: string, options?: FindOptions<UserAttributes>) => Promise<UserAuthenticateAttributes>;
 }

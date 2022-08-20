@@ -1,15 +1,16 @@
 import winston from 'winston';
 import path from 'path';
 
-const transports: Array<any> = [
+const transports: any[] = [
   new winston.transports.Console({
     format: winston.format.combine(
       winston.format.colorize(),
-      winston.format.printf(info =>
-        `${info.timestamp} ${info.level} [${info.label}]: ${typeof info.message === 'object' ? JSON.stringify(info.message, null, 2) : info.message}`
-      ),
-    ),
-  }),
+      winston.format.printf((info: any) =>
+        `${info.timestamp} ${info.level} [${info.label}]:
+        ${typeof info.message === 'object' ? JSON.stringify(info.message, null, 2) : info.message}`
+      )
+    )
+  })
 ];
 
 if (process.env.NODE_ENV === 'production') {
@@ -19,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
       level: 'info',
       maxsize: 5242880, // 5MB
       maxFiles: 5,
-      format: winston.format.json(),
+      format: winston.format.json()
     }),
     new winston.transports.File({
       filename: 'logs/error.log',
@@ -27,8 +28,8 @@ if (process.env.NODE_ENV === 'production') {
       maxsize: 5242880, // 5MB
       maxFiles: 5,
       handleExceptions: true,
-      format: winston.format.json(),
-    }),
+      format: winston.format.json()
+    })
   )
 }
 
@@ -37,11 +38,11 @@ const logger: winston.Logger = winston.createLogger({
   level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
   format: winston.format.combine(
     winston.format.label({ label: path.basename(require.main.filename) }),
-    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' })
     // Format the metadata object)
   ),
   transports,
-  exitOnError: false,
+  exitOnError: false
 })
 
 // create a stream object with a 'write' function that will be used by `morgan`
@@ -49,7 +50,7 @@ export const myStream = {
   write: (message: string) => {
     // use the 'info' log level so the output will be picked up by both transports (file and console)
     logger.info(message);
-  },
+  }
 };
 
 // Override the base console log with winston

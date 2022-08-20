@@ -7,21 +7,21 @@ export const options: swaggerJsdoc.Options = {
     info: {
       version: '1.0.0',
       title: 'Express Typescript Restful Api',
-      description: 'Create Restful Apis',
+      description: 'Create Restful Apis'
     },
     servers: [
       {
         url: 'http://localhost:3000/api/v1',
-        description: 'Development server',
+        description: 'Development server'
       },
       {
         url: 'https://staging-server.com/api/v1',
-        description: 'Staging server',
+        description: 'Staging server'
       },
       {
         url: 'https://production-server.com/api/v1',
-        description: 'Production server',
-      },
+        description: 'Production server'
+      }
     ],
     components: {
       schemas: {
@@ -29,44 +29,44 @@ export const options: swaggerJsdoc.Options = {
           type: 'object',
           properties: {
             message: {
-              type: 'string',
-            },
-          },
-        },
+              type: 'string'
+            }
+          }
+        }
       },
       parameters: {
         id: {
           in: 'path',
           name: 'id',
           schema: {
-            type: 'integer',
+            type: 'integer'
           },
-          required: true,
-        },
+          required: true
+        }
       },
       responses: {
         GenericError: {
           content: {
             'application/json': {
               schema: {
-                $ref: '#/components/schemas/Error',
-              },
-            },
-          },
-        },
+                $ref: '#/components/schemas/Error'
+              }
+            }
+          }
+        }
       },
       securitySchemes: {
         bearerAuth: {
           type: 'http',
           scheme: 'bearer',
-          bearerFormat: 'JWT',
-        },
-      },
+          bearerFormat: 'JWT'
+        }
+      }
     },
     security: [{
-      bearerAuth: [],
-    }],
+      bearerAuth: []
+    }]
   },
   // List of files to be processes. You can also set globs './routes/*.js'
-  apis: ['src/routes/*.ts'],
+  apis: ['src/routes/*.ts']
 };

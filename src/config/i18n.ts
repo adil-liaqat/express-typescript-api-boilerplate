@@ -9,19 +9,19 @@ i18next
   .init({
     backend: {
       loadPath: path.join(__dirname, '..', '..', 'src', 'locales', '{{lng}}', '{{ns}}.json'),
-      addPath: path.join(__dirname, '..', '..', 'src', 'locales', '{{lng}}', '{{ns}}.missing.json'),
+      addPath: path.join(__dirname, '..', '..', 'src', 'locales', '{{lng}}', '{{ns}}.missing.json')
     },
     debug: process.env.NODE_ENV !== 'production',
     supportedLngs: ['en', 'ar'],
     preload: ['en', 'ar'],
     fallbackLng: 'en',
     detection: {
-      order: ['querystring', 'cookie'],
+      order: ['querystring', 'cookie']
     },
-    saveMissing: process.env.NODE_ENV === 'development',
+    saveMissing: process.env.NODE_ENV === 'development'
   });
 
 export {
   i18next,
-  middleware,
+  middleware
 }

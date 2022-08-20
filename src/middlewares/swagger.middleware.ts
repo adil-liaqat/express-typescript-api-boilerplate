@@ -1,7 +1,6 @@
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 
-
 import { INextFunction, IRequest, IResponse } from '../interfaces/express';
 import { options } from '../config/swagger';
 

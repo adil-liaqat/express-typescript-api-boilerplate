@@ -5,7 +5,7 @@ import { IRequest, IResponse } from '../interfaces/express';
 export default class UserController {
   public async getUsers(req: IRequest, res: IResponse): Promise<any> {
     const users: UserPublicAttributes[] = (
-      await db.User.findAll({context: { i18n: req.i18n } })
+      await db.User.findAll({ context: { i18n: req.i18n } })
     ).map((u: User) => u.toJSON());
     res.json(users);
   }

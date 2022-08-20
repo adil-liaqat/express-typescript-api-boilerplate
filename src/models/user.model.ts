@@ -1,5 +1,5 @@
-import {Sequelize, DataTypes, CreateOptions, FindOptions} from 'sequelize';
-import {compare, genSalt, hash} from 'bcrypt';
+import { Sequelize, DataTypes, CreateOptions, FindOptions } from 'sequelize';
+import { compare, genSalt, hash } from 'bcrypt';
 import httpErrors from 'http-errors';
 import jwt from 'jsonwebtoken';
 import moment from 'moment';
@@ -9,36 +9,35 @@ import {
   UserPublicAttributes,
   UserAuthenticateAttributes,
   UserInterface,
-  User,
+  User
 } from '../interfaces/models/user.interface';
 import { Payload } from '../interfaces/jwt/payload.interface';
 import { Templates } from '../interfaces/templates';
 
 import sendMail from '../config/mailer';
-import {i18next} from '../config/i18n';
+import { i18next } from '../config/i18n';
 import { REFRESH_TOKEN_EXPIRY_IN_DAYS, JWT_ALGORITHM, ACCESS_TOKEN_EXPIRY } from '../config/app';
 
 import { AesEncrypt, randomString } from '../helpers';
 
 export const UserFactory = (sequelize: Sequelize): UserInterface => {
-
   const UserModel: UserInterface = <UserInterface>sequelize.define<User>('user', {
     id: {
       type: DataTypes.BIGINT,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     first_name: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: true
     },
     last_name: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: true
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: true
     },
     full_name: {
       type: DataTypes.VIRTUAL,
@@ -47,37 +46,37 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
       },
       set() {
         throw new httpErrors.BadRequest('Do not try to set the `full_name` value!');
-      },
+      }
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: true
     },
     verified: {
       type: DataTypes.BOOLEAN,
-      allowNull: true,
+      allowNull: true
     },
     confirmation_token: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: true
     },
     confirmation_expires_at: {
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: true
     },
     reset_password_token: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: true
     },
     reset_password_expires_at: {
       type: DataTypes.DATE,
-      allowNull: true,
-    },
+      allowNull: true
+    }
   }, {
-    tableName: 'user',
+    tableName: 'user'
   })
 
-  UserModel.addHook('beforeCreate', async (user: User, options: CreateOptions<UserAttributes>) => {
+  UserModel.addHook('beforeCreate', async(user: User, options: CreateOptions<UserAttributes>) => {
     if (user.email) {
       user.email = user.email.toLowerCase();
     }
@@ -88,7 +87,7 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
     user.confirmation_expires_at = moment().add(1, 'day').toDate();
   })
 
-  UserModel.addHook('afterCreate', async (user: User, options: CreateOptions<UserAttributes>) => {
+  UserModel.addHook('afterCreate', async(user: User, options: CreateOptions<UserAttributes>) => {
     sendMail({
       template: Templates.emailConfirmation,
       data: user.get(),
@@ -98,10 +97,9 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
     })
   })
 
-  UserModel.addHook('beforeUpdate', async (user: User) => {
+  UserModel.addHook('beforeUpdate', async(user: User) => {
     user.password = await user.hashPassword();
   })
-
 
   UserModel.authenticate = async function(
     email: string,
@@ -110,7 +108,7 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
   ): Promise<UserAuthenticateAttributes> {
     const user: User = await UserModel.findOne({
       where: {
-        email,
+        email
       },
       ...options && options
     });
@@ -128,7 +126,7 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
     return {
       token: user.generateAuthToken(),
       refresh_token: await user.generateRefreshToken(),
-      ...user.toJSON(),
+      ...user.toJSON()
     };
   }
 
@@ -144,7 +142,7 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
 
   UserModel.prototype.generateAuthToken = function(this: User): string {
     const token: string = jwt.sign(
-      <Payload>{ id: this.id }, process.env.JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRY, algorithm: JWT_ALGORITHM, },
+      <Payload>{ id: this.id }, process.env.JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRY, algorithm: JWT_ALGORITHM }
     ).toString();
     const encrypt: string = AesEncrypt(token);
     return encrypt;
@@ -155,7 +153,7 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
     await sequelize.models.refresh_token.create({
       user_id: this.id,
       token: secret,
-      token_expires_at: moment().add(REFRESH_TOKEN_EXPIRY_IN_DAYS, 'days').toDate(),
+      token_expires_at: moment().add(REFRESH_TOKEN_EXPIRY_IN_DAYS, 'days').toDate()
     });
     return secret;
   }

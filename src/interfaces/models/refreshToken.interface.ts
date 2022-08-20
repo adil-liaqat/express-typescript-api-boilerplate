@@ -12,17 +12,14 @@ export interface RefreshTokenAttributes {
   updated_at?: Date;
 }
 
-
 export interface RefreshTokenCreationAttributes
   extends Optional<RefreshTokenAttributes,
   'id' | 'is_used'> {}
 
-
 export interface RefreshToken
-  extends Model<RefreshTokenAttributes, RefreshTokenCreationAttributes>,
-    RefreshTokenAttributes {
-      toJSON(): RefreshTokenAttributes;
-    }
+  extends Model<RefreshTokenAttributes, RefreshTokenCreationAttributes>, RefreshTokenAttributes {
+  toJSON: () => RefreshTokenAttributes;
+}
 
 export interface RefreshTokenInterface extends ModelCtor<RefreshToken> {
 

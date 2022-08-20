@@ -16,12 +16,11 @@ import { Templates } from '../interfaces/templates';
 import { REFRESH_TOKEN_EXPIRY_IN_DAYS } from '../config/app';
 import { Payload } from 'interfaces/jwt/payload.interface';
 
-
 export default class AuthController {
   public async login(req: IRequest, res: IResponse, next: INextFunction): Promise<any> {
-    passport.authenticate('local', { session: false }, async (error: Error, user: UserAuthenticateAttributes) => {
+    passport.authenticate('local', { session: false }, async(error: Error, user: UserAuthenticateAttributes) => {
       if (error) return next(error);
-      const {refresh_token, ...rest} = user;
+      const { refresh_token, ...rest } = user;
       res.cookie('refresh_token', refresh_token, {
         httpOnly: true,
         expires: moment().add(REFRESH_TOKEN_EXPIRY_IN_DAYS, 'days').toDate(),
@@ -38,10 +37,10 @@ export default class AuthController {
   }
 
   public async verify(req: IRequest, res: IResponse): Promise<any> {
-    const {token}: UserVerify = <UserVerify><unknown>req.params;
+    const { token }: UserVerify = <UserVerify><unknown>req.params;
     const user: User = await db.User.findOne({
       where: {
-        confirmation_token: token,
+        confirmation_token: token
       },
       context: { i18n: req.i18n }
     });
@@ -62,16 +61,16 @@ export default class AuthController {
     user.confirmation_expires_at = null;
     user.verified = true;
 
-    await user.save({context: { i18n: req.i18n }});
+    await user.save({ context: { i18n: req.i18n } });
 
     res.json(user.toJSON());
   }
 
   public async forgotPassword(req: IRequest, res: IResponse): Promise<any> {
-    const {email}: UserBodyEmail = <UserBodyEmail>req.body;
+    const { email }: UserBodyEmail = <UserBodyEmail>req.body;
     const user: User = await db.User.findOne({
       where: {
-        email,
+        email
       },
       context: { i18n: req.i18n }
     });
@@ -83,26 +82,26 @@ export default class AuthController {
     user.reset_password_expires_at = moment().add(1, 'hour').toDate();
     user.reset_password_token = randomString();
 
-    await user.save({context: { i18n: req.i18n }});
+    await user.save({ context: { i18n: req.i18n } });
 
     sendMail({
       template: Templates.forgotPassword,
       data: user.get(),
       subject: req.i18n.t('FORGOT_PASSWORD'),
       lang: req.i18n.language,
-      to: `${user.full_name} <${user.email}>`,
+      to: `${user.full_name} <${user.email}>`
     })
 
-    res.json({'message': req.i18n.t('EMAIL_SENT')});
+    res.json({ message: req.i18n.t('EMAIL_SENT') });
   }
 
   public async resetPassword(req: IRequest, res: IResponse): Promise<any> {
-    const {token}: UserVerify = <UserVerify><unknown>req.params;
-    const {password} = req.body;
+    const { token }: UserVerify = <UserVerify><unknown>req.params;
+    const { password } = req.body;
 
     const user: User = await db.User.findOne({
       where: {
-        reset_password_token: token,
+        reset_password_token: token
       },
       context: { i18n: req.i18n }
     });
@@ -119,10 +118,9 @@ export default class AuthController {
     user.reset_password_token = null;
     user.password = password;
 
+    await user.save({ context: { i18n: req.i18n } });
 
-    await user.save({context: { i18n: req.i18n }});
-
-    res.json({'message': req.i18n.t('PASSWORD_RESET_SUCCESSFULLY')});
+    res.json({ message: req.i18n.t('PASSWORD_RESET_SUCCESSFULLY') });
   }
 
   public async refreshToken(req: IRequest, res: IResponse): Promise<any> {
@@ -131,22 +129,22 @@ export default class AuthController {
 
     const rt: RefreshToken = await db.RefreshToken.findOne({
       where: {
-        token: refreshToken,
+        token: refreshToken
       },
       context: { i18n: req.i18n }
     });
 
-    if(!rt || rt.is_used || moment().isSameOrAfter(rt.token_expires_at)) {
+    if (!rt || rt.is_used || moment().isSameOrAfter(rt.token_expires_at)) {
       throw new httpErrors.Unauthorized(req.i18n.t('INVALID_REFRESH_TOKEN'));
     }
 
     const decodedToken = <Payload>decode(AesDecrypt(accessToken, ENCRYPTION_KEY))
 
-    if(rt.user_id !== decodedToken?.id) {
+    if (rt.user_id !== decodedToken?.id) {
       throw new httpErrors.Unauthorized(req.i18n.t('INVALID_REFRESH_TOKEN'));
     }
 
-    const user: User = await db.User.findByPk(rt.user_id,  { context: { i18n: req.i18n } });
+    const user: User = await db.User.findByPk(rt.user_id, { context: { i18n: req.i18n } });
 
     if (!user) {
       throw new httpErrors.BadRequest(req.i18n.t('INVALID_TOKEN'));
@@ -170,7 +168,6 @@ export default class AuthController {
     await rt.save();
 
     res.json({ token: newAccessToken })
-
   }
 }
 

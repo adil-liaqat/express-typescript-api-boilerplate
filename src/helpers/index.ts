@@ -4,7 +4,6 @@ import { randomBytes, createCipheriv, Cipher, createDecipheriv, Decipher } from 
 
 import { INextFunction, IRequest, IResponse } from '../interfaces/express';
 
-
 export const ENCRYPTION_KEY: string = 'SOMERANDOMSTRINGSOMERANDOMSTRING'; // Must be 256 bits (32 characters)
 
 export const globFiles = (location: string): string[] => {
@@ -13,15 +12,17 @@ export const globFiles = (location: string): string[] => {
 
 /**
  * Handle async function
+ *
  * @param {Function} fn
  * @return {Function}
  */
 export const asyncHandler = (fn: (req: IRequest, res: IResponse, next: INextFunction) => Promise<any>) =>
-(req: IRequest, res: IResponse, next: INextFunction) =>
+  (req: IRequest, res: IResponse, next: INextFunction) =>
     Promise.resolve(fn(req, res, next)).catch(next);
 
 /**
  * Generate random string
+ *
  * @param {number} length
  * @return {string}
  */
@@ -29,6 +30,7 @@ export const randomString = (length: number = 32): string => randomBytes(length)
 
 /**
  * AES Encryption
+ *
  * @param {any} data data to be encrypted
  * @param {string} secret phrase with which data should be encrypted. Must be 256 bits (32 characters)
  * @return {string}
@@ -46,6 +48,7 @@ export const AesEncrypt = (data: any, secret?: string): string => {
 
 /**
  * AES Decryption
+ *
  * @param {any} data Encrypted data
  * @param {string} secret phrase with which data should be decrypted. Must be 256 bits (32 characters)
  * @return {string}
