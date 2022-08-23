@@ -1,8 +1,8 @@
-import { Router } from 'express';
-import { asyncHandler } from '../helpers';
-import { userController } from '../controllers/user.controller';
+import { Router } from 'express'
+import { asyncHandler } from '../helpers'
+import { userController } from '../controllers/user.controller'
 
-const router: Router = Router();
+const router: Router = Router()
 
 /**
  * @swagger
@@ -62,7 +62,7 @@ const router: Router = Router();
  *          $ref: '#/components/responses/GenericError'
  */
 
-router.get('/', asyncHandler(userController.getUsers));
+router.get('/', asyncHandler(userController.getUsers))
 
 /**
  * @swagger
@@ -86,7 +86,7 @@ router.get('/', asyncHandler(userController.getUsers));
  *          $ref: '#/components/responses/GenericError'
  */
 
-router.get('/:id(\\d+)/', asyncHandler(userController.getUserById));
+router.get('/:id(\\d+)/', asyncHandler(userController.getUserById))
 
 /**
  * @swagger
@@ -110,6 +110,6 @@ router.get('/:id(\\d+)/', asyncHandler(userController.getUserById));
  *          $ref: '#/components/responses/GenericError'
  */
 
-router.delete('/:id(\\d+)/', asyncHandler(userController.deleteUser));
+router.delete('/:id(\\d+)/', asyncHandler(userController.deleteUser))
 
-export default router;
+export default router

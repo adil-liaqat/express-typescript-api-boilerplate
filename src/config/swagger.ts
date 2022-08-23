@@ -1,5 +1,5 @@
 
-import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerJsdoc from 'swagger-jsdoc'
 
 export const options: swaggerJsdoc.Options = {
   swaggerDefinition: {
@@ -69,4 +69,4 @@ export const options: swaggerJsdoc.Options = {
   },
   // List of files to be processes. You can also set globs './routes/*.js'
   apis: ['src/routes/*.ts']
-};
+}

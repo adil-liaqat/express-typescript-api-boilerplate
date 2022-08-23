@@ -1,4 +1,4 @@
-import { Model, ModelCtor, Optional, FindOptions } from 'sequelize/types';
+import { Model, ModelCtor, Optional, FindOptions } from 'sequelize/types'
 
 export interface UserPublicAttributes {
   id: number;

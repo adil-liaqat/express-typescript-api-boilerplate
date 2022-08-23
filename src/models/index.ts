@@ -1,16 +1,16 @@
-'use strict';
+'use strict'
 
-import { Sequelize, Op } from 'sequelize';
+import { Sequelize, Op } from 'sequelize'
 
 // import paginate = require('./globals/pagination');
 
-import options from '../config/database';
-import { UserFactory } from './user.model';
-import { RefreshTokenFactory } from './refreshToken.model';
+import options from '../config/database'
+import { UserFactory } from './user.model'
+import { RefreshTokenFactory } from './refreshToken.model'
 
 // const basename: string = path.basename(__filename);
 
-const sequelize: Sequelize = new Sequelize(options);
+const sequelize: Sequelize = new Sequelize(options)
 
 // fs.readdirSync(__dirname)
 //   .filter((file) => {
@@ -29,11 +29,11 @@ const sequelize: Sequelize = new Sequelize(options);
 //   }
 // });
 
-global.Op = Op;
+global.Op = Op
 
 export const db = {
   sequelize,
   Sequelize,
   User: UserFactory(sequelize),
   RefreshToken: RefreshTokenFactory(sequelize)
-};
+}

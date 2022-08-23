@@ -1,8 +1,8 @@
-import { Sequelize, DataTypes, CreateOptions, FindOptions } from 'sequelize';
-import { compare, genSalt, hash } from 'bcrypt';
-import httpErrors from 'http-errors';
-import jwt from 'jsonwebtoken';
-import moment from 'moment';
+import { Sequelize, DataTypes, CreateOptions, FindOptions } from 'sequelize'
+import { compare, genSalt, hash } from 'bcrypt'
+import httpErrors from 'http-errors'
+import jwt from 'jsonwebtoken'
+import moment from 'moment'
 
 import {
   UserAttributes,
@@ -10,15 +10,15 @@ import {
   UserAuthenticateAttributes,
   UserInterface,
   User
-} from '../types/models/user.interface';
-import { Payload } from '../types/jwt/payload.interface';
-import { Templates } from '../types/templates';
+} from '../types/models/user.interface'
+import { Payload } from '../types/jwt/payload.interface'
+import { Templates } from '../types/templates'
 
-import sendMail from '../config/mailer';
-import { i18next } from '../config/i18n';
-import { REFRESH_TOKEN_EXPIRY_IN_DAYS, JWT_ALGORITHM, ACCESS_TOKEN_EXPIRY } from '../config/app';
+import sendMail from '../config/mailer'
+import { i18next } from '../config/i18n'
+import { REFRESH_TOKEN_EXPIRY_IN_DAYS, JWT_ALGORITHM, ACCESS_TOKEN_EXPIRY } from '../config/app'
 
-import { AesEncrypt, randomString } from '../helpers';
+import { AesEncrypt, randomString } from '../helpers'
 
 export const UserFactory = (sequelize: Sequelize): UserInterface => {
   const UserModel: UserInterface = <UserInterface>sequelize.define<User>('user', {
@@ -42,10 +42,10 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
     full_name: {
       type: DataTypes.VIRTUAL,
       get(this: User) {
-        return `${this.first_name} ${this.last_name}`;
+        return `${this.first_name} ${this.last_name}`
       },
       set() {
-        throw new httpErrors.BadRequest('Do not try to set the `full_name` value!');
+        throw new httpErrors.BadRequest('Do not try to set the `full_name` value!')
       }
     },
     password: {
@@ -78,13 +78,13 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
 
   UserModel.addHook('beforeCreate', async(user: User, options: CreateOptions<UserAttributes>) => {
     if (user.email) {
-      user.email = user.email.toLowerCase();
+      user.email = user.email.toLowerCase()
     }
 
-    user.password = await user.hashPassword();
+    user.password = await user.hashPassword()
 
-    user.confirmation_token = randomString();
-    user.confirmation_expires_at = moment().add(1, 'day').toDate();
+    user.confirmation_token = randomString()
+    user.confirmation_expires_at = moment().add(1, 'day').toDate()
   })
 
   UserModel.addHook('afterCreate', async(user: User, options: CreateOptions<UserAttributes>) => {
@@ -98,7 +98,7 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
   })
 
   UserModel.addHook('beforeUpdate', async(user: User) => {
-    user.password = await user.hashPassword();
+    user.password = await user.hashPassword()
   })
 
   UserModel.authenticate = async function(
@@ -111,66 +111,68 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
         email
       },
       ...options && options
-    });
+    })
 
     if (!user) {
-      throw new httpErrors.Unauthorized(options.context.i18n.t('INCORRECT_EMAIL'));
+      throw new httpErrors.Unauthorized(options.context.i18n.t('INCORRECT_EMAIL'))
     }
 
-    const verifyPassword: boolean = await compare(password, user.password);
+    const verifyPassword: boolean = await compare(password, user.password)
 
     if (!verifyPassword) {
-      throw new httpErrors.Unauthorized(options.context.i18n.t('INCORRECT_PASSWORD'));
+      throw new httpErrors.Unauthorized(options.context.i18n.t('INCORRECT_PASSWORD'))
     }
 
     return {
       token: user.generateAuthToken(),
       refresh_token: await user.generateRefreshToken(),
       ...user.toJSON()
-    };
+    }
   }
 
   UserModel.prototype.toJSON = function(this: User): UserPublicAttributes {
-    const values: UserAttributes = Object.assign({}, this.get());
-    delete values.password;
-    delete values.confirmation_token;
-    delete values.confirmation_expires_at;
-    delete values.reset_password_token;
-    delete values.reset_password_expires_at;
-    return <UserPublicAttributes>values;
-  };
+    const values: UserAttributes = Object.assign({}, this.get())
+    delete values.password
+    delete values.confirmation_token
+    delete values.confirmation_expires_at
+    delete values.reset_password_token
+    delete values.reset_password_expires_at
+    return <UserPublicAttributes>values
+  }
 
   UserModel.prototype.generateAuthToken = function(this: User): string {
     const token: string = jwt.sign(
-      <Payload>{ id: this.id }, process.env.JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRY, algorithm: JWT_ALGORITHM }
-    ).toString();
-    const encrypt: string = AesEncrypt(token);
-    return encrypt;
+      <Payload>{ id: this.id },
+      process.env.JWT_SECRET,
+      { expiresIn: ACCESS_TOKEN_EXPIRY, algorithm: JWT_ALGORITHM }
+    ).toString()
+    const encrypt: string = AesEncrypt(token)
+    return encrypt
   }
 
   UserModel.prototype.generateRefreshToken = async function(this: User): Promise<string> {
-    const secret: string = randomString();
+    const secret: string = randomString()
     await sequelize.models.refresh_token.create({
       user_id: this.id,
       token: secret,
       token_expires_at: moment().add(REFRESH_TOKEN_EXPIRY_IN_DAYS, 'days').toDate()
-    });
-    return secret;
+    })
+    return secret
   }
 
   UserModel.prototype.hashPassword = async function(this: User): Promise<string> {
     if (this.password && this.previous('password') !== this.password) {
       try {
-        const salt: string = await genSalt(10);
-        const hashedPassword: string = await hash(this.password, salt);
-        return hashedPassword;
+        const salt: string = await genSalt(10)
+        const hashedPassword: string = await hash(this.password, salt)
+        return hashedPassword
       } catch (error) {
-        throw new httpErrors.InternalServerError(i18next.t('PASSWORD_HASH_ERROR'));
+        throw new httpErrors.InternalServerError(i18next.t('PASSWORD_HASH_ERROR'))
       }
     }
 
-    return this.password;
+    return this.password
   }
 
-  return UserModel;
+  return UserModel
 }

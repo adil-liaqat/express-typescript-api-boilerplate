@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
-import { QueryInterface, DataTypes, Sequelize, ModelAttributes } from 'sequelize';
+import { QueryInterface, DataTypes, Sequelize, ModelAttributes } from 'sequelize'
 
 import {
   RefreshToken,
   RefreshTokenCreationAttributes
-} from '../types/models/refreshToken.interface';
+} from '../types/models/refreshToken.interface'
 
 export = {
   up: (queryInterface: QueryInterface, sequelize: Sequelize): Promise<any> => {
@@ -56,10 +56,10 @@ export = {
         allowNull: false,
         defaultValue: sequelize.Sequelize.fn('now')
       }
-    });
+    })
   },
 
   down: (queryInterface: QueryInterface, sequelize: Sequelize): Promise<any> => {
-    return queryInterface.dropTable('refresh_token');
+    return queryInterface.dropTable('refresh_token')
   }
-};
+}

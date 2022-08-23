@@ -1,5 +1,5 @@
-import joi from 'joi';
-import { i18n } from 'i18next';
+import joi from 'joi'
+import { i18n } from 'i18next'
 
 /**
  * Required string field validation
@@ -12,7 +12,7 @@ export const stringValidation = (field: string) => (i18next: i18n): joi.StringSc
     .messages({
       'string.empty': i18next.t('CANNOT_BE_EMPTY', { field }),
       'any.required': i18next.t('IS_REQUIRED', { field })
-    });
+    })
 
 /**
  * Required email field validation
@@ -27,7 +27,7 @@ export const emailValidation = (field: string) => (i18next: i18n): joi.StringSch
       'string.email': i18next.t('SHOULD_BE_VALID', { field }),
       'string.empty': i18next.t('CANNOT_BE_EMPTY', { field }),
       'any.required': i18next.t('IS_REQUIRED', { field })
-    });
+    })
 
 /**
  * Required confirm password field validation
@@ -42,4 +42,4 @@ export const confirmFieldValidation = (field: string, compareWith: string) => (i
     .messages({
       'any.only': i18next.t('MUST_MATCH_WITH', { match: field, with: compareWith }),
       'any.required': i18next.t('IS_REQUIRED', { field })
-    });
+    })

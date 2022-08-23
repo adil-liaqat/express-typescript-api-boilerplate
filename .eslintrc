@@ -89,8 +89,8 @@
           "single"
       ],
       "@typescript-eslint/semi": [
-          "off",
-          "always"
+          "error",
+          "never"
       ],
       "@typescript-eslint/type-annotation-spacing": "error",
       "@typescript-eslint/typedef": [

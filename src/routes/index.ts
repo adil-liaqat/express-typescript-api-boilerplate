@@ -1,17 +1,17 @@
-import { Application } from 'express';
+import { Application } from 'express'
 
-import isAuthenticatedMiddleware from '../middlewares/authenticated.middleware';
-import notFoundMiddlware from '../middlewares/notFound.middlware';
+import isAuthenticatedMiddleware from '../middlewares/authenticated.middleware'
+import notFoundMiddlware from '../middlewares/notFound.middlware'
 
-import userRoute from './user.route';
-import authRoute from './auth.route';
+import userRoute from './user.route'
+import authRoute from './auth.route'
 
 export default function(app: Application) {
-  const rootPath: string = '/api/v1';
+  const rootPath: string = '/api/v1'
 
-  app.use(rootPath + '/auth', authRoute);
-  app.use(isAuthenticatedMiddleware);
-  app.use(rootPath + '/users', userRoute);
+  app.use(rootPath + '/auth', authRoute)
+  app.use(isAuthenticatedMiddleware)
+  app.use(rootPath + '/users', userRoute)
 
-  app.use(notFoundMiddlware);
+  app.use(notFoundMiddlware)
 }

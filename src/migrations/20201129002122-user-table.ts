@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-import { QueryInterface, DataTypes, Sequelize, ModelAttributes } from 'sequelize';
+import { QueryInterface, DataTypes, Sequelize, ModelAttributes } from 'sequelize'
 
-import { User, UserCreationAttributes } from '../types/models/user.interface';
+import { User, UserCreationAttributes } from '../types/models/user.interface'
 
 export = {
   up: (queryInterface: QueryInterface, sequelize: Sequelize): Promise<any> => {
@@ -61,10 +61,10 @@ export = {
         allowNull: false,
         defaultValue: sequelize.Sequelize.fn('now')
       }
-    });
+    })
   },
 
   down: (queryInterface: QueryInterface, sequelize: Sequelize): Promise<any> => {
-    return queryInterface.dropTable('user');
+    return queryInterface.dropTable('user')
   }
-};
+}

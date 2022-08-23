@@ -1,19 +1,19 @@
-import httpErrors from 'http-errors';
-import passport from 'passport';
+import httpErrors from 'http-errors'
+import passport from 'passport'
 
-import { INextFunction, IRequest, IResponse } from '../types/express';
-import { User } from '../types/models/user.interface';
+import { INextFunction, IRequest, IResponse } from '../types/express'
+import { User } from '../types/models/user.interface'
 
 export default (req: IRequest, res: IResponse, next: INextFunction): void => {
   passport.authenticate('jwt', (error: Error, user: User) => {
     if (error) {
-      return next(error);
+      return next(error)
     }
     if (!user) {
-      throw new httpErrors.Unauthorized(req.i18n.t('UNAUTHORIZED_USER'));
+      throw new httpErrors.Unauthorized(req.i18n.t('UNAUTHORIZED_USER'))
     }
 
-    req.user = user;
-    next();
-  })(req, res, next);
+    req.user = user
+    next()
+  })(req, res, next)
 }

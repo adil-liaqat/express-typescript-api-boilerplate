@@ -1,6 +1,6 @@
-import { i18n } from 'i18next';
+import { i18n } from 'i18next'
 
-export { };
+export { }
 
 interface IContext {
   i18n?: i18n

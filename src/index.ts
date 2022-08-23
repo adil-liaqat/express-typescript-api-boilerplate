@@ -1,10 +1,10 @@
-import http from 'http';
-import { Error } from 'sequelize/types';
+import http from 'http'
+import { Error } from 'sequelize/types'
 import app from './server'
 
-const server: http.Server = http.createServer(app);
+const server: http.Server = http.createServer(app)
 
-server.listen(process.env.PORT).on('error', console.error);
+server.listen(process.env.PORT).on('error', console.error)
 
 server.on('listening', () => {
   console.log(
@@ -13,6 +13,8 @@ server.on('listening', () => {
 })
 
 process.on('uncaughtException', (err: Error) => {
-  console.error(err.stack);
-  console.log('Node NOT Exiting...');
-});
+  console.error(err.stack)
+  console.log('Node NOT Exiting...')
+})
+
+export default server

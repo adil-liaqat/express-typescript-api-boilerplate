@@ -8,6 +8,8 @@ dist
 typings
 bin
 logs
+coverage
+.nyc_output
 .env
 .vs
 # Elastic Beanstalk Files

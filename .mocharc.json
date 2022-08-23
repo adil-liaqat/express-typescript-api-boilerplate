@@ -1,0 +1,12 @@
+{
+  "extension": [
+    "test.ts",
+    "ts"
+  ],
+  "recursive": true,
+  "timeout": 60000,
+  "require": ["ts-node/register", "test/hooks.ts", "test/stubs.ts"],
+  "jobs": 3,
+  "retries": 2,
+  "exit": true
+}

@@ -1,4 +1,4 @@
-import { Templates } from '../templates';
+import { Templates } from '../templates'
 
 export interface SendMailOption {
   to: string,

@@ -1,4 +1,4 @@
-import { Options } from 'sequelize';
+import { Options } from 'sequelize'
 
 const options: Options = {
   database: process.env.DB_DATABASE,
@@ -14,6 +14,6 @@ const options: Options = {
     deletedAt: 'deleted_at'
   },
   logging: process.env.NODE_ENV === 'production' ? false : msg => console.debug(msg)
-};
+}
 
-export = options;
+export = options

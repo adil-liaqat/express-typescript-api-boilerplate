@@ -1,8 +1,8 @@
-import joi from 'joi';
-import { i18n } from 'i18next';
-import { Segments } from 'celebrate';
+import joi from 'joi'
+import { i18n } from 'i18next'
+import { Segments } from 'celebrate'
 
-import { stringValidation, emailValidation, confirmFieldValidation } from './common.validator';
+import { stringValidation, emailValidation, confirmFieldValidation } from './common.validator'
 
 /**
  * Register Joi Schema
@@ -19,7 +19,7 @@ export const registerSchema = (_i18n: i18n): joi.Schema => <joi.Schema><unknown>
 
     confirm_password: confirmFieldValidation('confirm_password', 'password')(_i18n)
   }).with('password', 'confirm_password')
-};
+}
 
 /**
  * Login Joi Schema
@@ -29,7 +29,7 @@ export const loginSchema = (_i18n: i18n): joi.Schema => <joi.Schema><unknown>{
     email: emailValidation('email')(_i18n),
     password: stringValidation('password')(_i18n)
   })
-};
+}
 
 /**
  * Reset Password Joi Schema
@@ -43,7 +43,7 @@ export const resetPasswordSchema = (_i18n: i18n): joi.Schema => <joi.Schema><unk
   [Segments.PARAMS]: joi.object({
     token: stringValidation('token')(_i18n)
   })
-};
+}
 
 /**
  * Refresh Token Joi Schema
@@ -55,4 +55,4 @@ export const refreshTokenSchema = (_i18n: i18n): joi.Schema => <joi.Schema><unkn
   [Segments.COOKIES]: {
     refresh_token: stringValidation('refresh_token')(_i18n)
   }
-};
+}

@@ -51,20 +51,20 @@ declare namespace i18nextFsBackEnd {
 }
 
 declare module 'i18next-fs-backend' {
-  import * as i18next from 'i18next';
+  import * as i18next from 'i18next'
 
   class Backend implements i18next.BackendModule<i18nextFsBackEnd.i18nextFsBackEndOptions> {
-    type: 'backend';
-    constructor(services?: any, options?: i18nextFsBackEnd.i18nextFsBackEndOptions);
+    type: 'backend'
+    constructor(services?: any, options?: i18nextFsBackEnd.i18nextFsBackEndOptions)
     init(
       services: i18next.Services,
       backendOptions?: i18nextFsBackEnd.i18nextFsBackEndOptions,
       i18nextOptions?: i18next.InitOptions,
-    ): void;
-    read(language: string, namespace: string, callback: i18next.ReadCallback): void;
-    create(languages: string[], namespace: string, key: string, fallbackValue: string): void;
+    ): void
+    read(language: string, namespace: string, callback: i18next.ReadCallback): void
+    create(languages: string[], namespace: string, key: string, fallbackValue: string): void
   }
 
-  const module: typeof Backend;
-  export = module;
+  const module: typeof Backend
+  export = module
 }

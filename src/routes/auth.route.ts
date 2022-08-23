@@ -1,10 +1,10 @@
-import { Router } from 'express';
-import { asyncHandler } from '../helpers';
-import { authController } from '../controllers/auth.controller';
-import validatorMiddleware from '../middlewares/validator.middleware';
-import { loginSchema, refreshTokenSchema, registerSchema, resetPasswordSchema } from '../validators/auth.validator';
+import { Router } from 'express'
+import { asyncHandler } from '../helpers'
+import { authController } from '../controllers/auth.controller'
+import validatorMiddleware from '../middlewares/validator.middleware'
+import { loginSchema, refreshTokenSchema, registerSchema, resetPasswordSchema } from '../validators/auth.validator'
 
-const router: Router = Router();
+const router: Router = Router()
 
 /**
  * @swagger
@@ -55,7 +55,7 @@ router.post(
   '/login',
   validatorMiddleware(loginSchema),
   asyncHandler(authController.login)
-);
+)
 
 /**
  * @swagger
@@ -99,7 +99,7 @@ router.post(
   '/register',
   validatorMiddleware(registerSchema),
   asyncHandler(authController.register)
-);
+)
 
 /**
  * @swagger
@@ -128,7 +128,7 @@ router.post(
 router.get(
   '/verify/:token',
   asyncHandler(authController.verify)
-);
+)
 
 /**
  * @swagger
@@ -162,7 +162,7 @@ router.get(
 router.post(
   '/forgot/password',
   asyncHandler(authController.forgotPassword)
-);
+)
 
 /**
  * @swagger
@@ -206,7 +206,7 @@ router.post(
   '/reset/password/:token',
   validatorMiddleware(resetPasswordSchema),
   asyncHandler(authController.resetPassword)
-);
+)
 
 /**
  * @swagger
@@ -241,5 +241,5 @@ router.post(
   '/token/refresh',
   validatorMiddleware(refreshTokenSchema),
   asyncHandler(authController.refreshToken)
-);
-export default router;
+)
+export default router
