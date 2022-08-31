@@ -4,7 +4,7 @@ import {
   RefreshTokenAttributes,
   RefreshTokenInterface,
   RefreshToken
-} from '../types/models/refreshToken.interface'
+} from '../types/models'
 
 export const RefreshTokenFactory = (sequelize: Sequelize): RefreshTokenInterface => {
   const RefreshTokenModel: RefreshTokenInterface = <RefreshTokenInterface>sequelize.define<RefreshToken>('refresh_token', {

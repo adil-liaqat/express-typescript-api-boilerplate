@@ -1,5 +1,5 @@
 import httpErrors from 'http-errors'
-import { User, UserPublicAttributes } from '../types/models/user.interface'
+import { User, UserPublicAttributes } from '../types/models'
 import { db } from '../models'
 import { IRequest, IResponse } from '../types/express'
 export default class UserController {

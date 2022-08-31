@@ -2,7 +2,7 @@
 
 import { QueryInterface, DataTypes, Sequelize, ModelAttributes } from 'sequelize'
 
-import { User, UserCreationAttributes } from '../types/models/user.interface'
+import { User, UserCreationAttributes } from '../types/models'
 
 export = {
   up: (queryInterface: QueryInterface, sequelize: Sequelize): Promise<any> => {

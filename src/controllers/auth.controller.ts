@@ -3,11 +3,10 @@ import httpErrors from 'http-errors'
 import moment from 'moment'
 import { decode } from 'jsonwebtoken'
 
-import { AesDecrypt, ENCRYPTION_KEY, randomString } from '../helpers'
-import sendMail from '../config/mailer'
+import { AesDecrypt, randomString } from '../helpers'
+import mailer from '../config/mailer'
 import { db } from '../models'
-import { User, UserAuthenticateAttributes } from '../types/models/user.interface'
-import { RefreshToken } from '../types/models/refreshToken.interface'
+import { User, RefreshToken, UserAuthenticateAttributes } from '../types/models'
 
 import { IRequest, IResponse, INextFunction } from '../types/express'
 import { UserRegister, UserVerify, UserBodyEmail } from '../types/controllers/auth.interface'
@@ -84,7 +83,7 @@ export default class AuthController {
 
     await user.save({ context: { i18n: req.i18n } })
 
-    sendMail({
+    mailer.sendMail({
       template: Templates.forgotPassword,
       data: user.get(),
       subject: req.i18n.t('FORGOT_PASSWORD'),
@@ -138,17 +137,13 @@ export default class AuthController {
       throw new httpErrors.Unauthorized(req.i18n.t('INVALID_REFRESH_TOKEN'))
     }
 
-    const decodedToken = <Payload>decode(AesDecrypt(accessToken, ENCRYPTION_KEY))
+    const decodedToken = <Payload>decode(AesDecrypt(accessToken))
 
     if (rt.user_id !== decodedToken?.id) {
       throw new httpErrors.Unauthorized(req.i18n.t('INVALID_REFRESH_TOKEN'))
     }
 
     const user: User = await db.User.findByPk(rt.user_id, { context: { i18n: req.i18n } })
-
-    if (!user) {
-      throw new httpErrors.BadRequest(req.i18n.t('INVALID_TOKEN'))
-    }
 
     const newAccessToken = user.generateAuthToken()
     const newRefreshToken = await user.generateRefreshToken()

@@ -13,7 +13,7 @@ declare global {
     }
 
     interface ProcessEnv {
-      NODE_ENV: 'development' | 'staging' | 'production',
+      NODE_ENV: 'development' | 'test' | 'staging' | 'production',
       PORT: string,
       DB_DATABASE: string,
       DB_HOST: string,
@@ -27,6 +27,7 @@ declare global {
       MAIL_SMTP_PASSWORD: string,
       MAIL_FROM: string,
       JWT_SECRET: string,
+      AES_ENCRYPTION_KEY: string
     }
   }
 }

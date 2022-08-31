@@ -1,10 +1,9 @@
 import { expect } from 'chai'
-
-import { User } from '../../src/types/models/user.interface'
 import { cleanUpDatabase, generateUser } from '../utils/db'
 import { buildRequest, generateToken } from '../utils/helpers'
+import { User } from '../../src/types/models'
 
-describe('Users api', () => {
+describe('middleware route not found', () => {
   let user: User
   let token: string
 
@@ -21,10 +20,10 @@ describe('Users api', () => {
     token = null
   })
 
-  it('Get user by id', async() => {
-    const resp = await buildRequest('get', `${process.env.BASE_PATH}/users/${user.id}`, token)
+  it('should return error if route not found', async() => {
+    const resp = await buildRequest('get', `${process.env.BASE_PATH}/invalid/route`, token)
 
-    expect(resp.status).to.be.eq(200)
-    expect(resp.body.email).to.be.eq(user.email)
+    expect(resp.status).to.be.eq(404)
+    expect(resp.body.message).to.be.eq('Not found')
   })
 })

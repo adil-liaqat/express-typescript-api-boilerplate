@@ -10,11 +10,11 @@ import {
   UserAuthenticateAttributes,
   UserInterface,
   User
-} from '../types/models/user.interface'
+} from '../types/models'
 import { Payload } from '../types/jwt/payload.interface'
 import { Templates } from '../types/templates'
 
-import sendMail from '../config/mailer'
+import mailer from '../config/mailer'
 import { i18next } from '../config/i18n'
 import { REFRESH_TOKEN_EXPIRY_IN_DAYS, JWT_ALGORITHM, ACCESS_TOKEN_EXPIRY } from '../config/app'
 
@@ -37,7 +37,8 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
+      unique: true
     },
     full_name: {
       type: DataTypes.VIRTUAL,
@@ -88,7 +89,7 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
   })
 
   UserModel.addHook('afterCreate', async(user: User, options: CreateOptions<UserAttributes>) => {
-    sendMail({
+    mailer.sendMail({
       template: Templates.emailConfirmation,
       data: user.get(),
       subject: options.context.i18n.t('EMAIL_CONFIRMATION'),

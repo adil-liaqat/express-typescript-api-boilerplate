@@ -4,7 +4,7 @@ import { randomBytes, createCipheriv, Cipher, createDecipheriv, Decipher } from 
 
 import { INextFunction, IRequest, IResponse } from '../types/express'
 
-export const ENCRYPTION_KEY: string = 'SOMERANDOMSTRINGSOMERANDOMSTRING' // Must be 256 bits (32 characters)
+const ENCRYPTION_KEY: string = process.env.AES_ENCRYPTION_KEY // Must be 256 bits (32 characters)
 
 export const globFiles = (location: string): string[] => {
   return union([], sync(location))

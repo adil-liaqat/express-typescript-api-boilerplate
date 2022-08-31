@@ -16,5 +16,5 @@ export const generateToken = (data: Partial<Payload> = {}): string => {
 }
 
 type IMethods = 'get' | 'post' | 'put' | 'patch' | 'delete'
-export const buildRequest = (method: IMethods, url: string, token: string) =>
+export const buildRequest = (method: IMethods, url: string, token?: string) =>
   request[method](url).set('Authorization', `Bearer ${token}`)

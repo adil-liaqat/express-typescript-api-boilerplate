@@ -35,7 +35,7 @@ async function renderTemplate(template: Templates, data: object = {}, lang: stri
   })
 }
 
-export default async function sendMail({ template, lang, data, ...rest }: SendMailOption) {
+async function sendMail({ template, lang, data, ...rest }: SendMailOption) {
   try {
     const html: string = await renderTemplate(template, data, lang)
 
@@ -51,3 +51,5 @@ export default async function sendMail({ template, lang, data, ...rest }: SendMa
     throw error
   }
 }
+
+export default { sendMail }
