@@ -1,9 +1,9 @@
-import { Sequelize, DataTypes } from 'sequelize'
+import { DataTypes, Sequelize } from 'sequelize'
 
 import {
+  RefreshToken,
   RefreshTokenAttributes,
-  RefreshTokenInterface,
-  RefreshToken
+  RefreshTokenInterface
 } from '../types/models'
 
 export const RefreshTokenFactory = (sequelize: Sequelize): RefreshTokenInterface => {

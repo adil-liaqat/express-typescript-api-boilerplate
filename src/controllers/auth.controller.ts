@@ -1,19 +1,17 @@
-import passport from 'passport'
 import httpErrors from 'http-errors'
-import moment from 'moment'
 import { decode } from 'jsonwebtoken'
-
-import { AesDecrypt, randomString } from '../helpers'
-import mailer from '../config/mailer'
-import { db } from '../models'
-import { User, RefreshToken, UserAuthenticateAttributes } from '../types/models'
-
-import { IRequest, IResponse, INextFunction } from '../types/express'
-import { UserRegister, UserVerify, UserBodyEmail } from '../types/controllers/auth.interface'
-import { Templates } from '../types/templates'
+import moment from 'moment'
+import passport from 'passport'
 
 import { REFRESH_TOKEN_EXPIRY_IN_DAYS } from '../config/app'
+import mailer from '../config/mailer'
+import { AesDecrypt, randomString } from '../helpers'
+import { db } from '../models'
+import { UserBodyEmail, UserRegister, UserVerify } from '../types/controllers/auth.interface'
+import { INextFunction, IRequest, IResponse } from '../types/express'
 import { Payload } from '../types/jwt/payload.interface'
+import { RefreshToken, User, UserAuthenticateAttributes } from '../types/models'
+import { Templates } from '../types/templates'
 
 export default class AuthController {
   public async login(req: IRequest, res: IResponse, next: INextFunction): Promise<any> {

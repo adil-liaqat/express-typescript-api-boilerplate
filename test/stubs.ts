@@ -1,6 +1,7 @@
-import sinon from 'sinon'
 import nodemailer from 'nodemailer'
 import Mail from 'nodemailer/lib/mailer'
+import sinon from 'sinon'
+
 import logger from '../src/logger'
 
 const sandbox = sinon.createSandbox()

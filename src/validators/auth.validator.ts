@@ -1,8 +1,8 @@
-import joi from 'joi'
-import { i18n } from 'i18next'
 import { Segments } from 'celebrate'
+import { i18n } from 'i18next'
+import joi from 'joi'
 
-import { stringValidation, emailValidation, confirmFieldValidation } from './common.validator'
+import { confirmFieldValidation, emailValidation, stringValidation } from './common.validator'
 
 /**
  * Register Joi Schema

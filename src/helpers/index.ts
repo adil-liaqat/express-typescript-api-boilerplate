@@ -1,6 +1,6 @@
+import { Cipher, createCipheriv, createDecipheriv, Decipher, randomBytes } from 'crypto'
 import { sync } from 'glob'
 import { union } from 'lodash'
-import { randomBytes, createCipheriv, Cipher, createDecipheriv, Decipher } from 'crypto'
 
 import { INextFunction, IRequest, IResponse } from '../types/express'
 

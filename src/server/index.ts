@@ -1,23 +1,21 @@
-import express from 'express'
+import '../config/passport'
+
 import bodyParser from 'body-parser'
+import compression from 'compression'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
+import express from 'express'
+import helmet from 'helmet'
 import morgan from 'morgan'
 import path from 'path'
-import cors from 'cors'
-import helmet from 'helmet'
-import compression from 'compression'
 import swaggerUi from 'swagger-ui-express'
 
+import { i18next, middleware } from '../config/i18n'
+import { myStream } from '../logger'
+import commonMiddleware from '../middlewares/common.middleware'
 import errorMiddleware from '../middlewares/error.middleware'
 import swaggerMiddleware from '../middlewares/swagger.middleware'
-import commonMiddleware from '../middlewares/common.middleware'
-
 import routes from '../routes'
-
-import { myStream } from '../logger'
-
-import { i18next, middleware } from '../config/i18n'
-import '../config/passport'
 
 const app: express.Express = express()
 

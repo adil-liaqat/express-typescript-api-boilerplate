@@ -1,6 +1,7 @@
 import { Router } from 'express'
-import { asyncHandler } from '../helpers'
+
 import { authController } from '../controllers/auth.controller'
+import { asyncHandler } from '../helpers'
 import validatorMiddleware from '../middlewares/validator.middleware'
 import { loginSchema, refreshTokenSchema, registerSchema, resetPasswordSchema } from '../validators/auth.validator'
 

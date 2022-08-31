@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express'
-import { User } from '../models/user.interface'
-
+import { NextFunction, Request, Response } from 'express'
 import { i18n } from 'i18next'
+
+import { User } from '../models/user.interface'
 
 export interface IRequest extends Request {
   user: User

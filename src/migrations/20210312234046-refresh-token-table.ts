@@ -1,6 +1,6 @@
 'use strict'
 
-import { QueryInterface, DataTypes, Sequelize, ModelAttributes } from 'sequelize'
+import { DataTypes, ModelAttributes, QueryInterface, Sequelize } from 'sequelize'
 
 import {
   RefreshToken,

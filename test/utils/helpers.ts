@@ -1,10 +1,8 @@
 import { sign } from 'jsonwebtoken'
 import moment from 'moment'
 
-import { Payload } from '../../src/types/jwt/payload.interface'
-
 import { AesEncrypt } from '../../src/helpers'
-
+import { Payload } from '../../src/types/jwt/payload.interface'
 import { request } from './request'
 
 export const generateToken = (data: Partial<Payload> = {}): string => {

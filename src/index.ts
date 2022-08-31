@@ -1,5 +1,6 @@
 import http from 'http'
 import { Error } from 'sequelize/types'
+
 import app from './server'
 
 const server: http.Server = http.createServer(app)

@@ -1,10 +1,10 @@
 import { expect } from 'chai'
 import moment from 'moment'
 
+import { randomString } from '../../src/helpers'
 import { User } from '../../src/types/models'
 import { cleanUpDatabase, generateUser } from '../utils/db'
 import { buildRequest } from '../utils/helpers'
-import { randomString } from '../../src/helpers'
 
 describe('POST /auth/verify/:token', () => {
   let user: User

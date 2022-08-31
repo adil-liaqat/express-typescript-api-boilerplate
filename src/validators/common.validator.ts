@@ -1,5 +1,5 @@
-import joi from 'joi'
 import { i18n } from 'i18next'
+import joi from 'joi'
 
 /**
  * Required string field validation

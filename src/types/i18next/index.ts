@@ -1,4 +1,5 @@
 import '../../config/i18n'
+
 import data from '../../locales/en/translation.json'
 
 type EnumKeyFields = typeof data

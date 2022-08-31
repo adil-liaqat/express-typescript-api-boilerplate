@@ -1,5 +1,5 @@
-import winston from 'winston'
 import path from 'path'
+import winston from 'winston'
 
 const transports: any[] = [
   new winston.transports.Console({

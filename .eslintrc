@@ -12,7 +12,9 @@
   },
   "plugins": [
       "eslint-plugin-jsdoc",
-      "@typescript-eslint"
+      "@typescript-eslint",
+      "no-only-tests",
+      "simple-import-sort"
   ],
   "root": true,
   "rules": {
@@ -105,6 +107,9 @@
           "error",
           "1tbs"
       ],
+      "no-only-tests/no-only-tests": "error",
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
       "no-useless-call": "off",
       "no-useless-catch": "off",
       "comma-dangle": ["error", "never"],

@@ -1,7 +1,7 @@
-import nodemailer from 'nodemailer'
 import ejs from 'ejs'
-import path from 'path'
 import fs from 'fs'
+import nodemailer from 'nodemailer'
+import path from 'path'
 import { promisify } from 'util'
 
 import { SendMailOption } from '../types/config/mailer'

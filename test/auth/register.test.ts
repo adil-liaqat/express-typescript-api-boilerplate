@@ -1,13 +1,13 @@
-import { expect } from 'chai'
 import { faker } from '@faker-js/faker'
-import sinon from 'sinon'
 import bcrypt from 'bcrypt'
+import { expect } from 'chai'
+import sinon from 'sinon'
 
-import { cleanUpDatabase, generateUser } from '../utils/db'
-import { buildRequest } from '../utils/helpers'
-import { UserRegister } from '../../src/types/controllers/auth.interface'
 import mailer from '../../src/config/mailer'
 import logger from '../../src/logger'
+import { UserRegister } from '../../src/types/controllers/auth.interface'
+import { cleanUpDatabase, generateUser } from '../utils/db'
+import { buildRequest } from '../utils/helpers'
 
 describe('POST /auth/register', () => {
   beforeEach(async() => {

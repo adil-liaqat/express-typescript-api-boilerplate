@@ -1,9 +1,9 @@
 import chai from 'chai'
 import chaiHttp from 'chai-http'
-import sinonChai from 'sinon-chai'
-import dirtyChai from 'dirty-chai'
 import chaiSubset from 'chai-subset'
 import deepEqualInAnyOrder from 'deep-equal-in-any-order'
+import dirtyChai from 'dirty-chai'
+import sinonChai from 'sinon-chai'
 
 chai.use(chaiHttp)
 chai.use(dirtyChai)

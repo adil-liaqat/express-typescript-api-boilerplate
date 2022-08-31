@@ -1,8 +1,8 @@
-import swaggerUi from 'swagger-ui-express'
 import swaggerJsdoc from 'swagger-jsdoc'
+import swaggerUi from 'swagger-ui-express'
 
-import { INextFunction, IRequest, IResponse } from '../types/express'
 import { options } from '../config/swagger'
+import { INextFunction, IRequest, IResponse } from '../types/express'
 
 const specs = swaggerJsdoc(options)
 

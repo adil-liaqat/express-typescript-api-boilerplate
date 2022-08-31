@@ -1,10 +1,10 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 
+import mailer from '../../src/config/mailer'
 import { User } from '../../src/types/models'
 import { cleanUpDatabase, generateUser } from '../utils/db'
 import { buildRequest } from '../utils/helpers'
-import mailer from '../../src/config/mailer'
 
 describe('POST /auth/forgot/password', () => {
   beforeEach(async() => {

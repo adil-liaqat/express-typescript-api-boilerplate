@@ -1,7 +1,8 @@
 import { expect } from 'chai'
+
+import { User } from '../../src/types/models'
 import { cleanUpDatabase, generateUser } from '../utils/db'
 import { buildRequest, generateToken } from '../utils/helpers'
-import { User } from '../../src/types/models'
 
 describe('middleware route not found', () => {
   let user: User

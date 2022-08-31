@@ -1,7 +1,8 @@
 import httpErrors from 'http-errors'
-import { User, UserPublicAttributes } from '../types/models'
+
 import { db } from '../models'
 import { IRequest, IResponse } from '../types/express'
+import { User, UserPublicAttributes } from '../types/models'
 export default class UserController {
   public async getUsers(req: IRequest, res: IResponse): Promise<any> {
     const users: UserPublicAttributes[] = (

@@ -1,13 +1,13 @@
-import { expect } from 'chai'
-import sinon from 'sinon'
-import moment from 'moment'
-import bcrypt from 'bcrypt'
 import { faker } from '@faker-js/faker'
+import bcrypt from 'bcrypt'
+import { expect } from 'chai'
+import moment from 'moment'
+import sinon from 'sinon'
 
+import { randomString } from '../../src/helpers'
 import { User } from '../../src/types/models'
 import { cleanUpDatabase, generateUser } from '../utils/db'
 import { buildRequest } from '../utils/helpers'
-import { randomString } from '../../src/helpers'
 
 describe('POST /auth/reset/password/:token', () => {
   let user: User

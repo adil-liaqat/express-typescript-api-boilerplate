@@ -1,6 +1,7 @@
 import { Router } from 'express'
-import { asyncHandler } from '../helpers'
+
 import { userController } from '../controllers/user.controller'
+import { asyncHandler } from '../helpers'
 
 const router: Router = Router()
 

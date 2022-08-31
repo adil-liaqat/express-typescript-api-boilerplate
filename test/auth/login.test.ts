@@ -1,11 +1,11 @@
 import { expect } from 'chai'
 import { decode } from 'jsonwebtoken'
 
-import { User } from '../../src/types/models'
 import { AesDecrypt } from '../../src/helpers'
+import { Payload } from '../../src/types/jwt/payload.interface'
+import { User } from '../../src/types/models'
 import { cleanUpDatabase, generateUser } from '../utils/db'
 import { buildRequest } from '../utils/helpers'
-import { Payload } from '../../src/types/jwt/payload.interface'
 
 describe('POST /auth/login', () => {
   beforeEach(async() => {

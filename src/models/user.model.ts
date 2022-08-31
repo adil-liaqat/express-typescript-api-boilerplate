@@ -1,24 +1,22 @@
-import { Sequelize, DataTypes, CreateOptions, FindOptions } from 'sequelize'
 import { compare, genSalt, hash } from 'bcrypt'
 import httpErrors from 'http-errors'
 import jwt from 'jsonwebtoken'
 import moment from 'moment'
+import { CreateOptions, DataTypes, FindOptions, Sequelize } from 'sequelize'
 
+import { ACCESS_TOKEN_EXPIRY, JWT_ALGORITHM, REFRESH_TOKEN_EXPIRY_IN_DAYS } from '../config/app'
+import { i18next } from '../config/i18n'
+import mailer from '../config/mailer'
+import { AesEncrypt, randomString } from '../helpers'
+import { Payload } from '../types/jwt/payload.interface'
 import {
+  User,
   UserAttributes,
-  UserPublicAttributes,
   UserAuthenticateAttributes,
   UserInterface,
-  User
+  UserPublicAttributes
 } from '../types/models'
-import { Payload } from '../types/jwt/payload.interface'
 import { Templates } from '../types/templates'
-
-import mailer from '../config/mailer'
-import { i18next } from '../config/i18n'
-import { REFRESH_TOKEN_EXPIRY_IN_DAYS, JWT_ALGORITHM, ACCESS_TOKEN_EXPIRY } from '../config/app'
-
-import { AesEncrypt, randomString } from '../helpers'
 
 export const UserFactory = (sequelize: Sequelize): UserInterface => {
   const UserModel: UserInterface = <UserInterface>sequelize.define<User>('user', {

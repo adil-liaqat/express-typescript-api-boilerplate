@@ -1,12 +1,11 @@
 'use strict'
 
-import { Sequelize, Op } from 'sequelize'
+import { Op, Sequelize } from 'sequelize'
 
 // import paginate = require('./globals/pagination');
-
 import options from '../config/database'
-import { UserFactory } from './user.model'
 import { RefreshTokenFactory } from './refreshToken.model'
+import { UserFactory } from './user.model'
 
 // const basename: string = path.basename(__filename);
 

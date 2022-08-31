@@ -1,5 +1,6 @@
 import { CelebrateError } from 'celebrate'
 import { UniqueConstraintError } from 'sequelize'
+
 import HttpException from '../exceptions/http.exception'
 import { INextFunction, IRequest, IResponse } from '../types/express'
 
