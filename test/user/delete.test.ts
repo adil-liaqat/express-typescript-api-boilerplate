@@ -1,6 +1,6 @@
+import { User } from '@src/types/models'
 import { expect } from 'chai'
 
-import { User } from '../../src/types/models'
 import { cleanUpDatabase, generateUser } from '../utils/db'
 import { buildRequest, generateToken } from '../utils/helpers'
 

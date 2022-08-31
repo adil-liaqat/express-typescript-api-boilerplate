@@ -1,11 +1,11 @@
 import { faker } from '@faker-js/faker'
+import mailer from '@src/config/mailer'
+import logger from '@src/logger'
+import { UserRegister } from '@src/types/controllers/auth.interface'
 import bcrypt from 'bcrypt'
 import { expect } from 'chai'
 import sinon from 'sinon'
 
-import mailer from '../../src/config/mailer'
-import logger from '../../src/logger'
-import { UserRegister } from '../../src/types/controllers/auth.interface'
 import { cleanUpDatabase, generateUser } from '../utils/db'
 import { buildRequest } from '../utils/helpers'
 

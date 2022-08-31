@@ -13,7 +13,7 @@ export const i18nEnum: EnumKeyFields = <EnumKeyFields>Object.keys(data).reduce((
 
 declare module 'i18next' {
 
-  export type TFunction = <
+  export type TFunctions = <
     TResult extends TFunctionResult = string,
     TInterpolationMap extends object = StringMap
   >(

@@ -8,8 +8,9 @@
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "target": "es6",
+    "baseUrl": "src",
     "paths": {
-      "@src/*": ["./src/*"]
+      "@src/*": ["*"]
     },
     "typeRoots": [
       "node_modules/@types"

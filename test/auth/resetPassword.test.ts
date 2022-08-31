@@ -1,11 +1,11 @@
 import { faker } from '@faker-js/faker'
+import { randomString } from '@src/helpers'
+import { User } from '@src/types/models'
 import bcrypt from 'bcrypt'
 import { expect } from 'chai'
 import moment from 'moment'
 import sinon from 'sinon'
 
-import { randomString } from '../../src/helpers'
-import { User } from '../../src/types/models'
 import { cleanUpDatabase, generateUser } from '../utils/db'
 import { buildRequest } from '../utils/helpers'
 

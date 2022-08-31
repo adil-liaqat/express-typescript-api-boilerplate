@@ -1,10 +1,9 @@
 import { faker } from '@faker-js/faker'
+import { randomString } from '@src/helpers'
+import { db } from '@src/models'
+import { RefreshTokenAttributes, UserAttributes } from '@src/types/models'
 import i18next from 'i18next'
 import moment from 'moment'
-
-import { randomString } from '../../src/helpers'
-import { db } from '../../src/models'
-import { RefreshTokenAttributes, UserAttributes } from '../../src/types/models'
 
 export const cleanUpDatabase = async() => db.sequelize.sync({ force: true, match: /_test$/ })
 
