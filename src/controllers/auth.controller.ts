@@ -1,4 +1,4 @@
-import httpErrors from 'http-errors'
+import boom from '@hapi/boom'
 import { decode } from 'jsonwebtoken'
 import moment from 'moment'
 import passport from 'passport'
@@ -43,15 +43,15 @@ export default class AuthController {
     })
 
     if (!user) {
-      throw new httpErrors.BadRequest(req.i18n.t('INVALID_TOKEN'))
+      throw boom.badRequest(req.i18n.t('INVALID_TOKEN'))
     }
 
     if (user.verified) {
-      throw new httpErrors.Conflict(req.i18n.t('USER_ALREADY_VERIFIED'))
+      throw boom.conflict(req.i18n.t('USER_ALREADY_VERIFIED'))
     }
 
     if (moment().isSameOrAfter(user.confirmation_expires_at)) {
-      throw new httpErrors.Gone(req.i18n.t('CONFIRMATION_LINK_EXPIRED'))
+      throw boom.resourceGone(req.i18n.t('CONFIRMATION_LINK_EXPIRED'))
     }
 
     user.confirmation_token = null
@@ -73,7 +73,7 @@ export default class AuthController {
     })
 
     if (!user) {
-      throw new httpErrors.NotFound(req.i18n.t('USER_NOT_FOUND'))
+      throw boom.notFound(req.i18n.t('USER_NOT_FOUND'))
     }
 
     user.reset_password_expires_at = moment().add(1, 'hour').toDate()
@@ -104,11 +104,11 @@ export default class AuthController {
     })
 
     if (!user) {
-      throw new httpErrors.BadRequest(req.i18n.t('INVALID_TOKEN'))
+      throw boom.badRequest(req.i18n.t('INVALID_TOKEN'))
     }
 
     if (moment().isSameOrAfter(user.reset_password_expires_at)) {
-      throw new httpErrors.Gone(req.i18n.t('RESET_LINK_EXPIRED'))
+      throw boom.resourceGone(req.i18n.t('RESET_LINK_EXPIRED'))
     }
 
     user.reset_password_expires_at = null
@@ -132,13 +132,13 @@ export default class AuthController {
     })
 
     if (!rt || rt.is_used || moment().isSameOrAfter(rt.token_expires_at)) {
-      throw new httpErrors.Unauthorized(req.i18n.t('INVALID_REFRESH_TOKEN'))
+      throw boom.unauthorized(req.i18n.t('INVALID_REFRESH_TOKEN'))
     }
 
     const decodedToken = <Payload>decode(AesDecrypt(accessToken))
 
     if (rt.user_id !== decodedToken?.id) {
-      throw new httpErrors.Unauthorized(req.i18n.t('INVALID_REFRESH_TOKEN'))
+      throw boom.unauthorized(req.i18n.t('INVALID_REFRESH_TOKEN'))
     }
 
     const user: User = await db.User.findByPk(rt.user_id, { context: { i18n: req.i18n } })

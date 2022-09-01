@@ -1,14 +1,14 @@
 import { Cipher, createCipheriv, createDecipheriv, Decipher, randomBytes } from 'crypto'
-import { sync } from 'glob'
-import { union } from 'lodash'
 
+// import { sync } from 'glob'
+// import { union } from 'lodash'
 import { INextFunction, IRequest, IResponse } from '../types/express'
 
 const ENCRYPTION_KEY: string = process.env.AES_ENCRYPTION_KEY // Must be 256 bits (32 characters)
 
-export const globFiles = (location: string): string[] => {
-  return union([], sync(location))
-}
+// export const globFiles = (location: string): string[] => {
+//   return union([], sync(location))
+// }
 
 /**
  * Handle async function

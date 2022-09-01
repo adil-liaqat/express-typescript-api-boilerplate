@@ -1,4 +1,4 @@
-import httpErrors from 'http-errors'
+import boom from '@hapi/boom'
 import passport from 'passport'
 
 import { INextFunction, IRequest, IResponse } from '../types/express'
@@ -10,7 +10,7 @@ export default (req: IRequest, res: IResponse, next: INextFunction): void => {
       return next(error)
     }
     if (!user) {
-      throw new httpErrors.Unauthorized(req.i18n.t('UNAUTHORIZED_USER'))
+      throw boom.unauthorized(req.i18n.t('UNAUTHORIZED_USER'))
     }
 
     req.user = user

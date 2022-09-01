@@ -1,5 +1,5 @@
+import boom from '@hapi/boom'
 import { compare, genSalt, hash } from 'bcrypt'
-import httpErrors from 'http-errors'
 import jwt from 'jsonwebtoken'
 import moment from 'moment'
 import { CreateOptions, DataTypes, FindOptions, Sequelize } from 'sequelize'
@@ -44,7 +44,7 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
         return `${this.first_name} ${this.last_name}`
       },
       set() {
-        throw new httpErrors.BadRequest('Do not try to set the `full_name` value!')
+        throw boom.badRequest('Do not try to set the `full_name` value!')
       }
     },
     password: {
@@ -113,13 +113,13 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
     })
 
     if (!user) {
-      throw new httpErrors.Unauthorized(options.context.i18n.t('INCORRECT_EMAIL'))
+      throw boom.unauthorized(options.context.i18n.t('INCORRECT_EMAIL'))
     }
 
     const verifyPassword: boolean = await compare(password, user.password)
 
     if (!verifyPassword) {
-      throw new httpErrors.Unauthorized(options.context.i18n.t('INCORRECT_PASSWORD'))
+      throw boom.unauthorized(options.context.i18n.t('INCORRECT_PASSWORD'))
     }
 
     return {
@@ -166,7 +166,7 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
         const hashedPassword: string = await hash(this.password, salt)
         return hashedPassword
       } catch (error) {
-        throw new httpErrors.InternalServerError(i18next.t('PASSWORD_HASH_ERROR'))
+        throw boom.internal(i18next.t('PASSWORD_HASH_ERROR'))
       }
     }
 

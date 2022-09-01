@@ -1,7 +1,7 @@
-import httpErrors from 'http-errors'
+import boom from '@hapi/boom'
 
 import { INextFunction, IRequest, IResponse } from '../types/express'
 
 export default (req: IRequest, res: IResponse, next: INextFunction): void => {
-  throw new httpErrors.NotFound(req.i18n.t('NOT_FOUND'))
+  throw boom.notFound(req.i18n.t('NOT_FOUND'))
 }
