@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import { request } from './request'
 
-export const generateToken = (data: Partial<Payload> = {}): string => {
+export const generateToken = (data: Partial<Payload> & {[x: string]: any} = {}): string => {
   const iat: number = moment().unix()
   const exp: number = moment().add(1, 'hour').unix()
 

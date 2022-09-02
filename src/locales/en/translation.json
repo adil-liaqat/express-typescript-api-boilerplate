@@ -3,6 +3,7 @@
     "GREETINGS": "Hi, {{name}}!",
     "USER_NOT_FOUND": "User not found",
     "INVALID_TOKEN": "Invalid token",
+    "TOKEN_EXPIRED": "Token expired",
     "USER_ALREADY_VERIFIED": "User is already verified",
     "CONFIRMATION_LINK_EXPIRED": "Confirmation link has expired",
     "EMAIL_SENT": "Email sent to registered email",

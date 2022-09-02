@@ -2,7 +2,6 @@ import { DataTypes, Sequelize } from 'sequelize'
 
 import {
   RefreshToken,
-  RefreshTokenAttributes,
   RefreshTokenInterface
 } from '../types/models'
 
@@ -48,10 +47,10 @@ export const RefreshTokenFactory = (sequelize: Sequelize): RefreshTokenInterface
     tableName: 'refresh_token'
   })
 
-  RefreshTokenModel.prototype.toJSON = function(this: RefreshToken): RefreshTokenAttributes {
-    const values: RefreshTokenAttributes = Object.assign({}, this.get())
-    return values
-  }
+  // RefreshTokenModel.prototype.toJSON = function(this: RefreshToken): RefreshTokenAttributes {
+  //   const values: RefreshTokenAttributes = Object.assign({}, this.get())
+  //   return values
+  // }
 
   return RefreshTokenModel
 }

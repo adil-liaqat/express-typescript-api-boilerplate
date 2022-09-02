@@ -48,6 +48,7 @@ async function sendMail({ template, lang, data, ...rest }: SendMailOption) {
       html
     })
   } catch (error) {
+    console.error(error)
     throw error
   }
 }

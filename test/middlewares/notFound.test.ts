@@ -4,7 +4,7 @@ import { expect } from 'chai'
 import { cleanUpDatabase, generateUser } from '../utils/db'
 import { buildRequest, generateToken } from '../utils/helpers'
 
-describe('middleware route not found', () => {
+describe('Middleware route not found', () => {
   let user: User
   let token: string
 
