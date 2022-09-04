@@ -2,7 +2,6 @@ import { faker } from '@faker-js/faker'
 import { randomString } from '@src/helpers'
 import { db } from '@src/models'
 import { RefreshTokenAttributes, UserAttributes } from '@src/types/models'
-import i18next from 'i18next'
 import moment from 'moment'
 
 export const cleanUpDatabase = async() => db.sequelize.sync({ force: true, match: /_test$/ })
@@ -15,7 +14,7 @@ export const generateUser = async(data: Partial<UserAttributes> = {}) => {
     last_name: faker.name.lastName(),
     verified: true
   }
-  return db.User.create(<UserAttributes>{ ...defaults, ...data }, { context: { i18n: i18next } })
+  return db.User.create(<UserAttributes>{ ...defaults, ...data })
 }
 
 export const generateRefreshToken = async(data: Partial<RefreshTokenAttributes> = {}) => {
@@ -28,5 +27,5 @@ export const generateRefreshToken = async(data: Partial<RefreshTokenAttributes> 
     is_used: false
   }
 
-  return db.RefreshToken.create(<RefreshTokenAttributes>{ ...defaults, ...data }, { context: { i18n: i18next } })
+  return db.RefreshToken.create(<RefreshTokenAttributes>{ ...defaults, ...data })
 }

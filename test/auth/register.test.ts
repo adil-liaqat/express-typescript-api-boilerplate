@@ -103,7 +103,7 @@ describe('POST /auth/register', () => {
     const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/register`).send(body)
 
     expect(resp.status).to.be.eq(422)
-    expect(resp.body.message).to.be.eq('confirm_password must match with password')
+    expect(resp.body.message).to.be.eq('confirm_password must be ref:password')
 
     expect(sendMailSpy).to.not.have.been.called()
   })

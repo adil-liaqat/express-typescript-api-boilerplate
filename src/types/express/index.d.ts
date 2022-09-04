@@ -6,6 +6,7 @@ import { User } from '../models/user.interface'
 export interface IRequest extends Request {
   user: User
   i18n: i18n
+  correlationId: string
 }
 
 export interface IResponse extends Response {

@@ -11,14 +11,13 @@ import { JWT_ALGORITHM } from './app'
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
-  passwordField: 'password',
-  passReqToCallback: true
+  passwordField: 'password'
 },
 async(
-  req: IRequest, email: string, password: string, done: (err: any, data?: any, opts?: IVerifyOptions) => void
+  email: string, password: string, done: (err: any, data?: any, opts?: IVerifyOptions) => void
 ) => {
   try {
-    const user: UserAuthenticateAttributes = await db.User.authenticate(email, password, { context: { i18n: req.i18n } })
+    const user: UserAuthenticateAttributes = await db.User.authenticate(email, password)
     done(null, user)
   } catch (error: any) {
     done(error, false, { message: error.message })
@@ -42,12 +41,11 @@ passport.use(new JWTStrategy({
 
     return token
   },
-  secretOrKey: process.env.JWT_SECRET,
-  passReqToCallback: true
+  secretOrKey: process.env.JWT_SECRET
 },
-async(req: IRequest, payload: Payload, cb: (err: any, data?: User) => void) => {
+async(payload: Payload, cb: (err: any, data?: User) => void) => {
   try {
-    const user: User = await db.User.findByPk(payload.id, { context: { i18n: req.i18n } })
+    const user: User = await db.User.findByPk(payload.id)
     cb(null, user)
   } catch (error: any) {
     cb(error)

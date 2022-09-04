@@ -1,4 +1,5 @@
 import boom from '@hapi/boom'
+import i18next from 'i18next'
 import { decode } from 'jsonwebtoken'
 import moment from 'moment'
 import passport from 'passport'
@@ -29,7 +30,7 @@ export default class AuthController {
 
   public async register(req: IRequest, res: IResponse): Promise<any> {
     const data: UserRegister = <UserRegister>req.body
-    const user: User = await db.User.create(data, { context: { i18n: req.i18n } })
+    const user: User = await db.User.create(data)
     res.json(user.toJSON())
   }
 
@@ -38,27 +39,26 @@ export default class AuthController {
     const user: User = await db.User.findOne({
       where: {
         confirmation_token: token
-      },
-      context: { i18n: req.i18n }
+      }
     })
 
     if (!user) {
-      throw boom.badRequest(req.i18n.t('INVALID_TOKEN'))
+      throw boom.badRequest(i18next.t('INVALID_TOKEN'))
     }
 
     if (user.verified) {
-      throw boom.conflict(req.i18n.t('USER_ALREADY_VERIFIED'))
+      throw boom.conflict(i18next.t('USER_ALREADY_VERIFIED'))
     }
 
     if (moment().isSameOrAfter(user.confirmation_expires_at)) {
-      throw boom.resourceGone(req.i18n.t('CONFIRMATION_LINK_EXPIRED'))
+      throw boom.resourceGone(i18next.t('CONFIRMATION_LINK_EXPIRED'))
     }
 
     user.confirmation_token = null
     user.confirmation_expires_at = null
     user.verified = true
 
-    await user.save({ context: { i18n: req.i18n } })
+    await user.save()
 
     res.json(user.toJSON())
   }
@@ -68,28 +68,26 @@ export default class AuthController {
     const user: User = await db.User.findOne({
       where: {
         email
-      },
-      context: { i18n: req.i18n }
+      }
     })
 
     if (!user) {
-      throw boom.notFound(req.i18n.t('USER_NOT_FOUND'))
+      throw boom.notFound(i18next.t('USER_NOT_FOUND'))
     }
 
     user.reset_password_expires_at = moment().add(1, 'hour').toDate()
     user.reset_password_token = randomString()
 
-    await user.save({ context: { i18n: req.i18n } })
+    await user.save()
 
     mailer.sendMail({
       template: Templates.forgotPassword,
       data: user.get(),
-      subject: req.i18n.t('FORGOT_PASSWORD'),
-      lang: req.i18n.language,
+      subject: i18next.t('FORGOT_PASSWORD'),
       to: `${user.full_name} <${user.email}>`
     })
 
-    res.json({ message: req.i18n.t('EMAIL_SENT') })
+    res.json({ message: i18next.t('EMAIL_SENT') })
   }
 
   public async resetPassword(req: IRequest, res: IResponse): Promise<any> {
@@ -99,25 +97,24 @@ export default class AuthController {
     const user: User = await db.User.findOne({
       where: {
         reset_password_token: token
-      },
-      context: { i18n: req.i18n }
+      }
     })
 
     if (!user) {
-      throw boom.badRequest(req.i18n.t('INVALID_TOKEN'))
+      throw boom.badRequest(i18next.t('INVALID_TOKEN'))
     }
 
     if (moment().isSameOrAfter(user.reset_password_expires_at)) {
-      throw boom.resourceGone(req.i18n.t('RESET_LINK_EXPIRED'))
+      throw boom.resourceGone(i18next.t('RESET_LINK_EXPIRED'))
     }
 
     user.reset_password_expires_at = null
     user.reset_password_token = null
     user.password = password
 
-    await user.save({ context: { i18n: req.i18n } })
+    await user.save()
 
-    res.json({ message: req.i18n.t('PASSWORD_RESET_SUCCESSFULLY') })
+    res.json({ message: i18next.t('PASSWORD_RESET_SUCCESSFULLY') })
   }
 
   public async refreshToken(req: IRequest, res: IResponse): Promise<any> {
@@ -127,21 +124,20 @@ export default class AuthController {
     const rt: RefreshToken = await db.RefreshToken.findOne({
       where: {
         token: refreshToken
-      },
-      context: { i18n: req.i18n }
+      }
     })
 
     if (!rt || rt.is_used || moment().isSameOrAfter(rt.token_expires_at)) {
-      throw boom.unauthorized(req.i18n.t('INVALID_REFRESH_TOKEN'))
+      throw boom.unauthorized(i18next.t('INVALID_REFRESH_TOKEN'))
     }
 
     const decodedToken = <Payload>decode(AesDecrypt(accessToken))
 
     if (rt.user_id !== decodedToken?.id) {
-      throw boom.unauthorized(req.i18n.t('INVALID_REFRESH_TOKEN'))
+      throw boom.unauthorized(i18next.t('INVALID_REFRESH_TOKEN'))
     }
 
-    const user: User = await db.User.findByPk(rt.user_id, { context: { i18n: req.i18n } })
+    const user: User = await db.User.findByPk(rt.user_id)
 
     const newAccessToken = user.generateAuthToken()
     const newRefreshToken = await user.generateRefreshToken()

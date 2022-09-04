@@ -1,14 +1,15 @@
 import ejs from 'ejs'
 import fs from 'fs'
+import i18next from 'i18next'
 import nodemailer from 'nodemailer'
 import path from 'path'
 import { promisify } from 'util'
 
+import { getLanguage } from '../middlewares/clsHooked.middleware'
 import { SendMailOption } from '../types/config/mailer'
 import { Templates } from '../types/templates'
-import { i18next } from './i18n'
 
-const MAILER_TEMPLATE_PATH: string = path.join(__dirname, '../../src/templates')
+const MAILER_TEMPLATE_PATH: string = path.join(__dirname, '../../templates')
 
 const promisedFileRead: (
   path: string | number | Buffer | URL,
@@ -25,19 +26,19 @@ const transporter: nodemailer.Transporter = nodemailer.createTransport({
   }
 })
 
-async function renderTemplate(template: Templates, data: object = {}, lang: string = 'en'): Promise<string> {
+async function renderTemplate(template: Templates, data: object = {}): Promise<string> {
   const templateContent = await promisedFileRead(MAILER_TEMPLATE_PATH + '/' + template + '.ejs', 'utf8')
   return ejs.render(templateContent, {
     ...data,
-    __: i18next.getFixedT(lang)
+    __: i18next.getFixedT(getLanguage())
   }, {
     async: true
   })
 }
 
-async function sendMail({ template, lang, data, ...rest }: SendMailOption) {
+async function sendMail({ template, data, ...rest }: SendMailOption) {
   try {
-    const html: string = await renderTemplate(template, data, lang)
+    const html: string = await renderTemplate(template, data)
 
     if (!rest.from) {
       rest.from = process.env.MAIL_FROM

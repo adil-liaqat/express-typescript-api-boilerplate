@@ -4,7 +4,6 @@
       "outDir": "../dist",
       "baseUrl": ".",
       "module": "commonjs",
-      "resolveJsonModule": true,
       "esModuleInterop": true
   }
 }

@@ -1,11 +1,11 @@
 import boom from '@hapi/boom'
 import { compare, genSalt, hash } from 'bcrypt'
+import i18next from 'i18next'
 import jwt from 'jsonwebtoken'
 import moment from 'moment'
 import { CreateOptions, DataTypes, FindOptions, Sequelize } from 'sequelize'
 
 import { ACCESS_TOKEN_EXPIRY, JWT_ALGORITHM, REFRESH_TOKEN_EXPIRY_IN_DAYS } from '../config/app'
-import { i18next } from '../config/i18n'
 import mailer from '../config/mailer'
 import { AesEncrypt, randomString } from '../helpers'
 import { Payload } from '../types/jwt/payload.interface'
@@ -75,7 +75,7 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
     tableName: 'user'
   })
 
-  UserModel.addHook('beforeCreate', async(user: User, options: CreateOptions<UserAttributes>) => {
+  UserModel.addHook('beforeCreate', async(user: User, _options: CreateOptions<UserAttributes>) => {
     if (user.email) {
       user.email = user.email.toLowerCase()
     }
@@ -86,13 +86,12 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
     user.confirmation_expires_at = moment().add(1, 'day').toDate()
   })
 
-  UserModel.addHook('afterCreate', async(user: User, options: CreateOptions<UserAttributes>) => {
+  UserModel.addHook('afterCreate', async(user: User, _options: CreateOptions<UserAttributes>) => {
     mailer.sendMail({
       template: Templates.emailConfirmation,
       data: user.get(),
-      subject: options.context.i18n.t('EMAIL_CONFIRMATION'),
-      to: `${user.full_name} <${user.email}>`,
-      lang: options.context.i18n.language
+      subject: i18next.t('EMAIL_CONFIRMATION'),
+      to: `${user.full_name} <${user.email}>`
     })
   })
 
@@ -113,13 +112,13 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
     })
 
     if (!user) {
-      throw boom.unauthorized(options.context.i18n.t('INCORRECT_EMAIL'))
+      throw boom.unauthorized(i18next.t('INCORRECT_EMAIL'))
     }
 
     const verifyPassword: boolean = await compare(password, user.password)
 
     if (!verifyPassword) {
-      throw boom.unauthorized(options.context.i18n.t('INCORRECT_PASSWORD'))
+      throw boom.unauthorized(i18next.t('INCORRECT_PASSWORD'))
     }
 
     return {

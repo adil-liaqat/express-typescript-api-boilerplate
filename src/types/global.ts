@@ -27,7 +27,8 @@ declare global {
       MAIL_SMTP_PASSWORD: string,
       MAIL_FROM: string,
       JWT_SECRET: string,
-      AES_ENCRYPTION_KEY: string
+      AES_ENCRYPTION_KEY: string,
+      SUPPORTED_LANGUAGES: string
     }
   }
 }
