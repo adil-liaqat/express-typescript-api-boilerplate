@@ -1,3 +1,6 @@
 {
-  "ignore": ["dist/**/*.js"]
+  "watch": ["src"],
+  "ext": "ts,json",
+  "ignore": ["dist/**/*.js"],
+  "exec": "ts-node -r dotenv/config ./src/index.ts"
 }

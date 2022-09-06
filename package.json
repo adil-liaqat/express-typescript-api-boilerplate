@@ -2,13 +2,20 @@
   "name": "typescript-express-api",
   "version": "1.0.0",
   "private": true,
+  "engineStrict": true,
+  "engines": {
+    "node": ">= 14.19.3",
+    "npm": "yarn-is-required",
+    "yarn": ">=1.22.5 <2.0.0"
+  },
   "scripts": {
-    "dev": "npm run build && concurrently --kill-others \"tsc -w -p src\" \"nodemon -r dotenv/config dist/index.js -e ts\"",
-    "debug": "npm run build && concurrently --kill-others \"tsc -w -p src\" \"nodemon --inspect dist/index.js -e ts\"",
-    "test:watch": "dotenv -e .env.test mocha -w ./test/**/*.ts --watch-extensions ts",
-    "test": "dotenv -e .env.test mocha --exit --",
-    "build": "tsc -p src",
+    "dev": "nodemon",
     "start": "node -r dotenv/config dist/index.js",
+    "build": "tsc -p src",
+    "prepare": "husky install",
+    "test": "dotenv -e .env.test mocha --exit --",
+    "test:watch": "dotenv -e .env.test mocha -w ./test/**/*.ts --watch-extensions ts",
+    "coverage": "nyc yarn test",
     "build:docker": "docker build -t expressapi/express-typescript-starter .",
     "docker:compose": "docker-compose up",
     "format": "prettier --write 'src/**/*ts'",
@@ -16,10 +23,7 @@
     "lint:fix": "eslint -c .eslintrc --fix --ext .ts src/**/*.ts",
     "lint:test": "eslint -c .eslintrc --ext .ts test/**/*.ts",
     "lint:test:fix": "eslint -c .eslintrc --fix --ext .ts test/**/*.ts",
-    "format:test": "prettier --write 'test/**/*ts'",
-    "coverage": "nyc npm test",
-    "coverage:ci": "nyc npm test --parallel",
-    "prepare": "husky install"
+    "format:test": "prettier --write 'test/**/*ts'"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.0",
