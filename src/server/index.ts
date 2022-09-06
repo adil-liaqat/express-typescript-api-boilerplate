@@ -5,6 +5,7 @@ import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
+import useragent from 'express-useragent'
 import helmet from 'helmet'
 import morgan from 'morgan'
 import path from 'path'
@@ -22,6 +23,7 @@ import routes from '../routes'
 const app: express.Express = express()
 
 app.use(cors())
+app.use(useragent.express())
 app.use(helmet())
 app.use(compression())
 app.use(morgan('combined', { stream: myStream }))

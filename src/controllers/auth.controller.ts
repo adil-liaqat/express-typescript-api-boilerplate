@@ -11,7 +11,7 @@ import { db } from '../models'
 import { UserBodyEmail, UserRegister, UserVerify } from '../types/controllers/auth.interface'
 import { INextFunction, IRequest, IResponse } from '../types/express'
 import { Payload } from '../types/jwt/payload.interface'
-import { RefreshToken, User, UserAuthenticateAttributes } from '../types/models'
+import { RefreshToken, User, UserAuthenticateAttributes, UserPublicAttributes } from '../types/models'
 import { Templates } from '../types/templates'
 
 export default class AuthController {
@@ -31,13 +31,13 @@ export default class AuthController {
     })(req, res, next)
   }
 
-  public async register(req: IRequest, _res: IResponse): Promise<any> {
+  public async register(req: IRequest, _res: IResponse): Promise<UserPublicAttributes> {
     const data: UserRegister = <UserRegister>req.body
     const user: User = await db.User.create(data)
     return user
   }
 
-  public async verify(req: IRequest, res: IResponse): Promise<any> {
+  public async verify(req: IRequest, res: IResponse): Promise<UserPublicAttributes> {
     const { token }: UserVerify = <UserVerify><unknown>req.params
     const user: User = await db.User.findOne({
       where: {
@@ -67,7 +67,7 @@ export default class AuthController {
   }
 
   public async forgotPassword(req: IRequest, _res: IResponse): Promise<any> {
-    const { email }: UserBodyEmail = <UserBodyEmail>req.body
+    const { email } = <UserBodyEmail>req.body
     const user: User = await db.User.findOne({
       where: {
         email
