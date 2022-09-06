@@ -99,6 +99,7 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
     user.password = await user.hashPassword()
   })
 
+  // Class methods
   UserModel.authenticate = async function(
     email: string,
     password: string,
@@ -128,6 +129,7 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
     }
   }
 
+  // Instance methods
   UserModel.prototype.toJSON = function(this: User): UserPublicAttributes {
     const values: UserAttributes = Object.assign({}, this.get())
     delete values.password

@@ -10,6 +10,10 @@ export interface IRequest extends Request {
 }
 
 export interface IResponse extends Response {
+  locals: {
+    isResponseHandled?: boolean
+    [x: string]: any
+  }
 }
 
 export interface INextFunction extends NextFunction {

@@ -18,7 +18,14 @@ const ENCRYPTION_KEY: string = process.env.AES_ENCRYPTION_KEY // Must be 256 bit
  */
 export const asyncHandler = (fn: (req: IRequest, res: IResponse, next: INextFunction) => Promise<any>) =>
   (req: IRequest, res: IResponse, next: INextFunction) =>
-    Promise.resolve(fn(req, res, next)).catch(next)
+    Promise.resolve(fn(req, res, next))
+      .then((data: any) => {
+        if (res.locals.isResponseHandled) return
+        else if (data) return res.status(200).json(data)
+
+        return res.status(204).send()
+      })
+      .catch(next)
 
 /**
  * Generate random string

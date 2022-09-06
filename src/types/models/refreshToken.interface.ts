@@ -1,4 +1,4 @@
-import { Model, ModelCtor, Optional } from 'sequelize/types'
+import { Model, ModelCtor, Optional } from 'sequelize'
 
 export interface RefreshTokenAttributes {
   id: number;

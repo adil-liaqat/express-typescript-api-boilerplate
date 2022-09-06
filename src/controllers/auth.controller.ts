@@ -16,6 +16,8 @@ import { Templates } from '../types/templates'
 
 export default class AuthController {
   public async login(req: IRequest, res: IResponse, next: INextFunction): Promise<any> {
+    res.locals.isResponseHandled = true
+
     passport.authenticate('local', { session: false }, async(error: Error, user: UserAuthenticateAttributes) => {
       if (error) return next(error)
       const { refresh_token, ...rest } = user
@@ -24,14 +26,15 @@ export default class AuthController {
         expires: moment().add(REFRESH_TOKEN_EXPIRY_IN_DAYS, 'days').toDate(),
         path: 'api/v1/auth'
       })
+
       res.json(rest)
     })(req, res, next)
   }
 
-  public async register(req: IRequest, res: IResponse): Promise<any> {
+  public async register(req: IRequest, _res: IResponse): Promise<any> {
     const data: UserRegister = <UserRegister>req.body
     const user: User = await db.User.create(data)
-    res.json(user.toJSON())
+    return user
   }
 
   public async verify(req: IRequest, res: IResponse): Promise<any> {
@@ -60,10 +63,10 @@ export default class AuthController {
 
     await user.save()
 
-    res.json(user.toJSON())
+    return user
   }
 
-  public async forgotPassword(req: IRequest, res: IResponse): Promise<any> {
+  public async forgotPassword(req: IRequest, _res: IResponse): Promise<any> {
     const { email }: UserBodyEmail = <UserBodyEmail>req.body
     const user: User = await db.User.findOne({
       where: {
@@ -87,10 +90,10 @@ export default class AuthController {
       to: `${user.full_name} <${user.email}>`
     })
 
-    res.json({ message: i18next.t('EMAIL_SENT') })
+    return { message: i18next.t('EMAIL_SENT') }
   }
 
-  public async resetPassword(req: IRequest, res: IResponse): Promise<any> {
+  public async resetPassword(req: IRequest, _res: IResponse): Promise<any> {
     const { token }: UserVerify = <UserVerify><unknown>req.params
     const { password } = req.body
 
@@ -114,7 +117,7 @@ export default class AuthController {
 
     await user.save()
 
-    res.json({ message: i18next.t('PASSWORD_RESET_SUCCESSFULLY') })
+    return { message: i18next.t('PASSWORD_RESET_SUCCESSFULLY') }
   }
 
   public async refreshToken(req: IRequest, res: IResponse): Promise<any> {
@@ -156,7 +159,7 @@ export default class AuthController {
 
     await rt.save()
 
-    res.json({ token: newAccessToken })
+    return { token: newAccessToken }
   }
 }
 

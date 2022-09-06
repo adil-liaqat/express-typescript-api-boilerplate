@@ -5,7 +5,7 @@ const transports: any[] = [
   new winston.transports.Console({
     format: winston.format.combine(
       winston.format.colorize(),
-      winston.format.printf((info: any) =>
+      winston.format.printf(/* istanbul ignore next */(info: any) =>
         // eslint-disable-next-line max-len
         `${info.timestamp} ${info.level} [${info.label}]: ${typeof info.message === 'object' ? JSON.stringify(info.message, null, 2) : info.message}`
       )
@@ -13,6 +13,7 @@ const transports: any[] = [
   })
 ]
 
+// istanbul ignore if
 if (process.env.NODE_ENV === 'production') {
   transports.push(
     new winston.transports.File({
@@ -57,6 +58,7 @@ export const myStream = {
 // console.log = (...args: any) => logger.http.call(logger, ...args)
 // console.log = (...args: any) => logger.verbose.call(logger, ...args)
 console.debug = (...args: any) => logger.debug.call(logger, ...args)
+// istanbul ignore next
 console.silly = (...args: any) => logger.silly.call(logger, ...args)
 console.log = (...args: any) => logger.info.call(logger, ...args)
 console.warn = (...args: any) => logger.warn.call(logger, ...args)
