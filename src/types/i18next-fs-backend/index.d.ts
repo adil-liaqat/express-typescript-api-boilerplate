@@ -6,7 +6,7 @@
 // TypeScript Version: 2.4
 
 declare namespace I18next {
-  interface I18nextOptions extends i18nextFsBackEnd.I18nextOptions { }
+  interface I18nextOptions extends i18nextFsBackEnd.I18nextOptions {}
 }
 
 declare namespace i18nextFsBackEnd {
@@ -20,25 +20,25 @@ declare namespace i18nextFsBackEnd {
      * @summary Path where resources get loaded from.
      * @type {string}
      */
-    loadPath: string;
+    loadPath: string
 
     /**
      * @summary Path to post missing resources
      * @type {string}
      */
-    addPath: string;
+    addPath: string
 
     /**
      * @summary jsonIndent to use when storing json files
      * @type {number}
      */
-    jsonIndent: number;
+    jsonIndent: number
 
     /**
      * @summary custom parser
      * @type {function}
      */
-    parse?: (data: any) => any;
+    parse?: (data: any) => any
   }
 
   /**
@@ -46,7 +46,7 @@ declare namespace i18nextFsBackEnd {
    * @interface
    */
   interface I18nextOptions {
-    backend?: i18nextFsBackEndOptions;
+    backend?: i18nextFsBackEndOptions
   }
 }
 
@@ -59,7 +59,7 @@ declare module 'i18next-fs-backend' {
     init(
       services: i18next.Services,
       backendOptions?: i18nextFsBackEnd.i18nextFsBackEndOptions,
-      i18nextOptions?: i18next.InitOptions,
+      i18nextOptions?: i18next.InitOptions
     ): void
     read(language: string, namespace: string, callback: i18next.ReadCallback): void
     create(languages: string[], namespace: string, key: string, fallbackValue: string): void

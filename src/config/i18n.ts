@@ -23,16 +23,13 @@ const options: InitOptions = {
   saveMissing: process.env.NODE_ENV === 'development'
 }
 
-i18next
-  .use(middleware.LanguageDetector)
-  .use(backend)
-  .init(options)
+i18next.use(middleware.LanguageDetector).use(backend).init(options)
 
 // i18next.loadNamespaces('joi')
 
 // Override i18next.t function to set request language
-shimmer.wrap(i18next, 't', function(original: TFunction) {
-  return function(...args: any[]) {
+shimmer.wrap(i18next, 't', function (original: TFunction) {
+  return function (...args: any[]) {
     const locale = getLanguage()
 
     args[1] = { lng: locale, ...(args[1] || {}) }
@@ -41,7 +38,4 @@ shimmer.wrap(i18next, 't', function(original: TFunction) {
   }
 })
 
-export {
-  i18next,
-  middleware
-}
+export { i18next, middleware }

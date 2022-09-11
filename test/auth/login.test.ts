@@ -8,11 +8,11 @@ import { cleanUpDatabase, generateUser } from '../utils/db'
 import { buildRequest } from '../utils/helpers'
 
 describe('POST /auth/login', () => {
-  beforeEach(async() => {
+  beforeEach(async () => {
     await cleanUpDatabase()
   })
 
-  it('should login user successfully', async() => {
+  it('should login user successfully', async () => {
     const user: User = await generateUser({
       password: '123'
     })
@@ -34,7 +34,7 @@ describe('POST /auth/login', () => {
     expect(resp).to.have.cookie('refresh_token')
   })
 
-  it('should return error if email is invalid', async() => {
+  it('should return error if email is invalid', async () => {
     await generateUser({
       password: '123'
     })
@@ -50,7 +50,7 @@ describe('POST /auth/login', () => {
     expect(resp.body.message).to.be.eq('Email or password is incorrect')
   })
 
-  it('should return error if password is incorrect', async() => {
+  it('should return error if password is incorrect', async () => {
     const user: User = await generateUser({
       password: '123'
     })

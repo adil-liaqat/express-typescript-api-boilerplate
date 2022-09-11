@@ -1,4 +1,3 @@
-
 import swaggerJsdoc from 'swagger-jsdoc'
 
 export const options: swaggerJsdoc.Options = {
@@ -63,9 +62,11 @@ export const options: swaggerJsdoc.Options = {
         }
       }
     },
-    security: [{
-      bearerAuth: []
-    }]
+    security: [
+      {
+        bearerAuth: []
+      }
+    ]
   },
   // List of files to be processes. You can also set globs './routes/*.js'
   apis: ['src/routes/*.ts']

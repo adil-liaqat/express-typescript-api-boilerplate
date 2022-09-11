@@ -16,7 +16,8 @@ const ENCRYPTION_KEY: string = process.env.AES_ENCRYPTION_KEY // Must be 256 bit
  * @param {Function} fn
  * @return {Function}
  */
-export const asyncHandler = (fn: (req: IRequest, res: IResponse, next: INextFunction) => Promise<any>) =>
+export const asyncHandler =
+  (fn: (req: IRequest, res: IResponse, next: INextFunction) => Promise<any>) =>
   (req: IRequest, res: IResponse, next: INextFunction) =>
     Promise.resolve(fn(req, res, next))
       .then((data: any) => {

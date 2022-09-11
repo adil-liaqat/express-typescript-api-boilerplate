@@ -32,12 +32,15 @@ export default (err: Error, req: IRequest, res: IResponse, next: INextFunction):
     message,
     errorCode,
     ...extraData,
-    ...process.env.NODE_ENV === 'development' && { stack: err.stack }
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
   })
 }
 
 export const celebrateErrorI18nMiddleware = (
-  err: CelebrateError, req: IRequest, res: IResponse, next: INextFunction
+  err: CelebrateError,
+  req: IRequest,
+  res: IResponse,
+  next: INextFunction
 ): void => {
   if (!(err instanceof CelebrateError)) {
     return next(err)
@@ -47,10 +50,11 @@ export const celebrateErrorI18nMiddleware = (
 
   const locale = getLanguage()
 
-  const localeMessage = i18next.t(
-    firstError.details[0].type,
-    { lng: locale, ns: 'joi', ...(firstError.details?.[0]?.context || {}) }
-  )
+  const localeMessage = i18next.t(firstError.details[0].type, {
+    lng: locale,
+    ns: 'joi',
+    ...(firstError.details?.[0]?.context || {})
+  })
 
   next(boom.badData(localeMessage, { errorCode: firstError.name }))
 }

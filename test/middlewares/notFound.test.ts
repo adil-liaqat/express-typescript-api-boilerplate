@@ -8,7 +8,7 @@ describe('Middleware route not found', () => {
   let user: User
   let token: string
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     await cleanUpDatabase()
     user = await generateUser()
     token = generateToken({
@@ -21,7 +21,7 @@ describe('Middleware route not found', () => {
     token = null
   })
 
-  it('should return error if route not found', async() => {
+  it('should return error if route not found', async () => {
     const resp = await buildRequest('get', `${process.env.BASE_PATH}/invalid/route`, token)
 
     expect(resp.status).to.be.eq(404)

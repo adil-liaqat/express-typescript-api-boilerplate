@@ -12,7 +12,7 @@ import { buildRequest } from '../utils/helpers'
 describe('POST /auth/reset/password/:token', () => {
   let user: User
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     await cleanUpDatabase()
     user = await generateUser({
       reset_password_expires_at: moment().add(1, 'hour').toDate(),
@@ -24,7 +24,7 @@ describe('POST /auth/reset/password/:token', () => {
     user = null
   })
 
-  it('should reset user password', async() => {
+  it('should reset user password', async () => {
     const hashSpy = sinon.spy(bcrypt, 'hash')
     const password: string = faker.random.alphaNumeric(10)
     const body = {
@@ -32,14 +32,17 @@ describe('POST /auth/reset/password/:token', () => {
       confirm_password: password
     }
 
-    const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/reset/password/${user.reset_password_token}`).send(body)
+    const resp = await buildRequest(
+      'post',
+      `${process.env.BASE_PATH}/auth/reset/password/${user.reset_password_token}`
+    ).send(body)
 
     expect(resp.status).to.be.eq(200)
     expect(resp.body.message).to.be.eq('Password reset successfully')
     expect(hashSpy).to.be.calledOnceWith(password)
   })
 
-  it('should return error if user not found', async() => {
+  it('should return error if user not found', async () => {
     const password: string = faker.random.alphaNumeric(10)
     const body = {
       password,
@@ -52,7 +55,7 @@ describe('POST /auth/reset/password/:token', () => {
     expect(resp.body.message).to.be.eq('Invalid token')
   })
 
-  it('should return error if token expired', async() => {
+  it('should return error if token expired', async () => {
     const password: string = faker.random.alphaNumeric(10)
     const body = {
       password,
@@ -62,7 +65,10 @@ describe('POST /auth/reset/password/:token', () => {
     user.reset_password_expires_at = moment().toDate()
     await user.save()
 
-    const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/reset/password/${user.reset_password_token}`).send(body)
+    const resp = await buildRequest(
+      'post',
+      `${process.env.BASE_PATH}/auth/reset/password/${user.reset_password_token}`
+    ).send(body)
 
     expect(resp.status).to.be.eq(410)
     expect(resp.body.message).to.be.eq('Reset password link has expired')

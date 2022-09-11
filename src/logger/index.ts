@@ -5,9 +5,12 @@ const transports: any[] = [
   new winston.transports.Console({
     format: winston.format.combine(
       winston.format.colorize(),
-      winston.format.printf(/* istanbul ignore next */(info: any) =>
-        // eslint-disable-next-line max-len
-        `${info.timestamp} ${info.level} [${info.label}]: ${typeof info.message === 'object' ? JSON.stringify(info.message, null, 2) : info.message}`
+      winston.format.printf(
+        /* istanbul ignore next */ (info: any) =>
+          // eslint-disable-next-line max-len
+          `${info.timestamp} ${info.level} [${info.label}]: ${
+            typeof info.message === 'object' ? JSON.stringify(info.message, null, 2) : info.message
+          }`
       )
     )
   })

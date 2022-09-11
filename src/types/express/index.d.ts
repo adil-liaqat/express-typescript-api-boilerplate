@@ -16,5 +16,4 @@ export interface IResponse extends Response {
   }
 }
 
-export interface INextFunction extends NextFunction {
-}
+export interface INextFunction extends NextFunction {}

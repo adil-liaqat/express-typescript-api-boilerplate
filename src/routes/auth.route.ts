@@ -52,11 +52,7 @@ const router: Router = Router()
  *          $ref: '#/components/responses/GenericError'
  */
 
-router.post(
-  '/login',
-  validatorMiddleware(loginSchema),
-  asyncHandler(authController.login)
-)
+router.post('/login', validatorMiddleware(loginSchema), asyncHandler(authController.login))
 
 /**
  * @swagger
@@ -96,11 +92,7 @@ router.post(
  *       Error:
  *          $ref: '#/components/responses/GenericError'
  */
-router.post(
-  '/register',
-  validatorMiddleware(registerSchema),
-  asyncHandler(authController.register)
-)
+router.post('/register', validatorMiddleware(registerSchema), asyncHandler(authController.register))
 
 /**
  * @swagger
@@ -126,10 +118,7 @@ router.post(
  *       Error:
  *          $ref: '#/components/responses/GenericError'
  */
-router.get(
-  '/verify/:token',
-  asyncHandler(authController.verify)
-)
+router.get('/verify/:token', asyncHandler(authController.verify))
 
 /**
  * @swagger
@@ -160,10 +149,7 @@ router.get(
  *       Error:
  *          $ref: '#/components/responses/GenericError'
  */
-router.post(
-  '/forgot/password',
-  asyncHandler(authController.forgotPassword)
-)
+router.post('/forgot/password', asyncHandler(authController.forgotPassword))
 
 /**
  * @swagger
@@ -238,9 +224,5 @@ router.post(
  *       Error:
  *          $ref: '#/components/responses/GenericError'
  */
-router.post(
-  '/token/refresh',
-  validatorMiddleware(refreshTokenSchema),
-  asyncHandler(authController.refreshToken)
-)
+router.post('/token/refresh', validatorMiddleware(refreshTokenSchema), asyncHandler(authController.refreshToken))
 export default router

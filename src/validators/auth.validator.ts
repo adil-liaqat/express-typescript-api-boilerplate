@@ -7,17 +7,19 @@ import { confirmFieldValidation, emailValidation, stringValidation } from './com
  * Register Joi Schema
  */
 export const registerSchema: SchemaOptions = {
-  [Segments.BODY]: joi.object({
-    first_name: stringValidation('first_name'),
+  [Segments.BODY]: joi
+    .object({
+      first_name: stringValidation('first_name'),
 
-    last_name: stringValidation('last_name'),
+      last_name: stringValidation('last_name'),
 
-    email: emailValidation('email'),
+      email: emailValidation('email'),
 
-    password: stringValidation('password'),
+      password: stringValidation('password'),
 
-    confirm_password: confirmFieldValidation('confirm_password', 'password')
-  }).with('password', 'confirm_password')
+      confirm_password: confirmFieldValidation('confirm_password', 'password')
+    })
+    .with('password', 'confirm_password')
 }
 
 /**
@@ -34,10 +36,12 @@ export const loginSchema: SchemaOptions = {
  * Reset Password Joi Schema
  */
 export const resetPasswordSchema: SchemaOptions = {
-  [Segments.BODY]: joi.object({
-    password: stringValidation('password'),
-    confirm_password: confirmFieldValidation('confirm_password', 'password')
-  }).with('password', 'confirm_password'),
+  [Segments.BODY]: joi
+    .object({
+      password: stringValidation('password'),
+      confirm_password: confirmFieldValidation('confirm_password', 'password')
+    })
+    .with('password', 'confirm_password'),
 
   [Segments.PARAMS]: joi.object({
     token: stringValidation('token')

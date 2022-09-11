@@ -13,7 +13,7 @@ describe('POST /auth/token/refresh', () => {
   let token: string
   let refreshToken: RefreshToken
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     await cleanUpDatabase()
     user = await generateUser()
     token = generateToken({
@@ -30,7 +30,7 @@ describe('POST /auth/token/refresh', () => {
     refreshToken = null
   })
 
-  it('should return new access token', async() => {
+  it('should return new access token', async () => {
     const body = {
       access_token: token
     }
@@ -51,7 +51,7 @@ describe('POST /auth/token/refresh', () => {
     expect(resp).to.have.cookie('refresh_token', refreshToken.replaced_by_token)
   })
 
-  it('should return error if refresh token expired', async() => {
+  it('should return error if refresh token expired', async () => {
     const body = {
       access_token: token
     }
@@ -67,7 +67,7 @@ describe('POST /auth/token/refresh', () => {
     expect(resp.body.message).to.be.eq('You have used invalid refresh token')
   })
 
-  it('should return error if refresh token already used', async() => {
+  it('should return error if refresh token already used', async () => {
     const body = {
       access_token: token
     }
@@ -83,7 +83,7 @@ describe('POST /auth/token/refresh', () => {
     expect(resp.body.message).to.be.eq('You have used invalid refresh token')
   })
 
-  it('should return error if user id of token doesn\'t match', async() => {
+  it("should return error if user id of token doesn't match", async () => {
     const newUser: User = await generateUser()
     const body = {
       access_token: token

@@ -1,4 +1,4 @@
 export enum Templates {
   'emailConfirmation' = 'email-confirmation',
-  'forgotPassword' = 'forgot-password',
+  'forgotPassword' = 'forgot-password'
 }

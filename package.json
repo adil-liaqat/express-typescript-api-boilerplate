@@ -18,12 +18,12 @@
     "coverage": "nyc yarn test",
     "build:docker": "docker build -t expressapi/express-typescript-starter .",
     "docker:compose": "docker-compose up",
-    "format": "prettier --write 'src/**/*ts'",
+    "format": "prettier --write src/**/*ts",
     "lint": "eslint -c .eslintrc --ext .ts src/**/*.ts",
     "lint:fix": "eslint -c .eslintrc --fix --ext .ts src/**/*.ts",
     "lint:test": "eslint -c .eslintrc --ext .ts test/**/*.ts",
     "lint:test:fix": "eslint -c .eslintrc --fix --ext .ts test/**/*.ts",
-    "format:test": "prettier --write 'test/**/*ts'"
+    "format:test": "prettier --write test/**/*ts"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.0",
@@ -110,11 +110,13 @@
     "dirty-chai": "^2.0.1",
     "dotenv-cli": "^6.0.0",
     "eslint": "^8.22.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard-with-typescript": "^22.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsdoc": "^39.3.6",
     "eslint-plugin-n": "^15.2.4",
     "eslint-plugin-no-only-tests": "^3.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "husky": "^8.0.1",

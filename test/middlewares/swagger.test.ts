@@ -7,11 +7,11 @@ import sinon from 'sinon'
 import { cleanUpDatabase } from '../utils/db'
 
 describe('Middleware swagger', () => {
-  beforeEach(async() => {
+  beforeEach(async () => {
     await cleanUpDatabase()
   })
 
-  it('should return swagger html', async() => {
+  it('should return swagger html', async () => {
     middleware.handle(i18next)
     const request: MockRequest<any> = createRequest({
       method: 'GET',

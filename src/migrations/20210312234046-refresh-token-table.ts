@@ -2,10 +2,7 @@
 
 import { DataTypes, ModelAttributes, QueryInterface, Sequelize } from 'sequelize'
 
-import {
-  RefreshToken,
-  RefreshTokenCreationAttributes
-} from '../types/models'
+import { RefreshToken, RefreshTokenCreationAttributes } from '../types/models'
 
 export = {
   up: (queryInterface: QueryInterface, sequelize: Sequelize): Promise<any> => {

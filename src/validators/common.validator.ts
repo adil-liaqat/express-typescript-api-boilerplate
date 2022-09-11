@@ -5,19 +5,14 @@ import joi from 'joi'
  *
  * @param field Name of the field
  */
-export const stringValidation = (field: string): joi.StringSchema =>
-  joi.string()
-    .required()
+export const stringValidation = (field: string): joi.StringSchema => joi.string().required()
 
 /**
  * Required email field validation
  *
  * @param field Name of the field
  */
-export const emailValidation = (field: string): joi.StringSchema =>
-  joi.string()
-    .email()
-    .required()
+export const emailValidation = (field: string): joi.StringSchema => joi.string().email().required()
 
 /**
  * Required confirm password field validation
@@ -26,7 +21,4 @@ export const emailValidation = (field: string): joi.StringSchema =>
  * @param compareWith Field with which to compare
  */
 export const confirmFieldValidation = (field: string, compareWith: string): joi.Schema =>
-  joi
-    .string()
-    .required()
-    .valid(joi.ref(compareWith))
+  joi.string().required().valid(joi.ref(compareWith))

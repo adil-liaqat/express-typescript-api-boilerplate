@@ -10,11 +10,11 @@ import { cleanUpDatabase } from '../utils/db'
 import { generateToken } from '../utils/helpers'
 
 describe('Middleware authenticated', () => {
-  beforeEach(async() => {
+  beforeEach(async () => {
     await cleanUpDatabase()
   })
 
-  it('should return error if invalid jwt token passed', async() => {
+  it('should return error if invalid jwt token passed', async () => {
     middleware.handle(i18next)
     const request: MockRequest<any> = createRequest({
       method: 'GET',
@@ -40,7 +40,7 @@ describe('Middleware authenticated', () => {
     expect(error.output.payload.message).to.be.eq('Unauthorized user')
   })
 
-  it('should return error if user not found', async() => {
+  it('should return error if user not found', async () => {
     middleware.handle(i18next)
     const token = generateToken({
       id: 2
@@ -63,7 +63,7 @@ describe('Middleware authenticated', () => {
     })
   })
 
-  it('should return error if token expired', async() => {
+  it('should return error if token expired', async () => {
     middleware.handle(i18next)
     const token = generateToken({
       id: 2,

@@ -5,7 +5,7 @@ import notFoundMiddlware from '../middlewares/notFound.middlware'
 import authRoute from './auth.route'
 import userRoute from './user.route'
 
-export default function(app: Application) {
+export default function (app: Application) {
   const rootPath: string = '/api/v1'
 
   app.use(rootPath + '/auth', authRoute)

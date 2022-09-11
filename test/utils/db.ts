@@ -4,9 +4,9 @@ import { db } from '@src/models'
 import { RefreshTokenAttributes, UserAttributes } from '@src/types/models'
 import moment from 'moment'
 
-export const cleanUpDatabase = async() => db.sequelize.sync({ force: true, match: /_test$/ })
+export const cleanUpDatabase = async () => db.sequelize.sync({ force: true, match: /_test$/ })
 
-export const generateUser = async(data: Partial<UserAttributes> = {}) => {
+export const generateUser = async (data: Partial<UserAttributes> = {}) => {
   const defaults: Partial<UserAttributes> = {
     email: faker.internet.email(),
     password: faker.random.alphaNumeric(10),
@@ -17,7 +17,7 @@ export const generateUser = async(data: Partial<UserAttributes> = {}) => {
   return db.User.create(<UserAttributes>{ ...defaults, ...data })
 }
 
-export const generateRefreshToken = async(data: Partial<RefreshTokenAttributes> = {}) => {
+export const generateRefreshToken = async (data: Partial<RefreshTokenAttributes> = {}) => {
   if (!data.user_id) {
     data.user_id = (await generateUser()).id
   }

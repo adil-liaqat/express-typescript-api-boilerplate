@@ -13,7 +13,7 @@ const MAILER_TEMPLATE_PATH: string = path.join(__dirname, '../../templates')
 
 const promisedFileRead: (
   path: string | number | Buffer | URL,
-  options: string | { encoding?: null; flag?: string; }
+  options: string | { encoding?: null; flag?: string }
 ) => Promise<string> = promisify(fs.readFile.bind(fs))
 
 const transporter: nodemailer.Transporter = nodemailer.createTransport({
@@ -28,12 +28,16 @@ const transporter: nodemailer.Transporter = nodemailer.createTransport({
 
 async function renderTemplate(template: Templates, data: object = {}): Promise<string> {
   const templateContent = await promisedFileRead(MAILER_TEMPLATE_PATH + '/' + template + '.ejs', 'utf8')
-  return ejs.render(templateContent, {
-    ...data,
-    __: i18next.getFixedT(getLanguage())
-  }, {
-    async: true
-  })
+  return ejs.render(
+    templateContent,
+    {
+      ...data,
+      __: i18next.getFixedT(getLanguage())
+    },
+    {
+      async: true
+    }
+  )
 }
 
 async function sendMail({ template, data, ...rest }: SendMailOption) {

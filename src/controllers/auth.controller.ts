@@ -18,7 +18,7 @@ export default class AuthController {
   public async login(req: IRequest, res: IResponse, next: INextFunction): Promise<any> {
     res.locals.isResponseHandled = true
 
-    passport.authenticate('local', { session: false }, async(error: Error, user: UserAuthenticateAttributes) => {
+    passport.authenticate('local', { session: false }, async (error: Error, user: UserAuthenticateAttributes) => {
       if (error) return next(error)
       const { refresh_token, ...rest } = user
       res.cookie('refresh_token', refresh_token, {
@@ -38,7 +38,7 @@ export default class AuthController {
   }
 
   public async verify(req: IRequest, res: IResponse): Promise<UserPublicAttributes> {
-    const { token }: UserVerify = <UserVerify><unknown>req.params
+    const { token }: UserVerify = <UserVerify>(<unknown>req.params)
     const user: User = await db.User.findOne({
       where: {
         confirmation_token: token
@@ -94,7 +94,7 @@ export default class AuthController {
   }
 
   public async resetPassword(req: IRequest, _res: IResponse): Promise<any> {
-    const { token }: UserVerify = <UserVerify><unknown>req.params
+    const { token }: UserVerify = <UserVerify>(<unknown>req.params)
     const { password } = req.body
 
     const user: User = await db.User.findOne({

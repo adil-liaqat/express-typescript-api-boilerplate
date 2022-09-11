@@ -9,7 +9,7 @@ import { buildRequest } from '../utils/helpers'
 describe('POST /auth/verify/:token', () => {
   let user: User
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     await cleanUpDatabase()
     user = await generateUser({
       verified: false
@@ -20,7 +20,7 @@ describe('POST /auth/verify/:token', () => {
     user = null
   })
 
-  it('should verify user', async() => {
+  it('should verify user', async () => {
     const resp = await buildRequest('get', `${process.env.BASE_PATH}/auth/verify/${user.confirmation_token}`)
 
     await user.reload()
@@ -29,14 +29,14 @@ describe('POST /auth/verify/:token', () => {
     expect(resp.body).to.deep.equalInAnyOrder(JSON.parse(JSON.stringify(user.toJSON())))
   })
 
-  it('should return error if user not found', async() => {
+  it('should return error if user not found', async () => {
     const resp = await buildRequest('get', `${process.env.BASE_PATH}/auth/verify/${randomString()}`)
 
     expect(resp.status).to.be.eq(400)
     expect(resp.body.message).to.be.eq('Invalid token')
   })
 
-  it('should return error if token expired', async() => {
+  it('should return error if token expired', async () => {
     user.confirmation_expires_at = moment().toDate()
     await user.save()
 
@@ -46,7 +46,7 @@ describe('POST /auth/verify/:token', () => {
     expect(resp.body.message).to.be.eq('Confirmation link has expired')
   })
 
-  it('should return error if user already verified', async() => {
+  it('should return error if user already verified', async () => {
     user.verified = true
     await user.save()
 

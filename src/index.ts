@@ -7,9 +7,7 @@ const server: http.Server = http.createServer(app)
 server.listen(process.env.PORT).on('error', console.error)
 
 server.on('listening', () => {
-  console.log(
-    `Server started on port ${process.env.PORT} on ENV ${process.env.NODE_ENV || 'dev'}`
-  )
+  console.log(`Server started on port ${process.env.PORT} on ENV ${process.env.NODE_ENV || 'dev'}`)
 })
 
 process.on('uncaughtException', (err: Error) => {

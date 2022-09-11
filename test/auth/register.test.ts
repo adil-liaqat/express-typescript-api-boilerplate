@@ -10,11 +10,11 @@ import { cleanUpDatabase, generateUser } from '../utils/db'
 import { buildRequest } from '../utils/helpers'
 
 describe('POST /auth/register', () => {
-  beforeEach(async() => {
+  beforeEach(async () => {
     await cleanUpDatabase()
   })
 
-  it('should register user successfully', async() => {
+  it('should register user successfully', async () => {
     const sendMailSpy = sinon.spy(mailer, 'sendMail')
     const password: string = faker.random.alphaNumeric(10)
 
@@ -38,7 +38,7 @@ describe('POST /auth/register', () => {
     expect(sendMailSpy).to.be.calledOnce()
   })
 
-  it('should return error if email already exist', async() => {
+  it('should return error if email already exist', async () => {
     await generateUser({
       email: 'test@test.com'
     })
@@ -62,7 +62,7 @@ describe('POST /auth/register', () => {
     expect(sendMailSpy).to.not.have.been.called()
   })
 
-  it('should return error if password hashing failed', async() => {
+  it('should return error if password hashing failed', async () => {
     sinon.stub(bcrypt, 'hash').throws({})
     sinon.stub(logger, 'error')
     const sendMailSpy = sinon.spy(mailer, 'sendMail')
@@ -84,7 +84,7 @@ describe('POST /auth/register', () => {
     expect(sendMailSpy).to.not.have.been.called()
   })
 
-  it('should return error if confirm password doesn\'t match', async() => {
+  it("should return error if confirm password doesn't match", async () => {
     await generateUser({
       email: 'test@test.com'
     })
@@ -108,7 +108,7 @@ describe('POST /auth/register', () => {
     expect(sendMailSpy).to.not.have.been.called()
   })
 
-  it('should return error if trying to set full name', async() => {
+  it('should return error if trying to set full name', async () => {
     const user = await generateUser()
 
     try {

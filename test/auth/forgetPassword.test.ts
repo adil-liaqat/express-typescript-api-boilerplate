@@ -7,11 +7,11 @@ import { cleanUpDatabase, generateUser } from '../utils/db'
 import { buildRequest } from '../utils/helpers'
 
 describe('POST /auth/forgot/password', () => {
-  beforeEach(async() => {
+  beforeEach(async () => {
     await cleanUpDatabase()
   })
 
-  it('should send forgot password email', async() => {
+  it('should send forgot password email', async () => {
     const user: User = await generateUser()
     const sendMailSpy = sinon.spy(mailer, 'sendMail')
 
@@ -26,7 +26,7 @@ describe('POST /auth/forgot/password', () => {
     expect(sendMailSpy).to.be.calledOnce()
   })
 
-  it('should return error if email not found', async() => {
+  it('should return error if email not found', async () => {
     await generateUser()
     const sendMailSpy = sinon.spy(mailer, 'sendMail')
 
