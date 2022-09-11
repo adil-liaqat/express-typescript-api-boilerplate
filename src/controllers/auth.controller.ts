@@ -31,14 +31,14 @@ export default class AuthController {
     })(req, res, next)
   }
 
-  public async register(req: Request, _res: Response): Promise<UserPublicAttributes> {
-    const data: UserRegister = <UserRegister>req.body
+  public async register(req: Request<{}, {}, UserRegister>, _res: Response): Promise<UserPublicAttributes> {
+    const data: UserRegister = req.body
     const user: User = await db.User.create(data)
     return user
   }
 
   public async verify(req: Request, _res: Response): Promise<UserPublicAttributes> {
-    const { token }: UserVerify = <UserVerify>(<unknown>req.params)
+    const { token } = <UserVerify>(<unknown>req.params)
     const user: User = await db.User.findOne({
       where: {
         confirmation_token: token
@@ -66,8 +66,8 @@ export default class AuthController {
     return user
   }
 
-  public async forgotPassword(req: Request, _res: Response): Promise<any> {
-    const { email } = <UserBodyEmail>req.body
+  public async forgotPassword(req: Request<{}, {}, UserBodyEmail>, _res: Response): Promise<any> {
+    const { email } = req.body
     const user: User = await db.User.findOne({
       where: {
         email

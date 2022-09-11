@@ -8,9 +8,11 @@ services:
       NODE_ENV : production
     volumes:
      - .:/usr/src/app
+     - /usr/src/app/node_modules
     depends_on:
-    - mongo
-  mongo:
+    - postgres
+    network_mode: host
+  postgres:
     image: postgres
     ports:
-    - "27017:27017"
+    - "5432:5432"
