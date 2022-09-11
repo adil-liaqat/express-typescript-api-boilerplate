@@ -6,9 +6,27 @@ An Express.js project implemented using Typescript for api creation:
 # Installation
 
 #### Clone the repository
+```sh
+git clone https://github.com/adil-liaqat/express-typescript-api-boilerplate.git
+```
 
+```sh
+cd express-typescript-api-boilerplate
+```
+#### Install yarn
+
+```sh
+npm install -g yarn
+```
+
+#### Install Dependencies
 ```
 yarn install
+```
+
+#### Build to `./dist`
+```
+yarn build
 ```
 
 #### For development:
@@ -21,24 +39,19 @@ yarn dev
 yarn start
 ```
 
-#### Test
+#### Test:
 
 Before running `test` create a local postgres database with the name `local_test`
 ```
 yarn test
 ```
 
-#### Test Watch
+#### Test Watch:
 ```
 yarn test:watch
 ```
 
-#### Build to `./dist`
-```
-yarn build
-```
-
-Browse to http://localhost:3000/api/v1/users
+Browse to http://localhost:3000/health
 <br/><br/>
 
 # Folder structure
@@ -129,7 +142,7 @@ Build the image `sudo docker build -t expressapi/express-api-typescript-starter 
 
 Run the image `docker-compose up`
 
-Open `http://localhost:8080/api/v1/users`
+Open `http://localhost:3000/health`
 
 
 # License

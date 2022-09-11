@@ -5,7 +5,7 @@ services:
     ports:
     - "3000:3000"
     environment:
-      NODE_ENV : production
+      NODE_ENV : test
     volumes:
     - .:/usr/src/app
     - /usr/src/app/node_modules
@@ -16,3 +16,7 @@ services:
     image: postgres
     ports:
     - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: local_test
