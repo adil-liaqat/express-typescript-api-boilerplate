@@ -1,4 +1,5 @@
 import boom from '@hapi/boom'
+import { NextFunction, Request, Response } from 'express'
 import i18next from 'i18next'
 import { decode } from 'jsonwebtoken'
 import moment from 'moment'
@@ -9,13 +10,12 @@ import mailer from '../config/mailer'
 import { AesDecrypt, randomString } from '../helpers'
 import { db } from '../models'
 import { UserBodyEmail, UserRegister, UserVerify } from '../types/controllers/auth.interface'
-import { INextFunction, IRequest, IResponse } from '../types/express'
 import { Payload } from '../types/jwt/payload.interface'
 import { RefreshToken, User, UserAuthenticateAttributes, UserPublicAttributes } from '../types/models'
 import { Templates } from '../types/templates'
 
 export default class AuthController {
-  public async login(req: IRequest, res: IResponse, next: INextFunction): Promise<any> {
+  public async login(req: Request, res: Response, next: NextFunction): Promise<any> {
     res.locals.isResponseHandled = true
 
     passport.authenticate('local', { session: false }, async (error: Error, user: UserAuthenticateAttributes) => {
@@ -31,13 +31,13 @@ export default class AuthController {
     })(req, res, next)
   }
 
-  public async register(req: IRequest, _res: IResponse): Promise<UserPublicAttributes> {
+  public async register(req: Request, _res: Response): Promise<UserPublicAttributes> {
     const data: UserRegister = <UserRegister>req.body
     const user: User = await db.User.create(data)
     return user
   }
 
-  public async verify(req: IRequest, res: IResponse): Promise<UserPublicAttributes> {
+  public async verify(req: Request, _res: Response): Promise<UserPublicAttributes> {
     const { token }: UserVerify = <UserVerify>(<unknown>req.params)
     const user: User = await db.User.findOne({
       where: {
@@ -66,7 +66,7 @@ export default class AuthController {
     return user
   }
 
-  public async forgotPassword(req: IRequest, _res: IResponse): Promise<any> {
+  public async forgotPassword(req: Request, _res: Response): Promise<any> {
     const { email } = <UserBodyEmail>req.body
     const user: User = await db.User.findOne({
       where: {
@@ -93,7 +93,7 @@ export default class AuthController {
     return { message: i18next.t('EMAIL_SENT') }
   }
 
-  public async resetPassword(req: IRequest, _res: IResponse): Promise<any> {
+  public async resetPassword(req: Request, _res: Response): Promise<any> {
     const { token }: UserVerify = <UserVerify>(<unknown>req.params)
     const { password } = req.body
 
@@ -120,7 +120,7 @@ export default class AuthController {
     return { message: i18next.t('PASSWORD_RESET_SUCCESSFULLY') }
   }
 
-  public async refreshToken(req: IRequest, res: IResponse): Promise<any> {
+  public async refreshToken(req: Request, res: Response): Promise<any> {
     const accessToken: string = req.body.access_token
     const refreshToken: string = req.cookies.refresh_token
 

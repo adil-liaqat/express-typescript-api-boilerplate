@@ -1,11 +1,10 @@
 import cls from 'cls-hooked'
+import { NextFunction, Request, Response } from 'express'
 import { User } from 'types/models'
-
-import { INextFunction, IRequest, IResponse } from '../types/express'
 
 const nsid: string = 'request'
 
-export default (_req: IRequest, _res: IResponse, next: INextFunction): void => {
+export default (_req: Request, _res: Response, next: NextFunction): void => {
   const ns = cls.getNamespace(nsid) || cls.createNamespace(nsid)
   ns.run(() => next())
 }

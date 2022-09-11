@@ -107,7 +107,7 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
       where: {
         email
       },
-      ...(options && options)
+      ...(options || {})
     })
 
     if (!user) {

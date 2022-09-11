@@ -1,11 +1,10 @@
 import { celebrate, SchemaOptions } from 'celebrate'
-
-import { INextFunction, IRequest, IResponse } from '../types/express'
+import { NextFunction, Request, Response } from 'express'
 
 /**
  * @param schema Joi schema to validate
  */
 export default (schema: SchemaOptions) =>
-  (req: IRequest, res: IResponse, next: INextFunction): void => {
+  (req: Request, res: Response, next: NextFunction): void => {
     celebrate(schema)(req, res, next)
   }

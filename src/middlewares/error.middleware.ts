@@ -1,12 +1,12 @@
 import boom, { Boom } from '@hapi/boom'
 import { CelebrateError } from 'celebrate'
+import { NextFunction, Request, Response } from 'express'
 import i18next from 'i18next'
 import { UniqueConstraintError } from 'sequelize'
 
-import { INextFunction, IRequest, IResponse } from '../types/express'
 import { getLanguage } from './clsHooked.middleware'
 
-export default (err: Error, req: IRequest, res: IResponse, next: INextFunction): void => {
+export default (err: Error, _req: Request, res: Response, _next: NextFunction): void => {
   let code: number = 500
   let message: string = err.message || i18next.t('SOMETHING_WENT_WRONG')
   let errorCode: string = ''
@@ -38,9 +38,9 @@ export default (err: Error, req: IRequest, res: IResponse, next: INextFunction):
 
 export const celebrateErrorI18nMiddleware = (
   err: CelebrateError,
-  req: IRequest,
-  res: IResponse,
-  next: INextFunction
+  _req: Request,
+  _res: Response,
+  next: NextFunction
 ): void => {
   if (!(err instanceof CelebrateError)) {
     return next(err)

@@ -1,8 +1,7 @@
 import { Cipher, createCipheriv, createDecipheriv, Decipher, randomBytes } from 'crypto'
-
 // import { sync } from 'glob'
 // import { union } from 'lodash'
-import { INextFunction, IRequest, IResponse } from '../types/express'
+import { NextFunction, Request, Response } from 'express'
 
 const ENCRYPTION_KEY: string = process.env.AES_ENCRYPTION_KEY // Must be 256 bits (32 characters)
 
@@ -17,8 +16,8 @@ const ENCRYPTION_KEY: string = process.env.AES_ENCRYPTION_KEY // Must be 256 bit
  * @return {Function}
  */
 export const asyncHandler =
-  (fn: (req: IRequest, res: IResponse, next: INextFunction) => Promise<any>) =>
-  (req: IRequest, res: IResponse, next: INextFunction) =>
+  (fn: (req: Request, res: Response, next: NextFunction) => Promise<any>) =>
+  (req: Request, res: Response, next: NextFunction) =>
     Promise.resolve(fn(req, res, next))
       .then((data: any) => {
         if (res.locals.isResponseHandled) return

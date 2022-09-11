@@ -25,8 +25,6 @@ const options: InitOptions = {
 
 i18next.use(middleware.LanguageDetector).use(backend).init(options)
 
-// i18next.loadNamespaces('joi')
-
 // Override i18next.t function to set request language
 shimmer.wrap(i18next, 't', function (original: TFunction) {
   return function (...args: any[]) {

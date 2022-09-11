@@ -5,53 +5,64 @@ An Express.js project implemented using Typescript for api creation:
 
 # Installation
 
-Clone the repository
+#### Clone the repository
 
 ```
-npm install 
+yarn install
 ```
 
-For development:
+#### For development:
 ```
-npm run dev
-```
-
-To start:
-```
-npm run start
+yarn dev
 ```
 
-To debug in visual studio code:
+#### To start:
 ```
-npm run debug
-```
-
-Then run the `launch.json` configuration inside visual studio code `f5`.  You should now be able to set breakpoints in your typescript.
-
-Test
-```
-npm run test
+yarn start
 ```
 
-Test Watch
+#### Test
+
+Before running `test` create a local postgres database with the name `local_test`
 ```
-npm run test:watch
+yarn test
 ```
 
-Build to `./dist`
+#### Test Watch
 ```
-npm run build
+yarn test:watch
+```
+
+#### Build to `./dist`
+```
+yarn build
 ```
 
 Browse to http://localhost:3000/api/v1/users
-
+<br/><br/>
 
 # Folder structure
 
 ```
+locale/
+├── en
+│   └── joi.json
+│   └── transalation.json
+└── ar
+    └── joi.json
+    └── transalation.json
+public/
+├── favicon.ico
+└── stylesheets
+    └── style.css
+templates/
+├── email-confirmation.ejs
+└── forgot-password.ejs
 src/
 ├── config
 │   └── database.ts
+│   └── i18n.ts
+│   └── mailer.ts
 │   └── passport.ts
 │   └── swagger.ts
 ├── controllers
@@ -59,42 +70,55 @@ src/
 │   └── auth.controller.ts
 ├── helpers
 │   └── index.ts
-├── interfaces
-│   └── express
-│       └── index.ts
-│   └── jwt
-│       └── payload.interface.ts
-│   └── models
-│       └── user.interface.ts
-│   └── controllers
-│       └── auth.interface.ts
+├── types
+│   ├── controllers
+│   │   └── auth.interface.ts
+│   ├── express
+│   │   └── index.ts
+│   ├── i18next
+│   │   └── index.ts
+│   ├── i18next-fs-backend
+│   │   └── index.d.ts
+│   ├── i18next-http-middleware
+│   │   └── index.d.ts
+│   ├── jwt
+│   │   └── payload.interface.ts
+│   ├── models
+│   │   └── index.d.ts
+│   │   └── refreshToken.interface.ts
+│   │   └── user.interface.ts
+│   ├── sequelize
+│   │   └── index.d.ts
+│   ├── templates
+│   │   └── index.ts
+│   └── global.ts
 ├── models
 │   └── index.ts
+│   └── refreshToken.model.ts
 │   └── user.model.ts
-├── public
-│   ├── favicon.ico
-│   └── stylesheets
-│       └── style.css
 ├── routes
 │   └── index.ts
 │   └── auth.route.ts
 │   └── user.route.ts
 ├── validators
 │   └── auth.validator.ts
+│   └── common.validator.ts
 ├── server
 │   └── index.ts
 ├── middlewares
-│   └── error.middleware.ts
 │   └── authenticated.middleware.ts
-│   └── validator.middleware.ts
+│   └── clsHooked.middleware.ts
+│   └── common.middleware.ts
+│   └── error.middleware.ts
+│   └── language.middleware.ts
 │   └── notFound.middleware.ts
 │   └── swagger.middleware.ts
+│   └── validator.middleware.ts
 ├── logger
 │   └── index.ts
-├── exceptions
-│   └── http.exception.ts
 ├── migrations
 │   └── 20201129002122-user-table.ts
+│   └── 20210312234046-refresh-token-table.ts
 ├── tsconfig.json
 ├── index.ts
 ```

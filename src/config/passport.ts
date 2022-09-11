@@ -1,10 +1,10 @@
+import { Request } from 'express'
 import passport from 'passport'
 import { Strategy as JWTStrategy } from 'passport-jwt'
 import { IVerifyOptions, Strategy as LocalStrategy } from 'passport-local'
 
 import { AesDecrypt } from '../helpers'
 import { db } from '../models'
-import { IRequest } from '../types/express'
 import { Payload } from '../types/jwt/payload.interface'
 import { User, UserAuthenticateAttributes } from '../types/models'
 import { JWT_ALGORITHM } from './app'
@@ -30,7 +30,7 @@ passport.use(
   new JWTStrategy(
     {
       algorithms: [JWT_ALGORITHM],
-      jwtFromRequest: (req: IRequest) => {
+      jwtFromRequest: (req: Request) => {
         let token: string | null = req.headers.authorization || null
 
         if (token) {

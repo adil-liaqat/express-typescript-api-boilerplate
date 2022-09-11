@@ -1,13 +1,13 @@
 import boom from '@hapi/boom'
+import { NextFunction, Request, Response } from 'express'
 import i18next from 'i18next'
 import { TokenExpiredError } from 'jsonwebtoken'
 import passport from 'passport'
 
-import { INextFunction, IRequest, IResponse } from '../types/express'
 import { User } from '../types/models'
 import { setUser } from './clsHooked.middleware'
 
-export default (req: IRequest, res: IResponse, next: INextFunction): void => {
+export default (req: Request, res: Response, next: NextFunction): void => {
   passport.authenticate('jwt', (error: Error, user: User, info: any) => {
     if (error) {
       return next(error)
