@@ -58,9 +58,7 @@ const router: Router = Router()
  *                items:
  *                  $ref: '#/components/schemas/User'
  *       401:
- *          $ref: '#/components/responses/GenericError'
- *       Error:
- *          $ref: '#/components/responses/GenericError'
+ *          $ref: '#/components/responses/Unauthorized'
  */
 
 router.get('/', asyncHandler(userController.getUsers))
@@ -82,9 +80,9 @@ router.get('/', asyncHandler(userController.getUsers))
  *             schema:
  *                $ref: '#/components/schemas/User'
  *       401:
- *          $ref: '#/components/responses/GenericError'
- *       Error:
- *          $ref: '#/components/responses/GenericError'
+ *          $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *          $ref: '#/components/responses/NotFound'
  */
 
 router.get('/:id(\\d+)/', asyncHandler(userController.getUserById))
@@ -106,9 +104,9 @@ router.get('/:id(\\d+)/', asyncHandler(userController.getUserById))
  *             schema:
  *                $ref: '#/components/schemas/User'
  *       401:
- *          $ref: '#/components/responses/GenericError'
- *       Error:
- *          $ref: '#/components/responses/GenericError'
+ *          $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *          $ref: '#/components/responses/NotFound'
  */
 
 router.delete('/:id(\\d+)/', asyncHandler(userController.deleteUser))

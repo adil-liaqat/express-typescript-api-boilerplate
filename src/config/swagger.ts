@@ -29,6 +29,9 @@ export const options: swaggerJsdoc.Options = {
           properties: {
             message: {
               type: 'string'
+            },
+            errorCode: {
+              type: 'string'
             }
           }
         }
@@ -45,6 +48,66 @@ export const options: swaggerJsdoc.Options = {
       },
       responses: {
         GenericError: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Error'
+              }
+            }
+          }
+        },
+        Unauthorized: {
+          description: 'Unauthorized',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Error'
+              }
+            }
+          }
+        },
+        NotFound: {
+          description: 'The specified resource was not found',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Error'
+              }
+            }
+          }
+        },
+        UnprocessableEntity: {
+          description: 'Validation Failed',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Error'
+              }
+            }
+          }
+        },
+        BadRequest: {
+          description: 'Malformed request',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Error'
+              }
+            }
+          }
+        },
+        Conflict: {
+          description: 'Request could not be processed because of conflict',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Error'
+              }
+            }
+          }
+        },
+        Gone: {
+          description: 'Resource has been removed',
           content: {
             'application/json': {
               schema: {

@@ -68,7 +68,7 @@ export default class AuthController {
     return user
   }
 
-  public async forgotPassword(req: Request<{}, {}, UserBodyEmail>, _res: Response): Promise<any> {
+  public async forgotPassword(req: Request<{}, {}, UserBodyEmail>, _res: Response): Promise<{ message: string }> {
     const { email } = req.body
     const user: User = await db.User.findOne({
       where: {
@@ -95,7 +95,7 @@ export default class AuthController {
     return { message: i18next.t('EMAIL_SENT') }
   }
 
-  public async resetPassword(req: Request, _res: Response): Promise<any> {
+  public async resetPassword(req: Request, _res: Response): Promise<{ message: string }> {
     const { token }: UserVerify = <UserVerify>(<unknown>req.params)
     const { password } = req.body
 

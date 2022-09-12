@@ -48,8 +48,10 @@ const router: Router = Router()
  *                properties:
  *                  token:
  *                    type: string
- *       Error:
- *          $ref: '#/components/responses/GenericError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       422:
+ *         $ref: '#/components/responses/UnprocessableEntity'
  */
 
 router.post('/login', validatorMiddleware(loginSchema), asyncHandler(authController.login))
@@ -89,8 +91,8 @@ router.post('/login', validatorMiddleware(loginSchema), asyncHandler(authControl
  *           application/json:
  *             schema:
  *                $ref: '#/components/schemas/User'
- *       Error:
- *          $ref: '#/components/responses/GenericError'
+ *       422:
+ *          $ref: '#/components/responses/UnprocessableEntity'
  */
 router.post('/register', validatorMiddleware(registerSchema), asyncHandler(authController.register))
 
@@ -115,8 +117,12 @@ router.post('/register', validatorMiddleware(registerSchema), asyncHandler(authC
  *           application/json:
  *             schema:
  *                $ref: '#/components/schemas/User'
- *       Error:
- *          $ref: '#/components/responses/GenericError'
+ *       400:
+ *          $ref: '#/components/responses/BadRequest'
+ *       409:
+ *          $ref: '#/components/responses/Conflict'
+ *       410:
+ *          $ref: '#/components/responses/Gone'
  */
 router.get('/verify/:token', asyncHandler(authController.verify))
 
@@ -146,8 +152,8 @@ router.get('/verify/:token', asyncHandler(authController.verify))
  *                  message:
  *                    type: string
  *                    description: Email of user
- *       Error:
- *          $ref: '#/components/responses/GenericError'
+ *       404:
+ *          $ref: '#/components/responses/NotFound'
  */
 router.post('/forgot/password', asyncHandler(authController.forgotPassword))
 
@@ -186,8 +192,12 @@ router.post('/forgot/password', asyncHandler(authController.forgotPassword))
  *                  message:
  *                    type: string
  *                    description: Email of user
- *       Error:
- *          $ref: '#/components/responses/GenericError'
+ *       422:
+ *          $ref: '#/components/responses/UnprocessableEntity'
+ *       400:
+ *          $ref: '#/components/responses/BadRequest'
+ *       410:
+ *          $ref: '#/components/responses/Gone'
  */
 router.post(
   '/reset/password/:token',
@@ -200,6 +210,12 @@ router.post(
  * /auth/token/refresh:
  *   post:
  *     description: Get new access token
+ *     parameters:
+ *     - in: cookie
+ *       name: refresh_token
+ *       schema:
+ *         type: string
+ *       required: true
  *     security: []
  *     tags:
  *        - Authentication
@@ -214,6 +230,9 @@ router.post(
  *     responses:
  *       200:
  *         description: New access token
+ *         headers:
+ *           Set-Cookie:
+ *             description: Contains the cookie named `refresh_token`.
  *         content:
  *           application/json:
  *             schema:
@@ -221,8 +240,10 @@ router.post(
  *                  token:
  *                    type: string
  *                    description: Access token
- *       Error:
- *          $ref: '#/components/responses/GenericError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       422:
+ *          $ref: '#/components/responses/UnprocessableEntity'
  */
 router.post('/token/refresh', validatorMiddleware(refreshTokenSchema), asyncHandler(authController.refreshToken))
 export default router
