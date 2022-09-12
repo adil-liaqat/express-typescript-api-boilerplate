@@ -7,6 +7,7 @@ import passport from 'passport'
 
 import { REFRESH_TOKEN_EXPIRY_IN_DAYS } from '../config/app'
 import mailer from '../config/mailer'
+import { statusCode } from '../dacorators'
 import { AesDecrypt, randomString } from '../helpers'
 import { db } from '../models'
 import { UserBodyEmail, UserRegister, UserVerify } from '../types/controllers/auth.interface'
@@ -31,6 +32,7 @@ export default class AuthController {
     })(req, res, next)
   }
 
+  @statusCode(201)
   public async register(req: Request<{}, {}, UserRegister>, _res: Response): Promise<UserPublicAttributes> {
     const data: UserRegister = req.body
     const user: User = await db.User.create(data)

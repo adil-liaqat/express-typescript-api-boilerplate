@@ -28,7 +28,7 @@ describe('POST /auth/register', () => {
 
     const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/register`).send(body)
     // console.error(JSON.stringify(resp.body, null, 2))
-    expect(resp.status).to.be.eq(200)
+    expect(resp.status).to.be.eq(201)
     expect(resp.body).to.containSubset({
       email: body.email,
       first_name: body.first_name,

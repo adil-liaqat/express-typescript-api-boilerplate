@@ -21,7 +21,7 @@ export const asyncHandler =
     Promise.resolve(fn(req, res, next))
       .then((data: any) => {
         if (res.locals.isResponseHandled) return
-        else if (data) return res.status(200).json(data)
+        else if (data) return res.status(res.statusCode || 200).json(data)
 
         return res.status(204).send()
       })
