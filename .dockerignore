@@ -3,9 +3,16 @@ Dockerfile
 .DS_Store
 .gitignore
 README.md
-env.*
+.env
 /devops/*
 node_modules
+coverage
+dist
+logs
+.nyc_output
+.vscode
+.vs
+.husky
 # To prevent storing dev/temporary container data
 *.csv
 /tmp/*

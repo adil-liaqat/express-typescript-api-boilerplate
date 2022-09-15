@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "nodemon",
     "start": "node -r dotenv/config dist/index.js",
+    "db:migrate": "sequelize-cli db:migrate",
     "build": "tsc -p src",
     "prepare": "husky install",
     "test": "dotenv -e .env.test mocha --exit --",
@@ -59,6 +60,7 @@
     "passport-local": "^1.0.0",
     "pg": "^8.5.1",
     "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.4.1",
     "serve-favicon": "^2.5.0",
     "shimmer": "^1.2.1",
     "swagger-jsdoc": "^6.0.0-rc.3",

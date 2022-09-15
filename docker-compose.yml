@@ -1,17 +1,17 @@
-version: '3'
+version: '3.9'
 services:
   web:
     build: .
     ports:
-    - "3000:3000"
+      - "3000:3000"
     environment:
       NODE_ENV : production
+      DB_HOST: database
     volumes:
     - .:/usr/src/app
     - /usr/src/app/node_modules
     depends_on:
     - database
-    network_mode: host
   database:
     image: postgres
     ports:
