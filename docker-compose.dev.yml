@@ -3,14 +3,17 @@ services:
   web:
     build:
       context: .
-      target: test
+      target: dev
     environment:
-      NODE_ENV : test
+      NODE_ENV : development
+      DB_HOST: database
     env_file:
-      - .env.test
+      - .env.example
+    volumes:
+    - .:/usr/src/app
+    - /usr/src/app/node_modules
     depends_on:
     - database
-    network_mode: host
   database:
     image: postgres
     ports:
@@ -18,4 +21,4 @@ services:
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: local_test
+      POSTGRES_DB: ${DB_DATABASE}
