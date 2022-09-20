@@ -9,7 +9,7 @@ import sinon from 'sinon'
 import { cleanUpDatabase, generateUser } from '../utils/db'
 import { buildRequest } from '../utils/helpers'
 
-describe('POST /auth/reset/password/:token', () => {
+describe('POST /auth/reset_password/:token', () => {
   let user: User
 
   beforeEach(async () => {
@@ -34,7 +34,7 @@ describe('POST /auth/reset/password/:token', () => {
 
     const resp = await buildRequest(
       'post',
-      `${process.env.BASE_PATH}/auth/reset/password/${user.reset_password_token}`
+      `${process.env.BASE_PATH}/auth/reset_password/${user.reset_password_token}`
     ).send(body)
 
     expect(resp.status).to.be.eq(200)
@@ -49,7 +49,7 @@ describe('POST /auth/reset/password/:token', () => {
       confirm_password: password
     }
 
-    const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/reset/password/${randomString()}`).send(body)
+    const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/reset_password/${randomString()}`).send(body)
 
     expect(resp.status).to.be.eq(400)
     expect(resp.body.message).to.be.eq('Invalid token')
@@ -67,7 +67,7 @@ describe('POST /auth/reset/password/:token', () => {
 
     const resp = await buildRequest(
       'post',
-      `${process.env.BASE_PATH}/auth/reset/password/${user.reset_password_token}`
+      `${process.env.BASE_PATH}/auth/reset_password/${user.reset_password_token}`
     ).send(body)
 
     expect(resp.status).to.be.eq(410)

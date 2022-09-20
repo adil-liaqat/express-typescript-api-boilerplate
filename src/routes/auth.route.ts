@@ -128,7 +128,7 @@ router.get('/verify/:token', asyncHandler(authController.verify))
 
 /**
  * @swagger
- * /auth/forgot/password:
+ * /auth/forgot_password:
  *   post:
  *     description: Send email to registered user to reset password
  *     security: []
@@ -155,11 +155,11 @@ router.get('/verify/:token', asyncHandler(authController.verify))
  *       404:
  *          $ref: '#/components/responses/NotFound'
  */
-router.post('/forgot/password', asyncHandler(authController.forgotPassword))
+router.post('/forgot_password', asyncHandler(authController.forgotPassword))
 
 /**
  * @swagger
- * /auth/reset/password/{token}:
+ * /auth/reset_password/{token}:
  *   post:
  *     description: Send email to registered user to reset password
  *     parameters:
@@ -200,14 +200,14 @@ router.post('/forgot/password', asyncHandler(authController.forgotPassword))
  *          $ref: '#/components/responses/Gone'
  */
 router.post(
-  '/reset/password/:token',
+  '/reset_password/:token',
   validatorMiddleware(resetPasswordSchema),
   asyncHandler(authController.resetPassword)
 )
 
 /**
  * @swagger
- * /auth/token/refresh:
+ * /auth/refresh_token:
  *   post:
  *     description: Get new access token
  *     parameters:
@@ -245,5 +245,5 @@ router.post(
  *       422:
  *          $ref: '#/components/responses/UnprocessableEntity'
  */
-router.post('/token/refresh', validatorMiddleware(refreshTokenSchema), asyncHandler(authController.refreshToken))
+router.post('/refresh_token', validatorMiddleware(refreshTokenSchema), asyncHandler(authController.refreshToken))
 export default router

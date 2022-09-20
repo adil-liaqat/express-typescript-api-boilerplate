@@ -8,7 +8,7 @@ import moment from 'moment'
 import { cleanUpDatabase, generateRefreshToken, generateUser } from '../utils/db'
 import { buildRequest, generateToken } from '../utils/helpers'
 
-describe('POST /auth/token/refresh', () => {
+describe('POST /auth/refresh_token', () => {
   let user: User
   let token: string
   let refreshToken: RefreshToken
@@ -35,7 +35,7 @@ describe('POST /auth/token/refresh', () => {
       access_token: token
     }
 
-    const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/token/refresh`)
+    const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/refresh_token`)
       .send(body)
       .set('Cookie', `refresh_token=${refreshToken.token}`)
 
@@ -59,7 +59,7 @@ describe('POST /auth/token/refresh', () => {
     refreshToken.token_expires_at = moment().toDate()
     await refreshToken.save()
 
-    const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/token/refresh`)
+    const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/refresh_token`)
       .send(body)
       .set('Cookie', `refresh_token=${refreshToken.token}`)
 
@@ -75,7 +75,7 @@ describe('POST /auth/token/refresh', () => {
     refreshToken.is_used = true
     await refreshToken.save()
 
-    const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/token/refresh`)
+    const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/refresh_token`)
       .send(body)
       .set('Cookie', `refresh_token=${refreshToken.token}`)
 
@@ -92,7 +92,7 @@ describe('POST /auth/token/refresh', () => {
     refreshToken.user_id = newUser.id
     await refreshToken.save()
 
-    const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/token/refresh`)
+    const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/refresh_token`)
       .send(body)
       .set('Cookie', `refresh_token=${refreshToken.token}`)
 

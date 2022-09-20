@@ -6,7 +6,7 @@ import sinon from 'sinon'
 import { cleanUpDatabase, generateUser } from '../utils/db'
 import { buildRequest } from '../utils/helpers'
 
-describe('POST /auth/forgot/password', () => {
+describe('POST /auth/forgot_password', () => {
   beforeEach(async () => {
     await cleanUpDatabase()
   })
@@ -19,7 +19,7 @@ describe('POST /auth/forgot/password', () => {
       email: user.email
     }
 
-    const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/forgot/password`).send(body)
+    const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/forgot_password`).send(body)
 
     expect(resp.status).to.be.eq(200)
     expect(resp.body.message).to.be.eq('Email sent to registered email')
@@ -34,7 +34,7 @@ describe('POST /auth/forgot/password', () => {
       email: 'test@test.com'
     }
 
-    const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/forgot/password`).send(body)
+    const resp = await buildRequest('post', `${process.env.BASE_PATH}/auth/forgot_password`).send(body)
 
     expect(resp.status).to.be.eq(404)
     expect(resp.body.message).to.be.eq('User not found')
