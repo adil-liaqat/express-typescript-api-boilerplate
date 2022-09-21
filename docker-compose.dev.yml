@@ -24,3 +24,7 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+    - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata: {}

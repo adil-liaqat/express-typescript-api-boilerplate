@@ -10,7 +10,7 @@ FROM build as dev
 RUN yarn install
 COPY . /usr/src/app
 RUN yarn build
-CMD [ "yarn", "dev" ]
+CMD [ "yarn", "dev", "-L" ]
 
 
 FROM dev as test
@@ -19,10 +19,10 @@ CMD [ "yarn", "test" ]
 
 FROM build as prod
 RUN yarn install --production=true
-COPY .sequelizerc /usr/src/app/
-COPY public /usr/src/app/public
-COPY locales /usr/src/app/locales
-COPY templates /usr/src/app/templates
-COPY --from=dev /usr/src/app/dist /usr/src/app/dist
+COPY .sequelizerc ./
+COPY public ./public
+COPY locales ./locales
+COPY templates ./templates
+COPY --from=dev /usr/src/app/dist ./dist
 ENV NODE_ENV production
 CMD [ "yarn", "start" ]
