@@ -85,12 +85,14 @@ export default class AuthController {
 
     await user.save()
 
-    mailer.sendMail({
-      template: Templates.forgotPassword,
-      data: user.get(),
-      subject: i18next.t('FORGOT_PASSWORD'),
-      to: `${user.full_name} <${user.email}>`
-    })
+    mailer
+      .sendMail({
+        template: Templates.forgotPassword,
+        data: user.get(),
+        subject: i18next.t('FORGOT_PASSWORD'),
+        to: `${user.full_name} <${user.email}>`
+      })
+      .catch((err: Error) => console.error(err?.message))
 
     return { message: i18next.t('EMAIL_SENT') }
   }

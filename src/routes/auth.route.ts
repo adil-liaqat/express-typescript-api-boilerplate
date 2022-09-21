@@ -85,7 +85,7 @@ router.post('/login', validatorMiddleware(loginSchema), asyncHandler(authControl
  *                    type: string
  *                    description: Type same password again
  *     responses:
- *       200:
+ *       201:
  *         description: Register api response
  *         content:
  *           application/json:

@@ -1,5 +1,7 @@
 FROM node:16.15.1-slim as build
 
+# RUN apt-get update || : && apt-get install python3 -y
+
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY package.json yarn.lock /usr/src/app/
@@ -9,7 +11,9 @@ EXPOSE 3000
 FROM build as dev
 RUN yarn install
 COPY . /usr/src/app
+RUN chmod +x ./entrypoint.sh
 RUN yarn build
+ENTRYPOINT [ "./entrypoint.sh" ]
 CMD [ "yarn", "dev", "-L" ]
 
 

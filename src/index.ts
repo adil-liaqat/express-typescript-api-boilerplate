@@ -13,6 +13,7 @@ server.on('listening', () => {
 process.on('uncaughtException', (err: Error) => {
   console.error(err.stack)
   console.log('Node NOT Exiting...')
+  process.exit(1)
 })
 
 export default server

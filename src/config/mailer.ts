@@ -54,8 +54,6 @@ async function sendMail({ template, data, ...rest }: SendMailOption) {
     })
   } catch (error) {
     // istanbul ignore next
-    console.error(error)
-    // istanbul ignore next
     throw error
   }
 }
