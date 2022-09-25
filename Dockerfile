@@ -1,5 +1,7 @@
 FROM node:16.15.1-slim as build
 
+RUN apt-get update || : && apt-get install python3 make gcc g++ bash -y
+
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY package.json yarn.lock /usr/src/app/
@@ -12,10 +14,8 @@ COPY . /usr/src/app
 RUN yarn build
 CMD [ "yarn", "dev", "-L" ]
 
-
 FROM dev as test
 CMD [ "yarn", "test" ]
-
 
 FROM build as prod
 RUN yarn install --production=true
