@@ -15,7 +15,10 @@ services:
     - .:/usr/src/app
     - /usr/src/app/node_modules
     depends_on:
-    - database
+      database:
+        condition: service_healthy
+    links:
+      - database
   database:
     image: postgres
     ports:
@@ -24,6 +27,11 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_DATABASE}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     volumes:
     - pgdata:/var/lib/postgresql/data
 volumes:

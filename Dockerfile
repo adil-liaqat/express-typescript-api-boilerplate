@@ -12,6 +12,8 @@ FROM build as dev
 RUN yarn install
 COPY . /usr/src/app
 RUN yarn build
+RUN chmod +x ./entrypoint.sh
+ENTRYPOINT [ "./entrypoint.sh" ]
 CMD [ "yarn", "dev", "-L" ]
 
 FROM dev as test
