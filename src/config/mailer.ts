@@ -5,9 +5,9 @@ import nodemailer from 'nodemailer'
 import path from 'path'
 import { promisify } from 'util'
 
+import { Templates } from '../enums/template.enum'
 import { getLanguage } from '../middlewares/clsHooked.middleware'
 import { SendMailOption } from '../types/config/mailer'
-import { Templates } from '../types/templates'
 
 const MAILER_TEMPLATE_PATH: string = path.join(__dirname, '../../templates')
 
@@ -53,7 +53,6 @@ async function sendMail({ template, data, ...rest }: SendMailOption) {
       html
     })
   } catch (error) {
-    // istanbul ignore next
     throw error
   }
 }

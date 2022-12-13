@@ -4,7 +4,7 @@ import { Strategy as JWTStrategy } from 'passport-jwt'
 import { IVerifyOptions, Strategy as LocalStrategy } from 'passport-local'
 
 import { AesDecrypt } from '../helpers'
-import { db } from '../models'
+import UserService from '../services/user.service'
 import { Payload } from '../types/jwt/payload.interface'
 import { User, UserAuthenticateAttributes } from '../types/models'
 import { JWT_ALGORITHM } from './app'
@@ -17,7 +17,7 @@ passport.use(
     },
     async (email: string, password: string, done: (err: any, data?: any, opts?: IVerifyOptions) => void) => {
       try {
-        const user: UserAuthenticateAttributes = await db.User.authenticate(email, password)
+        const user: UserAuthenticateAttributes = await UserService.authenticateUser(email, password)
         done(null, user)
       } catch (error: any) {
         done(error, false, { message: error.message })
@@ -48,7 +48,7 @@ passport.use(
     },
     async (payload: Payload, cb: (err: any, data?: User) => void) => {
       try {
-        const user: User = await db.User.findByPk(payload.id)
+        const user: User = await UserService.findUserById(payload.id)
         cb(null, user)
       } catch (error: any) {
         cb(error)

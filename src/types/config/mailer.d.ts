@@ -1,5 +1,4 @@
-import { Templates } from '../templates'
-
+import { Templates } from '@src/enums/template.enum'
 export interface SendMailOption {
   to: string
   from?: string

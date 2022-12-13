@@ -8,12 +8,13 @@ import passport from 'passport'
 import { REFRESH_TOKEN_EXPIRY_IN_DAYS } from '../config/app'
 import mailer from '../config/mailer'
 import { statusCode } from '../dacorators'
+import { Templates } from '../enums/template.enum'
 import { AesDecrypt, randomString } from '../helpers'
-import { db } from '../models'
+import RefreshTokenService from '../services/refreshToken.service'
+import UserService from '../services/user.service'
 import { UserBodyEmail, UserRegister, UserVerify } from '../types/controllers/auth.interface'
 import { Payload } from '../types/jwt/payload.interface'
 import { RefreshToken, User, UserAuthenticateAttributes, UserPublicAttributes } from '../types/models'
-import { Templates } from '../types/templates'
 
 export default class AuthController {
   public async login(req: Request, res: Response, next: NextFunction): Promise<any> {
@@ -35,13 +36,13 @@ export default class AuthController {
   @statusCode(201)
   public async register(req: Request<{}, {}, UserRegister>, _res: Response): Promise<UserPublicAttributes> {
     const data: UserRegister = req.body
-    const user: User = await db.User.create(data)
+    const user: User = await UserService.createUser(data)
     return user
   }
 
   public async verify(req: Request, _res: Response): Promise<UserPublicAttributes> {
     const { token } = <UserVerify>(<unknown>req.params)
-    const user: User = await db.User.findOne({
+    const user: User = await UserService.findOneUser({
       where: {
         confirmation_token: token
       }
@@ -70,7 +71,7 @@ export default class AuthController {
 
   public async forgotPassword(req: Request<{}, {}, UserBodyEmail>, _res: Response): Promise<{ message: string }> {
     const { email } = req.body
-    const user: User = await db.User.findOne({
+    const user: User = await UserService.findOneUser({
       where: {
         email
       }
@@ -101,7 +102,7 @@ export default class AuthController {
     const { token }: UserVerify = <UserVerify>(<unknown>req.params)
     const { password } = req.body
 
-    const user: User = await db.User.findOne({
+    const user: User = await UserService.findOneUser({
       where: {
         reset_password_token: token
       }
@@ -128,7 +129,7 @@ export default class AuthController {
     const accessToken: string = req.body.access_token
     const refreshToken: string = req.cookies.refresh_token
 
-    const rt: RefreshToken = await db.RefreshToken.findOne({
+    const rt: RefreshToken = await RefreshTokenService.findOneRefreshToken({
       where: {
         token: refreshToken
       }
@@ -144,7 +145,7 @@ export default class AuthController {
       throw boom.unauthorized(i18next.t('INVALID_REFRESH_TOKEN'))
     }
 
-    const user: User = await db.User.findByPk(rt.user_id)
+    const user: User = await UserService.findUserById(rt.user_id)
 
     const newAccessToken = user.generateAuthToken()
     const newRefreshToken = await user.generateRefreshToken()

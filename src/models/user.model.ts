@@ -7,10 +7,10 @@ import { CreateOptions, DataTypes, FindOptions, Sequelize } from 'sequelize'
 
 import { ACCESS_TOKEN_EXPIRY, JWT_ALGORITHM, REFRESH_TOKEN_EXPIRY_IN_DAYS } from '../config/app'
 import mailer from '../config/mailer'
+import { Templates } from '../enums/template.enum'
 import { AesEncrypt, randomString } from '../helpers'
 import { Payload } from '../types/jwt/payload.interface'
 import { User, UserAttributes, UserAuthenticateAttributes, UserInterface, UserPublicAttributes } from '../types/models'
-import { Templates } from '../types/templates'
 
 export const UserFactory = (sequelize: Sequelize): UserInterface => {
   const UserModel: UserInterface = <UserInterface>sequelize.define<User>(
