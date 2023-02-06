@@ -17,7 +17,7 @@ describe('CONFIG mailer function', () => {
 
     try {
       await mailer.sendMail({
-        template: Templates.emailConfirmation,
+        template: Templates.EMAIL_CONFIRMATION,
         data: {},
         subject: 'Hello',
         to: ''

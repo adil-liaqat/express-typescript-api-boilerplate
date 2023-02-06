@@ -88,7 +88,7 @@ export default class AuthController {
 
     mailer
       .sendMail({
-        template: Templates.forgotPassword,
+        template: Templates.FORGOT_PASSWORD,
         data: user.get(),
         subject: i18next.t('FORGOT_PASSWORD'),
         to: `${user.full_name} <${user.email}>`

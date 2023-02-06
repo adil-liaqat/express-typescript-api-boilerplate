@@ -87,7 +87,7 @@ export const UserFactory = (sequelize: Sequelize): UserInterface => {
   UserModel.addHook('afterCreate', async (user: User, _options: CreateOptions<UserAttributes>) => {
     mailer
       .sendMail({
-        template: Templates.emailConfirmation,
+        template: Templates.EMAIL_CONFIRMATION,
         data: user.get(),
         subject: i18next.t('EMAIL_CONFIRMATION'),
         to: `${user.full_name} <${user.email}>`
